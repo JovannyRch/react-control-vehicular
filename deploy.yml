@@ -1,0 +1,31 @@
+features:
+  - 'php latest'
+  - mysql
+  - ssl
+  - 'ssl always'
+nginx:
+  root: public_html/public
+  fastcgi: 'on'
+  locations:
+    -
+      match: /
+      try_files: '$uri $uri/ /index.php$is_args$args'
+    -
+      match: '~ \.[^\/]+(?<!\.php)$'
+      try_files: '$uri =404'
+commands:
+  - 'cp .env.example .env'
+  - 'sed -i "s/DB_HOST=127.0.0.1/DB_HOST=localhost/g" .env'
+  - 'sed -ri "s/DB_DATABASE=.*/DB_DATABASE=${DATABASE}/g" .env'
+  - 'sed -ri "s/DB_USERNAME=.*/DB_USERNAME=${USERNAME}/g" .env'
+  - 'sed -ri "s/DB_PASSWORD=.*/DB_PASSWORD=${PASSWORD}/g" .env'
+  - 'sed -ri "s/APP_URL=.*/APP_URL=http:\/\/${DOMAIN}/g" .env'
+  - 'composer install'
+  - 'php artisan migrate'
+  - 'php artisan key:generate'
+  - 'php artisan storage:link'
+  - 'npm install'
+  - 'npm run build'
+  - 'rm -f public/hot'
+  - 'chmod g+r -R storage || true'
+source: 'https://github.com/JovannyRch/react-control-vehicular'
