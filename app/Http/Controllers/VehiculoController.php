@@ -6,6 +6,8 @@ use App\Models\Vehiculo;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
+use PDF;
+
 class VehiculoController extends Controller
 {
     /**
@@ -127,5 +129,32 @@ class VehiculoController extends Controller
     public function destroy(Vehiculo $vehiculo)
     {
         //
+    }
+
+
+    public function pdf(Request $request)
+    {
+        $plantilla = $request->input('plantilla');
+
+        $vehiculos = [];
+
+        if ($plantilla === 'propia') {
+            $estado = $request->input('estado');
+
+            $vehiculos = Vehiculo::where('plantilla', 'propia')
+                ->when($estado, function ($query, $estado) {
+                    return $query->where('estado', $estado);
+                })
+                ->get();
+        } else if ($plantilla) {
+            $vehiculos = Vehiculo::where('plantilla', $plantilla)->get();
+        } else {
+            $vehiculos = Vehiculo::all();
+        }
+
+        $pdf = PDF::loadView('pdf_vehiculos', ['vehiculos' => $vehiculos, 'plantilla' => $plantilla, 'estado' => $estado ?? null])->setPaper('a4', 'landscape');
+
+
+        return $pdf->stream('pdf_vehiculos');
     }
 }

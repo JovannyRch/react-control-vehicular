@@ -141,7 +141,22 @@ export default function Vehiculos({
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
                     <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg">
                         <div className="p-4">
-                            <div className="flex justify-end gap-4">
+                            <div className="text-2xl font-semibold text-gray-800">
+                                Lista de vehículos
+                            </div>
+
+                            {plantilla && (
+                                <div className="mt-3 text-sm text-gray-600">
+                                    Plantilla: {plantilla}
+                                </div>
+                            )}
+                            {plantilla === "propia" && (
+                                <div className="mt-3 text-sm text-gray-600">
+                                    Estado: {estado}
+                                </div>
+                            )}
+
+                            <div className="flex justify-end gap-4 mb-4">
                                 <PrimaryButton
                                     className="mb-4"
                                     onClick={() =>
@@ -157,7 +172,15 @@ export default function Vehiculos({
 
                                 <PrimaryButton
                                     className="mb-4"
-                                    onClick={() => window.print()}
+                                    onClick={() =>
+                                        window.open(
+                                            route("vehiculos.pdf", {
+                                                plantilla,
+                                                estado,
+                                            }),
+                                            "_blank"
+                                        )
+                                    }
                                 >
                                     Generar PDF
                                 </PrimaryButton>

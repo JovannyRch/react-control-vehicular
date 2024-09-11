@@ -20,6 +20,7 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 
+Route::get('/vehiculos/pdf', [VehiculoController::class, 'pdf'])->middleware('auth', 'verified')->name('vehiculos.pdf');
 Route::resource('vehiculos', VehiculoController::class)->middleware('auth', 'verified');
 
 Route::middleware('auth')->group(function () {
