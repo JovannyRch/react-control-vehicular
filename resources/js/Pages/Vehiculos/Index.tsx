@@ -1,10 +1,9 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { Head } from "@inertiajs/react";
+import { Head, router } from "@inertiajs/react";
 import { PageProps } from "@/types";
 import { useMemo } from "react";
-import { router } from "@inertiajs/react";
-import { useRoute } from "../../../../vendor/tightenco/ziggy/src/js";
-
+import PrimaryButton from "@/Components/PrimaryButton";
+import SecondaryButton from "@/Components/SecondaryButton";
 interface Vehiculo {
     numero_economico: string;
     marca: string;
@@ -13,6 +12,7 @@ interface Vehiculo {
     placa: string;
     plantilla: string;
     estado: string;
+    id: number;
 }
 
 interface VehiculosProps extends PageProps {
@@ -57,6 +57,10 @@ export default function Vehiculos({
                 label: "Plantilla",
                 key: "template",
             },
+            {
+                label: "Acciones",
+                key: "action",
+            },
         ].filter((header) => Boolean(header));
     }, []);
 
@@ -65,7 +69,69 @@ export default function Vehiculos({
             user={auth.user}
             header={
                 <h2 className="text-xl font-semibold leading-tight text-gray-800">
-                    Vehículos {plantilla}
+                    <nav className="flex" aria-label="Breadcrumb">
+                        <ol className="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
+                            <li className="inline-flex items-center">
+                                <a
+                                    href={route("vehiculos.index")}
+                                    className="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600 "
+                                >
+                                    Vehículos
+                                </a>
+                            </li>
+                            {plantilla && (
+                                <li>
+                                    <div className="flex items-center">
+                                        <svg
+                                            className="w-3 h-3 mx-1 text-gray-400 rtl:rotate-180"
+                                            aria-hidden="true"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            fill="none"
+                                            viewBox="0 0 6 10"
+                                        >
+                                            <path
+                                                stroke="currentColor"
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                stroke-width="2"
+                                                d="m1 9 4-4-4-4"
+                                            />
+                                        </svg>
+                                        <a
+                                            href="#"
+                                            className="text-sm font-medium text-gray-700 ms-1 hover:text-blue-600 md:ms-2 "
+                                        >
+                                            {plantilla}
+                                        </a>
+                                    </div>
+                                </li>
+                            )}
+                            {plantilla === "propia" && (
+                                <li aria-current="page">
+                                    <div className="flex items-center">
+                                        <svg
+                                            className="w-3 h-3 mx-1 text-gray-400 rtl:rotate-180"
+                                            aria-hidden="true"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            fill="none"
+                                            viewBox="0 0 6 10"
+                                        >
+                                            <path
+                                                stroke="currentColor"
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                stroke-width="2"
+                                                d="m1 9 4-4-4-4"
+                                            />
+                                        </svg>
+                                        <span className="text-sm font-medium text-gray-500 ms-1 md:ms-2 ">
+                                            {estado}
+                                        </span>
+                                    </div>
+                                </li>
+                            )}
+                        </ol>
+                    </nav>
                 </h2>
             }
         >
@@ -75,6 +141,28 @@ export default function Vehiculos({
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
                     <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg">
                         <div className="p-4">
+                            <div className="flex justify-end gap-4">
+                                <PrimaryButton
+                                    className="mb-4"
+                                    onClick={() =>
+                                        router.visit(
+                                            route("vehiculos.create", {
+                                                plantilla,
+                                            })
+                                        )
+                                    }
+                                >
+                                    Agregar vehículo
+                                </PrimaryButton>
+
+                                <PrimaryButton
+                                    className="mb-4"
+                                    onClick={() => window.print()}
+                                >
+                                    Generar PDF
+                                </PrimaryButton>
+                            </div>
+
                             <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
                                 <table className="w-full text-sm text-left text-gray-500 rtl:text-right ">
                                     <thead className="text-xs text-gray-700 uppercase bg-gray-50 ">
@@ -119,6 +207,40 @@ export default function Vehiculos({
                                                 )}
                                                 <td className="px-6 py-4">
                                                     {vehiculo.plantilla}
+                                                </td>
+                                                <td className="px-6 py-4">
+                                                    <div className="flex items-center space-x-2">
+                                                        <SecondaryButton
+                                                            onClick={() =>
+                                                                router.visit(
+                                                                    route(
+                                                                        "vehiculos.edit",
+                                                                        {
+                                                                            vehiculo:
+                                                                                vehiculo.id,
+                                                                        }
+                                                                    )
+                                                                )
+                                                            }
+                                                        >
+                                                            Editar
+                                                        </SecondaryButton>
+                                                        {/*   <PrimaryButton
+                                                            onClick={() =>
+                                                                router.visit(
+                                                                    route(
+                                                                        "vehiculos.show",
+                                                                        {
+                                                                            vehiculo:
+                                                                                vehiculo.numero_economico,
+                                                                        }
+                                                                    )
+                                                                )
+                                                            }
+                                                        >
+                                                            Ver
+                                                        </PrimaryButton> */}
+                                                    </div>
                                                 </td>
                                             </tr>
                                         ))}

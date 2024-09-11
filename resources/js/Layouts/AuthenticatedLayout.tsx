@@ -69,7 +69,7 @@ export default function Authenticated({
         },
         {
             label: "2024",
-            onSelect: () => router.visit("/vehiculos?year=2024"),
+            onSelect: () => router.visit("/vehiculos?plantilla=2024"),
         },
     ];
 

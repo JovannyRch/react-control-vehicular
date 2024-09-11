@@ -25,8 +25,10 @@ class VehiculoController extends Controller
                     return $query->where('estado', $estado);
                 })
                 ->get();
-        } else {
+        } else if ($plantilla) {
             $vehiculos = Vehiculo::where('plantilla', $plantilla)->get();
+        } else {
+            $vehiculos = Vehiculo::all();
         }
 
 
@@ -40,9 +42,13 @@ class VehiculoController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        $plantilla = $request->input('plantilla');
+        return Inertia::render('Vehiculos/Create', [
+            'plantilla' => $plantilla,
+            'mode' => 'create'
+        ]);
     }
 
     /**
@@ -50,7 +56,24 @@ class VehiculoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'numero_economico' => 'required',
+            'marca' => 'required',
+            'tipo' => 'required',
+            'modelo' => 'required',
+            'placa' => 'required',
+            'no_serie' => 'required',
+            'no_motor' => 'required',
+            'area_asignacion' => 'required',
+            'resguardante' => 'required',
+            'plantilla' => 'required',
+            'estado' => 'required',
+            'detalle' => 'required'
+        ]);
+
+        Vehiculo::create($request->all());
+
+        return redirect()->route('vehiculos.index', ['plantilla' => $request->input('plantilla'), 'estado' => $request->input('estado')]);
     }
 
     /**
@@ -66,7 +89,11 @@ class VehiculoController extends Controller
      */
     public function edit(Vehiculo $vehiculo)
     {
-        //
+        return Inertia::render('Vehiculos/Create', [
+            'vehiculo' => $vehiculo,
+            'plantilla' => $vehiculo->plantilla,
+            'mode' => 'edit'
+        ]);
     }
 
     /**
@@ -74,7 +101,24 @@ class VehiculoController extends Controller
      */
     public function update(Request $request, Vehiculo $vehiculo)
     {
-        //
+        $request->validate([
+            'numero_economico' => 'required',
+            'marca' => 'required',
+            'tipo' => 'required',
+            'modelo' => 'required',
+            'placa' => 'required',
+            'no_serie' => 'required',
+            'no_motor' => 'required',
+            'area_asignacion' => 'required',
+            'resguardante' => 'required',
+            'plantilla' => 'required',
+            'estado' => 'required',
+            'detalle' => 'required'
+        ]);
+
+        $vehiculo->update($request->all());
+
+        return redirect()->route('vehiculos.index', ['plantilla' => $request->input('plantilla'), 'estado' => $request->input('estado')]);
     }
 
     /**

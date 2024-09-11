@@ -20,7 +20,7 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 
-Route::get('/vehiculos', [VehiculoController::class, 'index'])->name('vehiculos.index')->middleware('auth', 'verified');
+Route::resource('vehiculos', VehiculoController::class)->middleware('auth', 'verified');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
