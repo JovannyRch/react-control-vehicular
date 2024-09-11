@@ -23,4 +23,9 @@ class Vehiculo extends Model
         'estado',
         'detalle'
     ];
+
+    public function historial()
+    {
+        return $this->hasMany(Historial::class);
+    }
 }

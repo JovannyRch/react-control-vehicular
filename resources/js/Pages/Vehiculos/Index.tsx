@@ -4,16 +4,7 @@ import { PageProps } from "@/types";
 import { useMemo } from "react";
 import PrimaryButton from "@/Components/PrimaryButton";
 import SecondaryButton from "@/Components/SecondaryButton";
-interface Vehiculo {
-    numero_economico: string;
-    marca: string;
-    tipo: string;
-    modelo: string;
-    placa: string;
-    plantilla: string;
-    estado: string;
-    id: number;
-}
+import { Vehiculo } from "@/types/Vehiculo";
 
 interface VehiculosProps extends PageProps {
     vehiculos: Vehiculo[];
@@ -295,6 +286,21 @@ export default function Vehiculos({
                                                             onClick={() =>
                                                                 router.visit(
                                                                     route(
+                                                                        "vehiculos.show",
+                                                                        {
+                                                                            vehiculo:
+                                                                                vehiculo.id,
+                                                                        }
+                                                                    )
+                                                                )
+                                                            }
+                                                        >
+                                                            Detalles
+                                                        </SecondaryButton>
+                                                        <SecondaryButton
+                                                            onClick={() =>
+                                                                router.visit(
+                                                                    route(
                                                                         "vehiculos.edit",
                                                                         {
                                                                             vehiculo:
@@ -306,21 +312,6 @@ export default function Vehiculos({
                                                         >
                                                             Editar
                                                         </SecondaryButton>
-                                                        {/*   <PrimaryButton
-                                                            onClick={() =>
-                                                                router.visit(
-                                                                    route(
-                                                                        "vehiculos.show",
-                                                                        {
-                                                                            vehiculo:
-                                                                                vehiculo.numero_economico,
-                                                                        }
-                                                                    )
-                                                                )
-                                                            }
-                                                        >
-                                                            Ver
-                                                        </PrimaryButton> */}
                                                     </div>
                                                 </td>
                                             </tr>

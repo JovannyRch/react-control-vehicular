@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\HistorialController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\VehiculoController;
 use Illuminate\Foundation\Application;
@@ -22,6 +23,9 @@ Route::get('/dashboard', function () {
 
 Route::get('/vehiculos/pdf', [VehiculoController::class, 'pdf'])->middleware('auth', 'verified')->name('vehiculos.pdf');
 Route::resource('vehiculos', VehiculoController::class)->middleware('auth', 'verified');
+Route::resource('historial', HistorialController::class)->middleware('auth', 'verified');
+
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

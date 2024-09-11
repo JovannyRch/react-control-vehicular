@@ -101,7 +101,6 @@ class VehiculoController extends Controller
             'resguardante' => 'required',
             'plantilla' => 'required',
             'estado' => 'required',
-            'detalle' => 'required'
         ]);
 
         Vehiculo::create($request->all());
@@ -114,7 +113,11 @@ class VehiculoController extends Controller
      */
     public function show(Vehiculo $vehiculo)
     {
-        //
+        $historial = $vehiculo->historial;
+        return Inertia::render('Vehiculos/Show', [
+            'vehiculo' => $vehiculo,
+            'historial' => $historial
+        ]);
     }
 
     /**
