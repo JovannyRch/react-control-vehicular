@@ -65,7 +65,7 @@ export default function Vehiculos({
             },
             {
                 label: "Placa",
-                key: "action",
+                key: "placa",
             },
             {
                 label: "Acciones",
@@ -286,7 +286,7 @@ export default function Vehiculos({
                                                     {vehiculo.modelo}
                                                 </td>
                                                 <td className="px-6 py-4">
-                                                    {vehiculo.plantilla}
+                                                    {vehiculo.placa}
                                                 </td>
 
                                                 <td className="px-6 py-4">
