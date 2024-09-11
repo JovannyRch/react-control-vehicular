@@ -28,7 +28,7 @@ class VehiculoFactory extends Factory
             'area_asignacion' => $this->faker->randomElement(['Administración', 'Ventas', 'Almacén', 'Producción']),
             'resguardante' => $this->faker->name,  // Nombre de una persona
             'plantilla' => $this->faker->randomElement(['2019', '2023', '2024', 'propia']),
-            'estado' => $this->faker->randomElement(['vigente', 'baja', 'trámite de baja', 'problemas legales']),
+            'estado' => $this->faker->randomElement(['vigente', 'baja', 'tramite_de_baja', 'problemas_legales']),
             'detalle' => $this->faker->text(200)  // Texto descriptivo con un límite de 200 caracteres
         ];
     }
