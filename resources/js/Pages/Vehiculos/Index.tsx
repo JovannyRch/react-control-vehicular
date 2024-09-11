@@ -1,5 +1,5 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { Head, router } from "@inertiajs/react";
+import { Head, router, useForm } from "@inertiajs/react";
 import { PageProps } from "@/types";
 import { useMemo } from "react";
 import PrimaryButton from "@/Components/PrimaryButton";
@@ -19,6 +19,7 @@ interface VehiculosProps extends PageProps {
     vehiculos: Vehiculo[];
     plantilla: string;
     estado: string;
+    search: string;
 }
 
 export default function Vehiculos({
@@ -26,7 +27,24 @@ export default function Vehiculos({
     vehiculos: vehicles,
     plantilla,
     estado,
+    search,
 }: VehiculosProps) {
+    const form = useForm({
+        search,
+    });
+
+    const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+
+        router.visit(
+            route("vehiculos.index", {
+                search: form.data.search,
+                plantilla,
+                ...(Boolean(estado) && { estado }),
+            })
+        );
+    };
+
     const tableHeaders = useMemo(() => {
         return [
             {
@@ -48,14 +66,6 @@ export default function Vehiculos({
             {
                 label: "Placa",
                 key: "action",
-            },
-            plantilla === "propia" && {
-                label: "Estado",
-                key: "estado",
-            },
-            {
-                label: "Plantilla",
-                key: "template",
             },
             {
                 label: "Acciones",
@@ -147,18 +157,67 @@ export default function Vehiculos({
 
                             {plantilla && (
                                 <div className="mt-3 text-sm text-gray-600">
-                                    Plantilla: {plantilla}
+                                    <span className="font-semibold">
+                                        Plantilla:
+                                    </span>{" "}
+                                    {plantilla}
                                 </div>
                             )}
                             {plantilla === "propia" && (
                                 <div className="mt-3 text-sm text-gray-600">
-                                    Estado: {estado}
+                                    <span className="font-semibold">
+                                        Estado:
+                                    </span>{" "}
+                                    {estado}
                                 </div>
                             )}
 
+                            <form
+                                className="max-w-md mx-auto"
+                                onSubmit={handleSearch}
+                            >
+                                <div className="relative">
+                                    <div className="absolute inset-y-0 flex items-center pointer-events-none start-0 ps-3">
+                                        <svg
+                                            className="w-4 h-4 text-gray-500 dark:text-gray-400"
+                                            aria-hidden="true"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            fill="none"
+                                            viewBox="0 0 20 20"
+                                        >
+                                            <path
+                                                stroke="currentColor"
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                stroke-width="2"
+                                                d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
+                                            />
+                                        </svg>
+                                    </div>
+                                    <input
+                                        type="search"
+                                        id="default-search"
+                                        className="block w-full p-4 text-sm text-gray-900 border border-gray-300 rounded-lg ps-10 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 "
+                                        placeholder="Buscar vehículo..."
+                                        onChange={(e) =>
+                                            form.setData(
+                                                "search",
+                                                e.target.value
+                                            )
+                                        }
+                                        value={form.data.search}
+                                    />
+                                    <button
+                                        type="submit"
+                                        className="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 "
+                                    >
+                                        Buscar
+                                    </button>
+                                </div>
+                            </form>
+
                             <div className="flex justify-end gap-4 mb-4">
-                                <PrimaryButton
-                                    className="mb-4"
+                                <button
                                     onClick={() =>
                                         router.visit(
                                             route("vehiculos.create", {
@@ -166,24 +225,30 @@ export default function Vehiculos({
                                             })
                                         )
                                     }
+                                    type="button"
+                                    className="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
                                 >
                                     Agregar vehículo
-                                </PrimaryButton>
+                                </button>
 
-                                <PrimaryButton
-                                    className="mb-4"
+                                <button
+                                    type="button"
                                     onClick={() =>
                                         window.open(
                                             route("vehiculos.pdf", {
                                                 plantilla,
                                                 estado,
+                                                ...(Boolean(search) && {
+                                                    search,
+                                                }),
                                             }),
                                             "_blank"
                                         )
                                     }
+                                    className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
                                 >
                                     Generar PDF
-                                </PrimaryButton>
+                                </button>
                             </div>
 
                             <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -221,16 +286,9 @@ export default function Vehiculos({
                                                     {vehiculo.modelo}
                                                 </td>
                                                 <td className="px-6 py-4">
-                                                    {vehiculo.placa}
-                                                </td>
-                                                {plantilla === "propia" && (
-                                                    <td className="px-6 py-4">
-                                                        {vehiculo.estado}
-                                                    </td>
-                                                )}
-                                                <td className="px-6 py-4">
                                                     {vehiculo.plantilla}
                                                 </td>
+
                                                 <td className="px-6 py-4">
                                                     <div className="flex items-center space-x-2">
                                                         <SecondaryButton

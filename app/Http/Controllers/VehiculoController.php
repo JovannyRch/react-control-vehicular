@@ -10,12 +10,30 @@ use PDF;
 
 class VehiculoController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+
+
+    public function addSearchQuery($query, $search)
+    {
+
+        return $query->where(function ($query) use ($search) {
+            $query->where('numero_economico', 'like', '%' . $search . '%')
+                ->orWhere('marca', 'like', '%' . $search . '%')
+                ->orWhere('tipo', 'like', '%' . $search . '%')
+                ->orWhere('modelo', 'like', '%' . $search . '%')
+                ->orWhere('placa', 'like', '%' . $search . '%')
+                ->orWhere('no_serie', 'like', '%' . $search . '%')
+                ->orWhere('no_motor', 'like', '%' . $search . '%')
+                ->orWhere('area_asignacion', 'like', '%' . $search . '%')
+                ->orWhere('resguardante', 'like', '%' . $search . '%')
+                ->orWhere('estado', 'like', '%' . $search . '%')
+                ->orWhere('detalle', 'like', '%' . $search . '%');
+        });
+    }
+
     public function index(Request $request)
     {
         $plantilla = $request->input('plantilla');
+        $search = $request->input('search');
 
         $vehiculos = [];
 
@@ -26,20 +44,33 @@ class VehiculoController extends Controller
                 ->when($estado, function ($query, $estado) {
                     return $query->where('estado', $estado);
                 })
+                ->when($search, function ($query, $search) {
+                    return $this->addSearchQuery($query, $search);
+                })
                 ->get();
         } else if ($plantilla) {
-            $vehiculos = Vehiculo::where('plantilla', $plantilla)->get();
+            $vehiculos = Vehiculo::where('plantilla', $plantilla)
+                ->when($search, function ($query, $search) {
+                    return $this->addSearchQuery($query, $search);
+                })
+                ->get();
         } else {
-            $vehiculos = Vehiculo::all();
+            $vehiculos = Vehiculo::when($search, function ($query, $search) {
+                return $this->addSearchQuery($query, $search);
+            })
+                ->get();
         }
 
 
         return Inertia::render('Vehiculos/Index', [
             'vehiculos' => $vehiculos,
             'plantilla' => $plantilla,
-            'estado' => $estado ?? null
+            'estado' => $estado ?? null,
+            'search' => $search ?? ''
         ]);
     }
+
+
 
     /**
      * Show the form for creating a new resource.
@@ -135,6 +166,7 @@ class VehiculoController extends Controller
     public function pdf(Request $request)
     {
         $plantilla = $request->input('plantilla');
+        $search = $request->input('search');
 
         $vehiculos = [];
 
@@ -145,11 +177,21 @@ class VehiculoController extends Controller
                 ->when($estado, function ($query, $estado) {
                     return $query->where('estado', $estado);
                 })
+                ->when($search, function ($query, $search) {
+                    return $this->addSearchQuery($query, $search);
+                })
                 ->get();
         } else if ($plantilla) {
-            $vehiculos = Vehiculo::where('plantilla', $plantilla)->get();
+            $vehiculos = Vehiculo::where('plantilla', $plantilla)
+                ->when($search, function ($query, $search) {
+                    return $this->addSearchQuery($query, $search);
+                })
+                ->get();
         } else {
-            $vehiculos = Vehiculo::all();
+            $vehiculos = Vehiculo::when($search, function ($query, $search) {
+                return $this->addSearchQuery($query, $search);
+            })
+                ->get();
         }
 
         $pdf = PDF::loadView('pdf_vehiculos', ['vehiculos' => $vehiculos, 'plantilla' => $plantilla, 'estado' => $estado ?? null])->setPaper('a4', 'landscape');

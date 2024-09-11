@@ -54,6 +54,25 @@ const Estados = [
     },
 ];
 
+const Plantillas = [
+    {
+        label: "2019",
+        value: "2019",
+    },
+    {
+        label: "2023",
+        value: "2023",
+    },
+    {
+        label: "Propia",
+        value: "propia",
+    },
+    {
+        label: "2024",
+        value: "2024",
+    },
+];
+
 export default function Create({
     auth,
     plantilla,
@@ -71,7 +90,7 @@ export default function Create({
         area_asignacion: mode === "edit" ? vehiculo.area_asignacion : "",
         resguardante: mode === "edit" ? vehiculo.resguardante : "",
         detalle: mode === "edit" ? vehiculo.detalle : "",
-        plantilla,
+        plantilla: mode === "edit" ? vehiculo.plantilla : plantilla,
         estado: mode === "edit" ? vehiculo.estado : "vigente",
     });
 
@@ -115,20 +134,56 @@ export default function Create({
                                         htmlFor="plantilla"
                                         value="Plantilla"
                                     />
-                                    <TextInput
-                                        id="plantilla"
-                                        type="text"
-                                        name="plantilla"
-                                        value={data.plantilla.toUpperCase()}
-                                        className="block w-full mt-1"
-                                        autoComplete="plantilla"
-                                        readOnly
-                                        disabled
+                                    <select
+                                        className="block w-full mt-4 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                                         onChange={(e) =>
                                             setData("plantilla", e.target.value)
                                         }
-                                    />
+                                    >
+                                        {Plantillas.map((plantilla, index) => (
+                                            <option
+                                                key={index}
+                                                value={plantilla.value}
+                                                selected={
+                                                    plantilla.value ===
+                                                    data.plantilla
+                                                }
+                                            >
+                                                {plantilla.label}
+                                            </option>
+                                        ))}
+                                    </select>
                                 </div>
+                                {data.plantilla === "propia" && (
+                                    <div className="mt-4">
+                                        <InputLabel
+                                            htmlFor="estado"
+                                            value="Estado"
+                                        />
+                                        <select
+                                            className="block w-full mt-4 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                                            onChange={(e) =>
+                                                setData(
+                                                    "estado",
+                                                    e.target.value
+                                                )
+                                            }
+                                        >
+                                            {Estados.map((estado, index) => (
+                                                <option
+                                                    key={index}
+                                                    value={estado.value}
+                                                    selected={
+                                                        estado.value ===
+                                                        data.estado
+                                                    }
+                                                >
+                                                    {estado.label}
+                                                </option>
+                                            ))}
+                                        </select>
+                                    </div>
+                                )}
 
                                 <div className="mt-4">
                                     <InputLabel
@@ -327,37 +382,6 @@ export default function Create({
                                         className="mt-2"
                                     />
                                 </div>
-
-                                {plantilla === "propia" && (
-                                    <div className="mt-4">
-                                        <InputLabel
-                                            htmlFor="estado"
-                                            value="Estado"
-                                        />
-                                        <select
-                                            className="block w-full mt-4 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                                            onChange={(e) =>
-                                                setData(
-                                                    "estado",
-                                                    e.target.value
-                                                )
-                                            }
-                                        >
-                                            {Estados.map((estado, index) => (
-                                                <option
-                                                    key={index}
-                                                    value={estado.value}
-                                                    selected={
-                                                        estado.value ===
-                                                        data.estado
-                                                    }
-                                                >
-                                                    {estado.label}
-                                                </option>
-                                            ))}
-                                        </select>
-                                    </div>
-                                )}
 
                                 {/* Detalle text area */}
                                 <div className="mt-4">
