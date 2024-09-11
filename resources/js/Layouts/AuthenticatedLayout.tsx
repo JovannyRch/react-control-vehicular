@@ -20,13 +20,13 @@ export default function Authenticated({
         {
             label: "2019",
             onSelect: () => {
-                router.visit("/vehiculos?year=2019");
+                router.visit("/vehiculos?plantilla=2019");
             },
         },
         {
             label: "2023",
             onSelect: () => {
-                router.visit("/vehiculos?year=2023");
+                router.visit("/vehiculos?plantilla=2023");
             },
         },
         {
@@ -34,25 +34,36 @@ export default function Authenticated({
             items: [
                 {
                     label: "Vigente",
-                    onSelect: () => router.visit("/vehiculos?status=vigente"),
+                    onSelect: () =>
+                        router.visit(
+                            "/vehiculos?plantilla=propia&estado=vigente"
+                        ),
                 },
                 {
                     label: "Baja",
-                    onSelect: () => router.visit("/vehiculos?status=baja"),
+                    onSelect: () =>
+                        router.visit("/vehiculos?plantilla=propia&estado=baja"),
                 },
                 {
                     label: "Tramite de baja",
                     onSelect: () =>
-                        router.visit("/vehiculos?status=tramite-de-baja"),
+                        router.visit(
+                            "/vehiculos?plantilla=propia&estado=tramite_de_baja"
+                        ),
                 },
                 {
                     label: "Problemas legales",
                     onSelect: () =>
-                        router.visit("/vehiculos?status=problemas-legales"),
+                        router.visit(
+                            "/vehiculos?plantilla=propia&estado=problemas_legales"
+                        ),
                 },
                 {
                     label: "Comodato",
-                    onSelect: () => router.visit("/vehiculos?status=comodato"),
+                    onSelect: () =>
+                        router.visit(
+                            "/vehiculos?plantilla=propia&estado=comodato"
+                        ),
                 },
             ],
         },

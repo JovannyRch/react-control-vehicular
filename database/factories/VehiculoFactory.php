@@ -19,14 +19,17 @@ class VehiculoFactory extends Factory
     {
         return [
             'numero_economico' => $this->faker->word,
-            'marca' => $this->faker->word,
-            'tipo' => $this->faker->word,
-            'modelo' => $this->faker->word,
+            'marca' => $this->faker->randomElement(['Chevrolet', 'Ford', 'Nissan', 'Toyota']),
+            'tipo' => $this->faker->randomElement(['Sedan', 'Pickup', 'Van', 'SUV']),
+            'modelo' => $this->faker->randomElement(['2020', '2021', '2022', '2023']),
             'placa' => $this->faker->word,
             'no_serie' => $this->faker->word,
             'no_motor' => $this->faker->word,
-            'area_asignacion' => $this->faker->word,
+            'area_asignacion' => $this->faker->randomElement(['Administracion', 'Ventas', 'Almacen', 'Produccion']),
             'resguardante' => $this->faker->word,
+            'plantilla' => $this->faker->randomElement(['2019', '2023', '2024', 'propia']),
+            'estado' => $this->faker->randomElement(['vigente', 'baja', 'tramite_de_baja', 'problemas_legales']),
+            'detalle' => $this->faker->text()
         ];
     }
 }

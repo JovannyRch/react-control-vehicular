@@ -22,6 +22,9 @@ return new class extends Migration
             $table->string('no_motor')->nullable();
             $table->string('area_asignacion')->nullable();
             $table->string('resguardante')->nullable();
+            $table->enum('plantilla', ['2019', '2023', '2024', 'propia'])->default('2019');
+            $table->enum('estado', ['vigente', 'baja', 'tramite_de_baja', 'problemas_legales'])->nullable();
+            $table->string('detalle')->nullable();
             $table->timestamps();
         });
     }
