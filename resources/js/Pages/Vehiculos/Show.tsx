@@ -35,13 +35,11 @@ export default function Show({
 
             <div className="py-12">
                 <Detalles vehiculo={vehiculo} />
-                {vehiculo.estado === "vigente" &&
-                    vehiculo.plantilla === "propia" && (
-                        <CargasDeCombustible
-                            cargas={cargas}
-                            vehiculo={vehiculo}
-                        />
-                    )}
+                {(vehiculo.plantilla !== "propia" ||
+                    (vehiculo.plantilla === "propia" &&
+                        vehiculo.estado === "vigente")) && (
+                    <CargasDeCombustible cargas={cargas} vehiculo={vehiculo} />
+                )}
                 <HistorialTable vehiculo={vehiculo} historial={historial} />
             </div>
         </AuthenticatedLayout>

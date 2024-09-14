@@ -71,10 +71,6 @@ export default function Vehiculos({
         ].filter((header) => Boolean(header));
     }, []);
 
-    const canLoadFuel = useMemo(() => {
-        return plantilla === "propia" && estado === "vigente";
-    }, [plantilla, estado]);
-
     return (
         <AuthenticatedLayout
             user={auth.user}
@@ -310,7 +306,12 @@ export default function Vehiculos({
                                                             className="flex items-center gap-2"
                                                         >
                                                             <AiFillEye />
-                                                            {canLoadFuel && (
+                                                            {(vehiculo.plantilla !==
+                                                                "propia" ||
+                                                                (vehiculo.plantilla ===
+                                                                    "propia" &&
+                                                                    vehiculo.estado ===
+                                                                        "vigente")) && (
                                                                 <BsFillFuelPumpDieselFill />
                                                             )}
                                                         </Button>
