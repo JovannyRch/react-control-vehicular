@@ -16,7 +16,7 @@ interface VehiculosProps extends PageProps {
     cargas: CargaCombustible[];
 }
 
-export default function Create({
+export default function Show({
     auth,
     vehiculo,
     historial,
@@ -35,7 +35,13 @@ export default function Create({
 
             <div className="py-12">
                 <Detalles vehiculo={vehiculo} />
-                <CargasDeCombustible cargas={cargas} vehiculo={vehiculo} />
+                {vehiculo.estado === "vigente" &&
+                    vehiculo.plantilla === "propia" && (
+                        <CargasDeCombustible
+                            cargas={cargas}
+                            vehiculo={vehiculo}
+                        />
+                    )}
                 <HistorialTable vehiculo={vehiculo} historial={historial} />
             </div>
         </AuthenticatedLayout>
