@@ -11,3 +11,9 @@ export const formatCurrency = (value: number): string => {
         currency: "MXN",
     }).format(value);
 };
+
+//YYYY-MM-DD
+export const formatOnlyDateValue = (date: string): string => {
+    const [year = "-", month = "-", day = "-"] = date.split("-");
+    return `${day}/${month}/${year}`;
+};

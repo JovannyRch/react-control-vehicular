@@ -34,4 +34,16 @@ class Vehiculo extends Model
     {
         return $this->hasMany(CargaCombustible::class);
     }
+
+    //Total litros
+    public function totalLitros()
+    {
+        return $this->cargasCombustible->sum('litros');
+    }
+
+    //Total importe
+    public function totalImporte()
+    {
+        return $this->cargasCombustible->sum('importe');
+    }
 }

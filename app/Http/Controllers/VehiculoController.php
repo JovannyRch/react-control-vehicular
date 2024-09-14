@@ -204,4 +204,25 @@ class VehiculoController extends Controller
 
         return $pdf->stream('pdf_vehiculos');
     }
+
+    public function detailPdf(Vehiculo $vehiculo)
+    {
+        $historial = $vehiculo->historial;
+        $cargas = $vehiculo->cargasCombustible;
+        $total_litros = $vehiculo->totalLitros();
+        $total_importe = $vehiculo->totalImporte();
+
+        $pdf = PDF::loadView('pdf_vehiculo', [
+            'vehiculo' => $vehiculo,
+            'historial' => $historial,
+            'cargas' => $cargas,
+            'total_litros' => $total_litros,
+            'total_importe' => $total_importe
+        ]);
+
+
+
+
+        return $pdf->stream('pdf_vehiculo');
+    }
 }

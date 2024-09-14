@@ -5,7 +5,7 @@ import Modal from "@/Components/Modal";
 import TextInput from "@/Components/TextInput";
 import { CargaCombustible } from "@/types/CargaCombustible";
 import { Vehiculo } from "@/types/Vehiculo";
-import { formatCurrency, formatDate } from "@/utils";
+import { formatCurrency, formatDate, formatOnlyDateValue } from "@/utils";
 import { useForm } from "@inertiajs/react";
 import { useState } from "react";
 
@@ -81,7 +81,9 @@ const CargasDeCombustible = ({ cargas, vehiculo }: CargasProps) => {
                                             </td>
 
                                             <td className="px-6 py-4 text-sm text-gray-900 whitespace-nowrap">
-                                                {formatDate(carga.fecha)}
+                                                {formatOnlyDateValue(
+                                                    carga.fecha
+                                                )}
                                             </td>
                                         </tr>
                                     ))}

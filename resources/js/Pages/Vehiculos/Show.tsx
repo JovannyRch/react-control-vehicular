@@ -9,6 +9,7 @@ import CargasDeCombustible from "./CargasDeCombustible";
 import Detalles from "./Detalles";
 import HistorialTable from "./HistorialTable";
 import { CargaCombustible } from "@/types/CargaCombustible";
+import Button from "@/Components/Button";
 
 interface VehiculosProps extends PageProps {
     vehiculo: Vehiculo;

@@ -1,4 +1,6 @@
+import Button from "@/Components/Button";
 import { Vehiculo } from "@/types/Vehiculo";
+import { AiOutlineDownload } from "react-icons/ai";
 
 interface DetallesProps {
     vehiculo: Vehiculo;
@@ -8,12 +10,29 @@ const Detalles = ({ vehiculo }: DetallesProps) => {
     return (
         <div className="mx-8 bg-white shadow-sm sm:rounded-lg sm:px-6 lg:px-8">
             <div className="w-full px-6 py-4 mt-6 overflow-hidden sm:rounded-lg">
-                <label
-                    htmlFor="historial"
-                    className="block mb-3 text-xl font-medium text-gray-700"
-                >
-                    <b>Detalles del vehículo</b>
-                </label>
+                <div className="flex justify-between mb-4">
+                    <label
+                        htmlFor="historial"
+                        className="block mb-3 text-xl font-medium text-gray-700"
+                    >
+                        <b>Detalles del vehículo</b>
+                    </label>
+                    <Button
+                        onClick={() =>
+                            window.open(
+                                route("vehiculo.pdf", {
+                                    vehiculo: vehiculo.id,
+                                }),
+                                "_blank"
+                            )
+                        }
+                        className="flex items-center gap-3"
+                    >
+                        Generar PDF
+                        <AiOutlineDownload />
+                    </Button>
+                </div>
+
                 <div className="grid grid-cols-3 gap-4">
                     <div>
                         <label

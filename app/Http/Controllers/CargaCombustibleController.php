@@ -29,13 +29,15 @@ class CargaCombustibleController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'fecha' => 'required',
+            'fecha' => 'required | date',
             'importe' => 'required | numeric',
             'litros' => 'required | numeric',
             'vehiculo_id' => 'required',
         ]);
 
+
         CargaCombustible::create($request->all());
+
 
         return redirect()->back()
             ->with('success', 'Carga de combustible registrada correctamente.');
