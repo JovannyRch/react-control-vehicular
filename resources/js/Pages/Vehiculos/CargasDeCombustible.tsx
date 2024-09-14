@@ -140,10 +140,7 @@ const CargasDeCombustible = ({ cargas, vehiculo }: CargasProps) => {
                                     value={form.data.importe}
                                     className="block w-full mt-1"
                                     onChange={(e) =>
-                                        form.setData(
-                                            "importe",
-                                            Number(e.target.value)
-                                        )
+                                        form.setData("importe", e.target.value)
                                     }
                                 />
                                 <InputError
