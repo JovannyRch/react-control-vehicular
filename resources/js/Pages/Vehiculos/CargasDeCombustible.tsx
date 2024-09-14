@@ -19,8 +19,8 @@ const CargasDeCombustible = ({ cargas, vehiculo }: CargasProps) => {
 
     const form = useForm({
         fecha: new Date().toISOString().split("T")[0],
-        litros: 0,
-        importe: 0,
+        litros: "",
+        importe: "",
         vehiculo_id: vehiculo.id,
     });
 
@@ -106,9 +106,7 @@ const CargasDeCombustible = ({ cargas, vehiculo }: CargasProps) => {
                             e.preventDefault();
                             form.post(route("carga_combustible.store"), {
                                 onFinish: () => {
-                                    form.reset("fecha");
-                                    form.reset("litros");
-                                    form.reset("importe");
+                                    form.reset("litros", "importe", "fecha");
                                     setIsModalOpen(false);
                                 },
                             });
@@ -119,15 +117,12 @@ const CargasDeCombustible = ({ cargas, vehiculo }: CargasProps) => {
                                 <InputLabel htmlFor="litros" value="Litros" />
                                 <TextInput
                                     id="litros"
-                                    type="text"
+                                    type="number"
                                     name="litros"
                                     value={form.data.litros}
                                     className="block w-full mt-1"
                                     onChange={(e) =>
-                                        form.setData(
-                                            "litros",
-                                            Number(e.target.value)
-                                        )
+                                        form.setData("litros", e.target.value)
                                     }
                                 />
                                 <InputError
@@ -140,7 +135,7 @@ const CargasDeCombustible = ({ cargas, vehiculo }: CargasProps) => {
                                 <InputLabel htmlFor="importe" value="Importe" />
                                 <TextInput
                                     id="importe"
-                                    type="text"
+                                    type="number"
                                     name="importe"
                                     value={form.data.importe}
                                     className="block w-full mt-1"
