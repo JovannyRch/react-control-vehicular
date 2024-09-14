@@ -2,9 +2,10 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, router, useForm } from "@inertiajs/react";
 import { PageProps } from "@/types";
 import { useMemo } from "react";
-import PrimaryButton from "@/Components/PrimaryButton";
-import SecondaryButton from "@/Components/SecondaryButton";
 import { Vehiculo } from "@/types/Vehiculo";
+import Button from "@/Components/Button";
+import { BsFillFuelPumpDieselFill } from "react-icons/bs";
+import { AiFillEye } from "react-icons/ai";
 
 interface VehiculosProps extends PageProps {
     vehiculos: Vehiculo[];
@@ -43,6 +44,14 @@ export default function Vehiculos({
                 key: "name",
             },
             {
+                label: "Placa",
+                key: "placa",
+            },
+            {
+                label: "# Serie",
+                key: "serie",
+            },
+            {
                 label: "Marca",
                 key: "color",
             },
@@ -54,16 +63,17 @@ export default function Vehiculos({
                 label: "Modelo",
                 key: "price",
             },
-            {
-                label: "Placa",
-                key: "placa",
-            },
+
             {
                 label: "Acciones",
                 key: "action",
             },
         ].filter((header) => Boolean(header));
     }, []);
+
+    const canLoadFuel = useMemo(() => {
+        return plantilla === "propia" && estado === "vigente";
+    }, [plantilla, estado]);
 
     return (
         <AuthenticatedLayout
@@ -198,17 +208,18 @@ export default function Vehiculos({
                                         }
                                         value={form.data.search}
                                     />
-                                    <button
+                                    <Button
                                         type="submit"
-                                        className="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 "
+                                        style="dark"
+                                        className="absolute end-2.5 bottom-0"
                                     >
                                         Buscar
-                                    </button>
+                                    </Button>
                                 </div>
                             </form>
 
                             <div className="flex justify-end gap-4 mb-4">
-                                <button
+                                <Button
                                     onClick={() =>
                                         router.visit(
                                             route("vehiculos.create", {
@@ -216,13 +227,12 @@ export default function Vehiculos({
                                             })
                                         )
                                     }
-                                    type="button"
-                                    className="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
+                                    style="alternative"
                                 >
                                     Agregar vehículo
-                                </button>
+                                </Button>
 
-                                <button
+                                <Button
                                     type="button"
                                     onClick={() =>
                                         window.open(
@@ -236,10 +246,10 @@ export default function Vehiculos({
                                             "_blank"
                                         )
                                     }
-                                    className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+                                    style="alternative"
                                 >
                                     Generar PDF
-                                </button>
+                                </Button>
                             </div>
 
                             <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -268,6 +278,12 @@ export default function Vehiculos({
                                                     {vehiculo.numero_economico}
                                                 </td>
                                                 <td className="px-6 py-4">
+                                                    {vehiculo.placa}
+                                                </td>
+                                                <td className="px-6 py-4">
+                                                    {vehiculo.no_serie}
+                                                </td>
+                                                <td className="px-6 py-4">
                                                     {vehiculo.marca}
                                                 </td>
                                                 <td className="px-6 py-4">
@@ -276,13 +292,10 @@ export default function Vehiculos({
                                                 <td className="px-6 py-4">
                                                     {vehiculo.modelo}
                                                 </td>
-                                                <td className="px-6 py-4">
-                                                    {vehiculo.placa}
-                                                </td>
 
                                                 <td className="px-6 py-4">
                                                     <div className="flex items-center space-x-2">
-                                                        <SecondaryButton
+                                                        <Button
                                                             onClick={() =>
                                                                 router.visit(
                                                                     route(
@@ -294,10 +307,15 @@ export default function Vehiculos({
                                                                     )
                                                                 )
                                                             }
+                                                            className="flex items-center gap-2"
                                                         >
-                                                            Detalles
-                                                        </SecondaryButton>
-                                                        <SecondaryButton
+                                                            <AiFillEye />
+                                                            {canLoadFuel && (
+                                                                <BsFillFuelPumpDieselFill />
+                                                            )}
+                                                        </Button>
+                                                        <Button
+                                                            style="alternative"
                                                             onClick={() =>
                                                                 router.visit(
                                                                     route(
@@ -311,7 +329,7 @@ export default function Vehiculos({
                                                             }
                                                         >
                                                             Editar
-                                                        </SecondaryButton>
+                                                        </Button>
                                                     </div>
                                                 </td>
                                             </tr>

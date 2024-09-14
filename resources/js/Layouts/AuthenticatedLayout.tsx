@@ -131,7 +131,9 @@ export default function Authenticated({
                                             type="button"
                                             onClick={onClick}
                                             className={`inline-flex items-center h-full px-1 pt-1 text-sm font-medium leading-5 text-gray-900 transition duration-150 ease-in-out focus:outline-none focus:border-indigo-700 ${
-                                                route().has("vehiculos.index")
+                                                route().current(
+                                                    "vehiculos.index"
+                                                )
                                                     ? "border-b-2  border-indigo-400 "
                                                     : ""
                                             }`}

@@ -28,4 +28,10 @@ class Vehiculo extends Model
     {
         return $this->hasMany(Historial::class);
     }
+
+
+    public function cargasCombustible()
+    {
+        return $this->hasMany(CargaCombustible::class);
+    }
 }

@@ -4,3 +4,10 @@ export const formatDate = (date: string): string => {
         dateObj.getMonth() + 1
     }/${dateObj.getFullYear()}`;
 };
+
+export const formatCurrency = (value: number): string => {
+    return new Intl.NumberFormat("es-MX", {
+        style: "currency",
+        currency: "MXN",
+    }).format(value);
+};

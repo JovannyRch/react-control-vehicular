@@ -114,9 +114,11 @@ class VehiculoController extends Controller
     public function show(Vehiculo $vehiculo)
     {
         $historial = $vehiculo->historial;
+        $cargas = $vehiculo->cargasCombustible;
         return Inertia::render('Vehiculos/Show', [
             'vehiculo' => $vehiculo,
-            'historial' => $historial
+            'historial' => $historial,
+            'cargas' => $cargas,
         ]);
     }
 

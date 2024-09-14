@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CargaCombustibleController;
 use App\Http\Controllers\HistorialController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\VehiculoController;
@@ -24,6 +25,7 @@ Route::get('/dashboard', function () {
 Route::get('/vehiculos/pdf', [VehiculoController::class, 'pdf'])->middleware('auth', 'verified')->name('vehiculos.pdf');
 Route::resource('vehiculos', VehiculoController::class)->middleware('auth', 'verified');
 Route::resource('historial', HistorialController::class)->middleware('auth', 'verified');
+Route::resource('carga_combustible', CargaCombustibleController::class)->middleware('auth', 'verified');
 
 
 
