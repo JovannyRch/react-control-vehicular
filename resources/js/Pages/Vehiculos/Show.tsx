@@ -15,6 +15,7 @@ interface VehiculosProps extends PageProps {
     vehiculo: Vehiculo;
     historial: Historial[];
     cargas: CargaCombustible[];
+    loadFuel: boolean;
 }
 
 export default function Show({
@@ -22,6 +23,7 @@ export default function Show({
     vehiculo,
     historial,
     cargas,
+    loadFuel,
 }: VehiculosProps) {
     return (
         <AuthenticatedLayout
@@ -36,12 +38,20 @@ export default function Show({
 
             <div className="py-12">
                 <Detalles vehiculo={vehiculo} />
-                {(vehiculo.plantilla !== "propia" ||
-                    (vehiculo.plantilla === "propia" &&
-                        vehiculo.estado === "vigente")) && (
-                    <CargasDeCombustible cargas={cargas} vehiculo={vehiculo} />
-                )}
-                <HistorialTable vehiculo={vehiculo} historial={historial} />
+                {loadFuel &&
+                    (vehiculo.plantilla !== "propia" ||
+                        (vehiculo.plantilla === "propia" &&
+                            vehiculo.estado === "vigente")) && (
+                        <CargasDeCombustible
+                            cargas={cargas}
+                            vehiculo={vehiculo}
+                        />
+                    )}
+                <HistorialTable
+                    vehiculo={vehiculo}
+                    historial={historial}
+                    loadFuel={loadFuel}
+                />
             </div>
         </AuthenticatedLayout>
     );

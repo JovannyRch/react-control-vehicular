@@ -10,9 +10,10 @@ import { useEffect, useState } from "react";
 interface HistorialProps {
     historial: Historial[];
     vehiculo: Vehiculo;
+    loadFuel: boolean;
 }
 
-const HistorialTable = ({ historial, vehiculo }: HistorialProps) => {
+const HistorialTable = ({ historial, vehiculo, loadFuel }: HistorialProps) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     const form = useForm({
@@ -28,11 +29,13 @@ const HistorialTable = ({ historial, vehiculo }: HistorialProps) => {
             >
                 <b>Historial</b>
             </label>
-            <div className="flex justify-end">
-                <Button style="green" onClick={() => setIsModalOpen(true)}>
-                    Agregar suceso
-                </Button>
-            </div>
+            {!loadFuel && (
+                <div className="flex justify-end">
+                    <Button style="green" onClick={() => setIsModalOpen(true)}>
+                        Agregar suceso
+                    </Button>
+                </div>
+            )}
             <div className="grid grid-cols-12 gap-6 p-8">
                 {historial.length === 0 ? (
                     <div className="col-span-12">

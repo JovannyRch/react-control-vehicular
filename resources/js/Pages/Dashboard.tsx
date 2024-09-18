@@ -12,13 +12,13 @@ export default function Dashboard({ auth }: PageProps) {
         {
             label: "2019",
             onSelect: () => {
-                router.visit("/vehiculos?plantilla=2019");
+                router.visit("/vehiculos?plantilla=2019&loadFuel=true");
             },
         },
         {
             label: "2023",
             onSelect: () => {
-                router.visit("/vehiculos?plantilla=2023");
+                router.visit("/vehiculos?plantilla=2023&loadFuel=true");
             },
         },
         {
@@ -28,14 +28,15 @@ export default function Dashboard({ auth }: PageProps) {
                     label: "Vigente",
                     onSelect: () =>
                         router.visit(
-                            "/vehiculos?plantilla=propia&estado=vigente"
+                            "/vehiculos?plantilla=propia&estado=vigente&loadFuel=true"
                         ),
                 },
             ],
         },
         {
             label: "2024",
-            onSelect: () => router.visit("/vehiculos?plantilla=2024"),
+            onSelect: () =>
+                router.visit("/vehiculos?plantilla=2024&loadFuel=true"),
         },
     ];
 

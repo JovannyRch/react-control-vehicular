@@ -12,6 +12,7 @@ interface VehiculosProps extends PageProps {
     plantilla: string;
     estado: string;
     search: string;
+    loadFuel: boolean;
 }
 
 export default function Vehiculos({
@@ -20,6 +21,7 @@ export default function Vehiculos({
     plantilla,
     estado,
     search,
+    loadFuel,
 }: VehiculosProps) {
     const form = useForm({
         search,
@@ -170,7 +172,7 @@ export default function Vehiculos({
                             )}
 
                             <form
-                                className="max-w-md mx-auto"
+                                className="max-w-md mx-auto mb-8"
                                 onSubmit={handleSearch}
                             >
                                 <div className="relative">
@@ -214,39 +216,41 @@ export default function Vehiculos({
                                 </div>
                             </form>
 
-                            <div className="flex justify-end gap-4 mb-4">
-                                <Button
-                                    onClick={() =>
-                                        router.visit(
-                                            route("vehiculos.create", {
-                                                plantilla,
-                                            })
-                                        )
-                                    }
-                                    style="alternative"
-                                >
-                                    Agregar vehículo
-                                </Button>
+                            {!loadFuel && (
+                                <div className="flex justify-end gap-4 mb-4">
+                                    <Button
+                                        onClick={() =>
+                                            router.visit(
+                                                route("vehiculos.create", {
+                                                    plantilla,
+                                                })
+                                            )
+                                        }
+                                        style="alternative"
+                                    >
+                                        Agregar vehículo
+                                    </Button>
 
-                                <Button
-                                    type="button"
-                                    onClick={() =>
-                                        window.open(
-                                            route("vehiculos.pdf", {
-                                                plantilla,
-                                                estado,
-                                                ...(Boolean(search) && {
-                                                    search,
+                                    <Button
+                                        type="button"
+                                        onClick={() =>
+                                            window.open(
+                                                route("vehiculos.pdf", {
+                                                    plantilla,
+                                                    estado,
+                                                    ...(Boolean(search) && {
+                                                        search,
+                                                    }),
                                                 }),
-                                            }),
-                                            "_blank"
-                                        )
-                                    }
-                                    style="alternative"
-                                >
-                                    Generar PDF
-                                </Button>
-                            </div>
+                                                "_blank"
+                                            )
+                                        }
+                                        style="alternative"
+                                    >
+                                        Generar PDF
+                                    </Button>
+                                </div>
+                            )}
 
                             <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
                                 <table className="w-full text-sm text-left text-gray-500 rtl:text-right ">
@@ -299,15 +303,24 @@ export default function Vehiculos({
                                                                         {
                                                                             vehiculo:
                                                                                 vehiculo.id,
+                                                                            ...(loadFuel
+                                                                                ? {
+                                                                                      loadFuel:
+                                                                                          "true",
+                                                                                  }
+                                                                                : {}),
                                                                         }
                                                                     )
                                                                 )
                                                             }
                                                             className="flex items-center gap-2"
                                                         >
-                                                            <AiFillEye />
-                                                            {(vehiculo.plantilla !==
-                                                                "propia" ||
+                                                            {!loadFuel && (
+                                                                <AiFillEye />
+                                                            )}
+                                                            {((loadFuel &&
+                                                                vehiculo.plantilla !==
+                                                                    "propia") ||
                                                                 (vehiculo.plantilla ===
                                                                     "propia" &&
                                                                     vehiculo.estado ===
@@ -315,22 +328,24 @@ export default function Vehiculos({
                                                                 <BsFillFuelPumpDieselFill />
                                                             )}
                                                         </Button>
-                                                        <Button
-                                                            style="alternative"
-                                                            onClick={() =>
-                                                                router.visit(
-                                                                    route(
-                                                                        "vehiculos.edit",
-                                                                        {
-                                                                            vehiculo:
-                                                                                vehiculo.id,
-                                                                        }
+                                                        {!loadFuel && (
+                                                            <Button
+                                                                style="alternative"
+                                                                onClick={() =>
+                                                                    router.visit(
+                                                                        route(
+                                                                            "vehiculos.edit",
+                                                                            {
+                                                                                vehiculo:
+                                                                                    vehiculo.id,
+                                                                            }
+                                                                        )
                                                                     )
-                                                                )
-                                                            }
-                                                        >
-                                                            Editar
-                                                        </Button>
+                                                                }
+                                                            >
+                                                                Editar
+                                                            </Button>
+                                                        )}
                                                     </div>
                                                 </td>
                                             </tr>

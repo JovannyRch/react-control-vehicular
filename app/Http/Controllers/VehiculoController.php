@@ -34,6 +34,7 @@ class VehiculoController extends Controller
     {
         $plantilla = $request->input('plantilla');
         $search = $request->input('search');
+        $loadFuel = $request->input('loadFuel');
 
         $vehiculos = [];
 
@@ -66,7 +67,8 @@ class VehiculoController extends Controller
             'vehiculos' => $vehiculos,
             'plantilla' => $plantilla,
             'estado' => $estado ?? null,
-            'search' => $search ?? ''
+            'search' => $search ?? '',
+            'loadFuel' => $loadFuel ?? false
         ]);
     }
 
@@ -111,14 +113,18 @@ class VehiculoController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Vehiculo $vehiculo)
+    public function show(Request $request, Vehiculo $vehiculo)
     {
+        $loadFuel = $request->input('loadFuel');
+
+
         $historial = $vehiculo->historial;
         $cargas = $vehiculo->cargasCombustible;
         return Inertia::render('Vehiculos/Show', [
             'vehiculo' => $vehiculo,
             'historial' => $historial,
             'cargas' => $cargas,
+            'loadFuel' => $loadFuel ?? false
         ]);
     }
 
