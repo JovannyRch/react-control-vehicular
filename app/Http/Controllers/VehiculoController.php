@@ -224,7 +224,7 @@ class VehiculoController extends Controller
             'cargas' => $cargas,
             'total_litros' => $total_litros,
             'total_importe' => $total_importe
-        ]);
+        ])->setPaper('a4', 'landscape');
 
 
 

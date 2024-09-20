@@ -69,43 +69,37 @@
         <tr>
             <td class="value"><strong># Económico</strong></td>
             <td class="value">{{ $vehiculo->numero_economico }}</td>
-        </tr>
-        <tr>
             <td class="value"><strong>Marca</strong></td>
             <td class="value">{{ $vehiculo->marca }}</td>
         </tr>
+
         <tr>
             <td class="value"><strong>Modelo</strong></td>
             <td class="value">{{ $vehiculo->modelo }}</td>
-        </tr>
-        <tr>
             <td class="value"><strong>Placa</strong></td>
             <td class="value">{{ $vehiculo->placa }}</td>
         </tr>
 
+
         <tr>
             <td class="value"><strong>Tipo</strong></td>
             <td class="value">{{ $vehiculo->tipo }}</td>
-        </tr>
-        <tr>
             <td class="value"><strong># Serie</strong></td>
             <td class="value">{{ $vehiculo->no_serie }}</td>
         </tr>
 
+
         <tr>
             <td class="value"><strong># Motor</strong></td>
             <td class="value">{{ $vehiculo->no_motor }}</td>
-        </tr>
-        <tr>
+
             <td class="value"><strong>Área asignación</strong></td>
             <td class="value">{{ $vehiculo->area_asignacion }}</td>
         </tr>
         <tr>
             <td class="value"><strong>Resguardante</strong></td>
             <td class="value">{{ $vehiculo->resguardante }}</td>
-        </tr>
 
-        <tr>
             <td class="value"><strong>Plantilla</strong></td>
             <td class="value">{{ $vehiculo->plantilla }}</td>
         </tr>
