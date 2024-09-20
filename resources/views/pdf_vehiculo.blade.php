@@ -15,6 +15,7 @@
             font-family: Arial, Helvetica, sans-serif;
             border-collapse: collapse;
             width: 100%;
+            font-size: 12px;
         }
 
         .value {
@@ -32,6 +33,7 @@
         #cargas th {
             border: 1px solid #ddd;
             padding: 8px;
+            font-size: 12px;
         }
 
         #cargas tr:nth-child(even) {
@@ -46,12 +48,14 @@
             padding-top: 12px;
             padding-bottom: 12px;
             text-align: left;
-            background-color: #04AA6D;
-            color: white;
+            background-color: #BBBBBB;
+            color: black;
+            font-size: 12px;
         }
 
         #title {
             text-align: center;
+            font-size: 14px;
         }
     </style>
 
@@ -118,11 +122,13 @@
     <br>
 
     @if ($vehiculo->detalle)
-        <strong>Detalles</strong>
-        <br>
-        <p>
-            {{ $vehiculo->detalle }}
-        </p>
+        <div class="detail">
+            <strong>Detalles</strong>
+            <br>
+            <p>
+                {{ $vehiculo->detalle }}
+            </p>
+        </div>
     @endif
 
     <br><br>
@@ -148,6 +154,9 @@
                     <th>Fecha</th>
                     <th>Importe</th>
                     <th>Litros</th>
+                    <th>Odom Ini</th>
+                    <th>Odom Fin</th>
+                    <th>Km recorridos</th>
                 </tr>
             </thead>
             <tbody>
@@ -156,6 +165,9 @@
                         <td>{{ $carga->fecha }}</td>
                         <td>${{ $carga->importe }}</td>
                         <td>{{ $carga->litros }}</td>
+                        <td>{{ $carga->odometro_inicial }}</td>
+                        <td>{{ $carga->odometro_final }}</td>
+                        <td>{{ $carga->kilometrosRecorridos() }}</td>
                     </tr>
                 @endforeach
             </tbody>

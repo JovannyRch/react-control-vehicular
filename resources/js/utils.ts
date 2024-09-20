@@ -17,3 +17,16 @@ export const formatOnlyDateValue = (date: string): string => {
     const [year = "-", month = "-", day = "-"] = date.split("-");
     return `${day}/${month}/${year}`;
 };
+
+export const formatNumber = (
+    value: number | null,
+    prefix: string = ""
+): string => {
+    if (value === null) {
+        return "-";
+    }
+
+    return `${new Intl.NumberFormat("es-MX").format(
+        value
+    )} ${prefix}`.trimEnd();
+};

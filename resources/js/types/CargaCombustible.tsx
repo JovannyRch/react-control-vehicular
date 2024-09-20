@@ -6,4 +6,6 @@ export interface CargaCombustible {
     fecha: string;
     created_at: string;
     updated_at: string;
+    odometro_inicial: number | null;
+    odometro_final: number | null;
 }

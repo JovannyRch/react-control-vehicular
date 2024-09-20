@@ -33,6 +33,8 @@ class CargaCombustibleController extends Controller
             'importe' => 'required | numeric',
             'litros' => 'required | numeric',
             'vehiculo_id' => 'required',
+            'odometro_inicial' => 'numeric',
+            'odometro_final' => 'numeric',
         ]);
 
 

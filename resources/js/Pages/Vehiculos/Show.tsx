@@ -36,22 +36,26 @@ export default function Show({
         >
             <Head title="Vehículos" />
 
-            <div className="py-12">
-                <Detalles vehiculo={vehiculo} />
-                {loadFuel &&
-                    (vehiculo.plantilla !== "propia" ||
-                        (vehiculo.plantilla === "propia" &&
-                            vehiculo.estado === "vigente")) && (
-                        <CargasDeCombustible
-                            cargas={cargas}
+            <div className="flex justify-center">
+                <div className="y-12 max-w-[1200px]">
+                    <Detalles vehiculo={vehiculo} />
+                    {loadFuel &&
+                        (vehiculo.plantilla !== "propia" ||
+                            (vehiculo.plantilla === "propia" &&
+                                vehiculo.estado === "vigente")) && (
+                            <CargasDeCombustible
+                                cargas={cargas}
+                                vehiculo={vehiculo}
+                            />
+                        )}
+                    {!loadFuel && (
+                        <HistorialTable
                             vehiculo={vehiculo}
+                            historial={historial}
+                            loadFuel={loadFuel}
                         />
                     )}
-                <HistorialTable
-                    vehiculo={vehiculo}
-                    historial={historial}
-                    loadFuel={loadFuel}
-                />
+                </div>
             </div>
         </AuthenticatedLayout>
     );
