@@ -116,15 +116,24 @@ class VehiculoController extends Controller
     public function show(Request $request, Vehiculo $vehiculo)
     {
         $loadFuel = $request->input('loadFuel');
+        $month = $request->input('month');
+        $year = $request->input('year');
+
 
 
         $historial = $vehiculo->historial;
-        $cargas = $vehiculo->cargasCombustible;
+
+        $cargasController = new CargaCombustibleController();
+
+        $cargas = $cargasController->getHistorialCargasCombustible($vehiculo, $year, $month);
+
         return Inertia::render('Vehiculos/Show', [
             'vehiculo' => $vehiculo,
             'historial' => $historial,
             'cargas' => $cargas,
-            'loadFuel' => $loadFuel ?? false
+            'loadFuel' => $loadFuel ?? false,
+            'month' => $month ?? '',
+            'year' => $year ?? ''
         ]);
     }
 
@@ -211,19 +220,36 @@ class VehiculoController extends Controller
         return $pdf->stream('pdf_vehiculos');
     }
 
-    public function detailPdf(Vehiculo $vehiculo)
+    public function detailPdf(Request $request, Vehiculo $vehiculo)
     {
-        $historial = $vehiculo->historial;
-        $cargas = $vehiculo->cargasCombustible;
-        $total_litros = $vehiculo->totalLitros();
-        $total_importe = $vehiculo->totalImporte();
+        $loadFuel = $request->input('loadFuel');
+        $month = $request->input('month');
+        $year = $request->input('year');
+
+
+
+        $historial = $vehiculo->historial();
+
+        $cargasController = new CargaCombustibleController();
+
+        $cargas = $cargasController->getHistorialCargasCombustible($vehiculo, $year, $month);
+
+
+        $total_importe = $cargas->sum('importe');
+        $total_litros = $cargas->sum('litros');
+
+
+
 
         $pdf = PDF::loadView('pdf_vehiculo', [
             'vehiculo' => $vehiculo,
             'historial' => $historial,
             'cargas' => $cargas,
-            'total_litros' => $total_litros,
-            'total_importe' => $total_importe
+            'loadFuel' => $loadFuel ?? false,
+            'month' => $month ?? '',
+            'year' => $year ?? '',
+            'total_importe' => $total_importe,
+            'total_litros' => $total_litros
         ])->setPaper('a4', 'landscape');
 
 

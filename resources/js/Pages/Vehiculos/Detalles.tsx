@@ -1,10 +1,26 @@
 import Button from "@/Components/Button";
 import { Vehiculo } from "@/types/Vehiculo";
 import { AiOutlineDownload } from "react-icons/ai";
+import { IoMdArrowBack } from "react-icons/io";
 
 interface DetallesProps {
     vehiculo: Vehiculo;
+    month: string | null;
+    year: string | null;
 }
+
+const BackButton = () => {
+    return (
+        <Button
+            onClick={() => window.history.back()}
+            className="flex items-center gap-2"
+            style="dark"
+        >
+            Regresar
+            <IoMdArrowBack />
+        </Button>
+    );
+};
 
 const Field = ({ label, value }: { label: string; value: string }) => {
     return (
@@ -17,7 +33,7 @@ const Field = ({ label, value }: { label: string; value: string }) => {
     );
 };
 
-const Detalles = ({ vehiculo }: DetallesProps) => {
+const Detalles = ({ vehiculo, month, year }: DetallesProps) => {
     return (
         <div className="mx-8 bg-white shadow-sm sm:rounded-lg sm:px-6 lg:px-8">
             <div className="flex justify-between pt-4 mt-4">
@@ -27,24 +43,28 @@ const Detalles = ({ vehiculo }: DetallesProps) => {
                 >
                     <b>Detalles del vehículo</b>
                 </label>
-                <Button
-                    onClick={() =>
-                        window.open(
-                            route("vehiculo.pdf", {
-                                vehiculo: vehiculo.id,
-                            }),
-                            "_blank"
-                        )
-                    }
-                    className="flex items-center gap-3"
-                    style="dark"
-                >
-                    Generar PDF
-                    <AiOutlineDownload />
-                </Button>
+                <div className="flex gap-1">
+                    <BackButton />
+                    <Button
+                        onClick={() =>
+                            window.open(
+                                route("vehiculo.pdf", {
+                                    vehiculo: vehiculo.id,
+                                    ...(month && year && { month, year }),
+                                }),
+                                "_blank"
+                            )
+                        }
+                        className="flex items-center gap-2"
+                        style="dark"
+                    >
+                        Generar PDF
+                        <AiOutlineDownload />
+                    </Button>
+                </div>
             </div>
             <div className="w-full px-6 py-4 mt-6 overflow-hidden sm:rounded-lg">
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-3 gap-4">
                     <Field label="ID" value={vehiculo.id} />
                     <Field
                         label="Número Económico"
@@ -66,7 +86,7 @@ const Detalles = ({ vehiculo }: DetallesProps) => {
                     {vehiculo.plantilla === "propia" && (
                         <Field label="Estado" value={vehiculo.estado} />
                     )}
-                    <div className="col-span-2">
+                    <div className="col-span-3">
                         <Field label="Detalle" value={vehiculo.detalle} />
                     </div>
                 </div>

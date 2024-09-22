@@ -23,9 +23,12 @@ class CargaCombustible extends Model
     //combustile recorrido
     public function kilometrosRecorridos()
     {
-        if ($this->odometro_inicial && $this->odometro_final) {
+
+        if (is_numeric($this->odometro_inicial) && is_numeric($this->odometro_final)) {
             return ($this->odometro_final - $this->odometro_inicial);
         }
+
+
         return 'NF';
     }
 }

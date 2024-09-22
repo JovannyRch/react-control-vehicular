@@ -73,6 +73,16 @@ export default function Vehiculos({
         ].filter((header) => Boolean(header));
     }, []);
 
+    const canLoadFuel = (vehiculo: Vehiculo) => {
+        if (!loadFuel) {
+            return false;
+        }
+        return (
+            vehiculo.plantilla !== "propia" ||
+            (vehiculo.plantilla === "propia" && vehiculo.estado === "vigente")
+        );
+    };
+
     return (
         <AuthenticatedLayout
             user={auth.user}
@@ -318,14 +328,12 @@ export default function Vehiculos({
                                                             {!loadFuel && (
                                                                 <AiFillEye />
                                                             )}
-                                                            {((loadFuel &&
-                                                                vehiculo.plantilla !==
-                                                                    "propia") ||
-                                                                (vehiculo.plantilla ===
-                                                                    "propia" &&
-                                                                    vehiculo.estado ===
-                                                                        "vigente")) && (
-                                                                <BsFillFuelPumpDieselFill />
+                                                            {canLoadFuel(
+                                                                vehiculo
+                                                            ) && (
+                                                                <>
+                                                                    <BsFillFuelPumpDieselFill />
+                                                                </>
                                                             )}
                                                         </Button>
                                                         {!loadFuel && (

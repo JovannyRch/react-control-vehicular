@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\CargaCombustible;
+use App\Models\Vehiculo;
 use Illuminate\Http\Request;
 
 class CargaCombustibleController extends Controller
@@ -33,8 +34,6 @@ class CargaCombustibleController extends Controller
             'importe' => 'required | numeric',
             'litros' => 'required | numeric',
             'vehiculo_id' => 'required',
-            'odometro_inicial' => 'numeric',
-            'odometro_final' => 'numeric',
         ]);
 
 
@@ -75,5 +74,19 @@ class CargaCombustibleController extends Controller
     public function destroy(CargaCombustible $cargaCombustible)
     {
         //
+    }
+
+
+    public function getHistorialCargasCombustible(Vehiculo $vehiculo, $year, $month)
+    {
+
+        if ($month && $year) {
+            return $vehiculo->cargasCombustible()
+                ->whereYear('fecha', $year)
+                ->whereMonth('fecha', $month)
+                ->get();
+        }
+
+        return $vehiculo->cargasCombustible;
     }
 }

@@ -2,21 +2,24 @@ import Button from "@/Components/Button";
 import InputError from "@/Components/InputError";
 import InputLabel from "@/Components/InputLabel";
 import Modal from "@/Components/Modal";
+import ReportSelector from "@/Components/ReportSelector";
 import TextInput from "@/Components/TextInput";
 import { CargaCombustible } from "@/types/CargaCombustible";
 import { Vehiculo } from "@/types/Vehiculo";
 import {
     formatCurrency,
-    formatDate,
     formatNumber,
     formatOnlyDateValue,
+    getMonthName,
 } from "@/utils";
-import { useForm } from "@inertiajs/react";
-import { useEffect, useState } from "react";
+import { router, useForm } from "@inertiajs/react";
+import { useEffect, useMemo, useState } from "react";
 
 interface CargasProps {
     cargas: CargaCombustible[];
     vehiculo: Vehiculo;
+    month: string | null;
+    year: string | null;
 }
 
 const getKm = (carga: CargaCombustible) => {
@@ -31,7 +34,20 @@ const getKm = (carga: CargaCombustible) => {
     return `${Number(carga.odometro_final - carga.odometro_inicial)} km`;
 };
 
-const CargasDeCombustible = ({ cargas, vehiculo }: CargasProps) => {
+const safeReduceSum = (a: number, b: string | number) => {
+    if (isNaN(Number(b))) {
+        return a;
+    }
+
+    return a + Number(b);
+};
+
+const CargasDeCombustible = ({
+    cargas,
+    vehiculo,
+    month,
+    year,
+}: CargasProps) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     const form = useForm({
@@ -43,30 +59,100 @@ const CargasDeCombustible = ({ cargas, vehiculo }: CargasProps) => {
         odometro_inicial: "",
     });
 
+    const handleGetReport = ({
+        month,
+        year,
+    }: {
+        month: string;
+        year: string;
+    }) => {
+        router.visit(
+            `/vehiculos/${vehiculo.id}?loadFuel=true&month=${month}&year=${year}`
+        );
+    };
+
     useEffect(() => {
         if (Object.keys(form.errors).length > 0) {
             setIsModalOpen(true);
         }
     }, [form.errors]);
 
+    const totales = useMemo(() => {
+        return {
+            litros: cargas.reduce(
+                (acc, carga) => safeReduceSum(acc, carga.litros),
+                0
+            ),
+            importe: cargas.reduce(
+                (acc, carga) => safeReduceSum(acc, carga.importe),
+                0
+            ),
+            odometro_inicial: cargas.reduce(
+                (acc, carga) => safeReduceSum(acc, carga.odometro_inicial!),
+                0
+            ),
+            odometro_final: cargas.reduce(
+                (acc, carga) => safeReduceSum(acc, carga.odometro_final!),
+                0
+            ),
+            km: cargas.reduce(
+                (acc, carga) =>
+                    safeReduceSum(
+                        acc,
+                        carga.odometro_final! - carga.odometro_inicial!
+                    ),
+                0
+            ),
+        };
+    }, [cargas]);
+
     return (
-        <div className="p-4 mt-6 bg-white shadow-sm sm:rounded-lg sm:mx-8">
+        <div
+            className="p-6 mt-6 mb-8 bg-white shadow-sm sm:rounded-lg sm:mx-8"
+            id="cargas_combustibles"
+        >
             <label
                 htmlFor="historial"
                 className="block mb-3 text-xl font-medium text-gray-700"
             >
-                <b>Cargas de combustible</b>
+                <b>
+                    Cargas de combustible
+                    {month && year && (
+                        <>
+                            {" "}
+                            de <b>{`${getMonthName(Number(month))} ${year}`}</b>
+                        </>
+                    )}
+                </b>
             </label>
             <div className="flex justify-end">
-                <Button style="green" onClick={() => setIsModalOpen(true)}>
-                    Agregar carga
-                </Button>
+                <div className="flex items-center gap-1">
+                    <ReportSelector fetchData={handleGetReport} />
+                    <div>
+                        <Button
+                            style="green"
+                            onClick={() => setIsModalOpen(true)}
+                        >
+                            Agregar carga
+                        </Button>
+                    </div>
+                </div>
             </div>
             <div className="grid grid-cols-12 gap-6 p-8">
                 {cargas.length === 0 ? (
                     <div className="col-span-12 text-center">
                         <p className="text-center">
                             No hay cargas de combustible registradas
+                            <br />
+                            {month && year && (
+                                <>
+                                    <b>
+                                        {`${getMonthName(
+                                            Number(month)
+                                        )} ${year}`}
+                                    </b>
+                                </>
+                            )}
                         </p>
                     </div>
                 ) : (
@@ -129,22 +215,54 @@ const CargasDeCombustible = ({ cargas, vehiculo }: CargasProps) => {
                                                 {carga.litros} litros
                                             </td>
                                             <td className="px-6 py-4 text-sm text-gray-900 whitespace-nowrap">
-                                                {formatNumber(
-                                                    carga.odometro_inicial,
-                                                    "km"
-                                                )}
+                                                {isNaN(carga?.odometro_inicial!)
+                                                    ? carga.odometro_inicial
+                                                    : formatNumber(
+                                                          carga.odometro_inicial,
+                                                          "km"
+                                                      )}
                                             </td>
                                             <td className="px-6 py-4 text-sm text-gray-900 whitespace-nowrap">
-                                                {formatNumber(
-                                                    carga.odometro_final,
-                                                    "km"
-                                                )}
+                                                {isNaN(carga?.odometro_final!)
+                                                    ? carga.odometro_final
+                                                    : formatNumber(
+                                                          carga.odometro_final,
+                                                          "km"
+                                                      )}
                                             </td>
                                             <td className="px-6 py-4 text-sm text-gray-900 whitespace-nowrap">
                                                 {getKm(carga)}
                                             </td>
                                         </tr>
                                     ))}
+                                    {/* Totales */}
+                                    <tr className="bg-gray-100">
+                                        <td className="px-6 py-4 text-sm text-gray-900 whitespace-nowrap">
+                                            <b>Total</b>
+                                        </td>
+                                        <td className="px-6 py-4 text-sm text-gray-900 whitespace-nowrap">
+                                            <b>
+                                                {formatCurrency(
+                                                    totales.importe
+                                                )}
+                                            </b>
+                                        </td>
+                                        <td className="px-6 py-4 text-sm text-gray-900 whitespace-nowrap">
+                                            <b>
+                                                {formatNumber(
+                                                    totales.litros,
+                                                    "litros"
+                                                )}
+                                            </b>
+                                        </td>
+                                        <td className="px-6 py-4 text-sm text-gray-900 whitespace-nowrap"></td>
+                                        <td className="px-6 py-4 text-sm text-gray-900 whitespace-nowrap"></td>
+                                        <td className="px-6 py-4 text-sm text-gray-900 whitespace-nowrap">
+                                            <b>
+                                                {formatNumber(totales.km, "km")}
+                                            </b>
+                                        </td>
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>
@@ -242,7 +360,7 @@ const CargasDeCombustible = ({ cargas, vehiculo }: CargasProps) => {
                                 />
                                 <TextInput
                                     id="odometro_inicial"
-                                    type="number"
+                                    type="text"
                                     name="odometro_inicial"
                                     value={form.data.odometro_inicial}
                                     className="block w-full mt-1"
@@ -265,7 +383,7 @@ const CargasDeCombustible = ({ cargas, vehiculo }: CargasProps) => {
                                 />
                                 <TextInput
                                     id="odometro_final"
-                                    type="number"
+                                    type="text"
                                     name="odometro_final"
                                     value={form.data.odometro_final}
                                     className="block w-full mt-1"

@@ -3,19 +3,20 @@ import { Head, useForm } from "@inertiajs/react";
 import { PageProps } from "@/types";
 import { Vehiculo } from "@/types/Vehiculo";
 import { Historial } from "@/types/Historial";
-import { formatDate } from "@/utils";
-import InputError from "@/Components/InputError";
 import CargasDeCombustible from "./CargasDeCombustible";
 import Detalles from "./Detalles";
 import HistorialTable from "./HistorialTable";
 import { CargaCombustible } from "@/types/CargaCombustible";
 import Button from "@/Components/Button";
+import { useEffect } from "react";
 
 interface VehiculosProps extends PageProps {
     vehiculo: Vehiculo;
     historial: Historial[];
     cargas: CargaCombustible[];
     loadFuel: boolean;
+    month: string | null;
+    year: string | null;
 }
 
 export default function Show({
@@ -24,7 +25,18 @@ export default function Show({
     historial,
     cargas,
     loadFuel,
+    month,
+    year,
 }: VehiculosProps) {
+    useEffect(() => {
+        if (loadFuel) {
+            setTimeout(() => {
+                const element = document.getElementById("cargas_combustibles");
+                element?.scrollIntoView({ behavior: "smooth" });
+            }, 100);
+        }
+    }, []);
+
     return (
         <AuthenticatedLayout
             user={auth.user}
@@ -38,7 +50,7 @@ export default function Show({
 
             <div className="flex justify-center">
                 <div className="y-12 max-w-[1200px]">
-                    <Detalles vehiculo={vehiculo} />
+                    <Detalles vehiculo={vehiculo} month={month} year={year} />
                     {loadFuel &&
                         (vehiculo.plantilla !== "propia" ||
                             (vehiculo.plantilla === "propia" &&
@@ -46,6 +58,8 @@ export default function Show({
                             <CargasDeCombustible
                                 cargas={cargas}
                                 vehiculo={vehiculo}
+                                month={month}
+                                year={year}
                             />
                         )}
                     {!loadFuel && (

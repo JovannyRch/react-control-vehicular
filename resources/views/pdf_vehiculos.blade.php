@@ -17,6 +17,7 @@
         #vehicles th {
             border: 1px solid #ddd;
             padding: 8px;
+            font-size: 12px;
         }
 
         #vehicles tr:nth-child(even) {
@@ -31,12 +32,22 @@
             padding-top: 12px;
             padding-bottom: 12px;
             text-align: left;
-            background-color: #04AA6D;
-            color: white;
+            background-color: #BBBBBB;
+            color: black;
+            font-size: 12px;
         }
 
         #title {
+            font-family: Arial, Helvetica, sans-serif;
             text-align: center;
+            font-size: 14px;
+        }
+
+        .detail {
+            font-family: Arial, Helvetica, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+            font-size: 12px;
         }
     </style>
 </head>
@@ -45,12 +56,18 @@
 
     <h2 id="title">Reporte vehículos</h2>
     @if ($plantilla)
-        <strong>Plantilla: </strong> {{ $plantilla }} <br>
+        <div class="detail">
+            <strong>Plantilla: </strong> {{ $plantilla }} <br>
+        </div>
     @endif
     @if ($estado && $plantilla === 'propia')
-        <strong>Estado: </strong> {{ $estado }} <br>
+        <div class="detail">
+            <strong>Estado: </strong> {{ $estado }} <br>
+        </div>
     @endif
-    <strong>Fecha:</strong> {{ now()->format('d-m-Y') }}
+    <div class="detail">
+        <strong>Fecha:</strong> {{ now()->format('d-m-Y') }}
+    </div>
     <br>
     <br>
     <table id="vehicles">

@@ -1,3 +1,47 @@
+<?php
+
+//Create an array of months in spanish
+
+function formatDate($date)
+{
+    $months = [
+        '01' => 'Enero',
+        '02' => 'Febrero',
+        '03' => 'Marzo',
+        '04' => 'Abril',
+        '05' => 'Mayo',
+        '06' => 'Junio',
+        '07' => 'Julio',
+        '08' => 'Agosto',
+        '09' => 'Septiembre',
+        '10' => 'Octubre',
+        '11' => 'Noviembre',
+        '12' => 'Diciembre',
+    ];
+    return date('d', strtotime($date)) . ' de ' . $months[date('m', strtotime($date))] . ' de ' . date('Y', strtotime($date));
+}
+
+function getMonth($number)
+{
+    $months = [
+        '01' => 'Enero',
+        '02' => 'Febrero',
+        '03' => 'Marzo',
+        '04' => 'Abril',
+        '05' => 'Mayo',
+        '06' => 'Junio',
+        '07' => 'Julio',
+        '08' => 'Agosto',
+        '09' => 'Septiembre',
+        '10' => 'Octubre',
+        '11' => 'Noviembre',
+        '12' => 'Diciembre',
+    ];
+    return $months[$number];
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -11,8 +55,12 @@
 
     <style>
         /* detail field */
-        .detail {
+        html {
             font-family: Arial, Helvetica, sans-serif;
+            font-size: 10px;
+        }
+
+        .detail {
             border-collapse: collapse;
             width: 100%;
             font-size: 12px;
@@ -33,7 +81,7 @@
         #cargas th {
             border: 1px solid #ddd;
             padding: 8px;
-            font-size: 12px;
+            font-size: 8px;
         }
 
         #cargas tr:nth-child(even) {
@@ -50,10 +98,11 @@
             text-align: left;
             background-color: #BBBBBB;
             color: black;
-            font-size: 12px;
+            font-size: 8px;
         }
 
         #title {
+            font-family: Arial, Helvetica, sans-serif;
             text-align: center;
             font-size: 14px;
         }
@@ -64,7 +113,7 @@
 
 <body>
 
-    <h2 id="title">Detalles del vehículo</h2>
+    <h2 style="text-align: center;">Detalles del vehículo</h2>
     <table class="detail">
         <tr>
             <td class="value"><strong># Económico</strong></td>
@@ -127,19 +176,21 @@
 
     <br><br>
     @if (sizeof($cargas) > 0)
-        <h2 id="title">Cargas de combustible</h2>
-        {{-- Total --}}
-        <table class="detail">
+        <h2 id="title">Cargas de combustible
+            @if ($month)
+                de {{ getMonth($month) }}
+            @endif
+            @if ($year)
+                {{ $year }}
+            @endif
 
-            <tr>
-                <td class="value"><strong>Total importe</strong></td>
-                <td class="value">${{ $total_importe }}</td>
-            </tr>
-            <tr>
-                <td class="value"><strong>Total litros</strong></td>
-                <td class="value">{{ $total_litros }}</td>
-            </tr>
-        </table>
+        </h2>
+        {{-- Total --}}
+        <div>
+            <strong>Total de cargas: </strong> {{ sizeof($cargas) }} &nbsp;&nbsp;
+            <strong>Total de litros: </strong> {{ $total_litros }} &nbsp;&nbsp;
+            <strong>Total de importe: </strong> ${{ $total_importe }}
+        </div>
         <br>
 
         <table id="cargas">
@@ -156,7 +207,7 @@
             <tbody>
                 @foreach ($cargas as $carga)
                     <tr>
-                        <td>{{ $carga->fecha }}</td>
+                        <td>{{ formatDate($carga->fecha) }}</td>
                         <td>${{ $carga->importe }}</td>
                         <td>{{ $carga->litros }}</td>
                         <td>{{ $carga->odometro_inicial }}</td>
@@ -167,8 +218,9 @@
             </tbody>
         </table>
     @else
-        <h2 id="title">Cargas</h2>
-        <p>No hay cargas registradas</p>
+        <h3 style="text-align: center;">Cargas</h3>
+        <br>
+        <p style="text-align: center;">No hay cargas registradas</p>
     @endif
 </body>
 
