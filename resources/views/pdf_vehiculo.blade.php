@@ -175,52 +175,79 @@ function getMonth($number)
     @endif
 
     <br><br>
-    @if (sizeof($cargas) > 0)
-        <h2 id="title">Cargas de combustible
-            @if ($month)
-                de {{ getMonth($month) }}
-            @endif
-            @if ($year)
-                {{ $year }}
-            @endif
+    @if ($loadFuel)
+        @if (sizeof($cargas) > 0)
+            <h2 id="title">Cargas de combustible
+                @if ($month)
+                    de {{ getMonth($month) }}
+                @endif
+                @if ($year)
+                    {{ $year }}
+                @endif
 
-        </h2>
-        {{-- Total --}}
-        <div>
-            <strong>Total de cargas: </strong> {{ sizeof($cargas) }} &nbsp;&nbsp;
-            <strong>Total de litros: </strong> {{ $total_litros }} &nbsp;&nbsp;
-            <strong>Total de importe: </strong> ${{ $total_importe }}
-        </div>
-        <br>
+            </h2>
+            <div>
+                <strong>Total de cargas: </strong> {{ sizeof($cargas) }} &nbsp;&nbsp;
+                <strong>Total de litros: </strong> {{ $total_litros }} &nbsp;&nbsp;
+                <strong>Total de importe: </strong> ${{ $total_importe }}
+            </div>
+            <br>
 
-        <table id="cargas">
-            <thead>
-                <tr>
-                    <th>Fecha</th>
-                    <th>Importe</th>
-                    <th>Litros</th>
-                    <th>Odom Ini</th>
-                    <th>Odom Fin</th>
-                    <th>Km recorridos</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($cargas as $carga)
+            <table id="cargas">
+                <thead>
                     <tr>
-                        <td>{{ formatDate($carga->fecha) }}</td>
-                        <td>${{ $carga->importe }}</td>
-                        <td>{{ $carga->litros }}</td>
-                        <td>{{ $carga->odometro_inicial }}</td>
-                        <td>{{ $carga->odometro_final }}</td>
-                        <td>{{ $carga->kilometrosRecorridos() }}</td>
+                        <th>Fecha</th>
+                        <th>Importe</th>
+                        <th>Litros</th>
+                        <th>Odom Ini</th>
+                        <th>Odom Fin</th>
+                        <th>Km recorridos</th>
                     </tr>
-                @endforeach
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    @foreach ($cargas as $carga)
+                        <tr>
+                            <td>{{ formatDate($carga->fecha) }}</td>
+                            <td>${{ $carga->importe }}</td>
+                            <td>{{ $carga->litros }}</td>
+                            <td>{{ $carga->odometro_inicial }}</td>
+                            <td>{{ $carga->odometro_final }}</td>
+                            <td>{{ $carga->kilometrosRecorridos() }}</td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        @else
+            <h3 style="text-align: center;">Cargas</h3>
+            <br>
+            <p style="text-align: center;">No hay cargas registradas</p>
+        @endif
     @else
-        <h3 style="text-align: center;">Cargas</h3>
-        <br>
-        <p style="text-align: center;">No hay cargas registradas</p>
+        <h2 id="title">Historial</h2>
+
+        @if (count($historial) > 0)
+            <table id="cargas">
+                <thead>
+                    <tr>
+                        <th>Suceso</th>
+                        <th>Fecha</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($historial as $suceso)
+                        <tr>
+                            <td>{{ $suceso->detalle }}</td>
+                            <td>
+                                {{ $suceso->created_at->format('d-m-Y') }}
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        @else
+            <br>
+            <p style="text-align: center;">No hay historial registrado</p>
+        @endif
     @endif
 </body>
 

@@ -124,7 +124,6 @@ class VehiculoController extends Controller
         $historial = $vehiculo->historial;
 
         $cargasController = new CargaCombustibleController();
-
         $cargas = $cargasController->getHistorialCargasCombustible($vehiculo, $year, $month);
 
         return Inertia::render('Vehiculos/Show', [
@@ -227,8 +226,8 @@ class VehiculoController extends Controller
         $year = $request->input('year');
 
 
+        $historial = $vehiculo->historial;
 
-        $historial = $vehiculo->historial();
 
         $cargasController = new CargaCombustibleController();
 
