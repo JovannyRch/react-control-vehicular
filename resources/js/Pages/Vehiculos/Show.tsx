@@ -24,7 +24,7 @@ export default function Show({
     vehiculo,
     historial,
     cargas,
-    loadFuel,
+    loadFuel = false,
     month,
     year,
 }: VehiculosProps) {
@@ -50,7 +50,12 @@ export default function Show({
 
             <div className="flex justify-center">
                 <div className="y-12 max-w-[1200px]">
-                    <Detalles vehiculo={vehiculo} month={month} year={year} />
+                    <Detalles
+                        vehiculo={vehiculo}
+                        month={month}
+                        year={year}
+                        loadFuel={loadFuel}
+                    />
                     {loadFuel &&
                         (vehiculo.plantilla !== "propia" ||
                             (vehiculo.plantilla === "propia" &&

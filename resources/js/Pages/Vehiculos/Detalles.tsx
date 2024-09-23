@@ -7,6 +7,7 @@ interface DetallesProps {
     vehiculo: Vehiculo;
     month: string | null;
     year: string | null;
+    loadFuel: boolean;
 }
 
 const BackButton = () => {
@@ -33,7 +34,7 @@ const Field = ({ label, value }: { label: string; value: string }) => {
     );
 };
 
-const Detalles = ({ vehiculo, month, year }: DetallesProps) => {
+const Detalles = ({ vehiculo, month, year, loadFuel }: DetallesProps) => {
     return (
         <div className="mx-8 bg-white shadow-sm sm:rounded-lg sm:px-6 lg:px-8">
             <div className="flex justify-between pt-4 mt-4">
@@ -51,6 +52,7 @@ const Detalles = ({ vehiculo, month, year }: DetallesProps) => {
                                 route("vehiculo.pdf", {
                                     vehiculo: vehiculo.id,
                                     ...(month && year && { month, year }),
+                                    ...(loadFuel && { loadFuel: true }),
                                 }),
                                 "_blank"
                             )
