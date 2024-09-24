@@ -40,19 +40,6 @@ function getMonth($number)
     return $months[$number];
 }
 
-function getRendimiento($carga)
-{
-    if ($carga->odometro_inicial === null || $carga->odometro_final === null || $carga->odometro_inicial === 'NF' || $carga->odometro_final === 'NF') {
-        return '';
-    }
-
-    $rendimiento = 0;
-    if ($carga->kilometrosRecorridos() > 0) {
-        $rendimiento = $carga->litros / $carga->kilometrosRecorridos();
-    }
-    return number_format($rendimiento, 2) . ' km/l';
-}
-
 function formatCurrency($number)
 {
     return number_format($number, 2);
@@ -232,7 +219,7 @@ function formatCurrency($number)
                             <td>{{ $carga->odometro_inicial }}</td>
                             <td>{{ $carga->odometro_final }}</td>
                             <td>{{ $carga->kilometrosRecorridos() }}</td>
-                            <td>{{ getRendimiento($carga) }}</td>
+                            <td>{{ $carga->getRendimiento() }}</td>
                         </tr>
                     @endforeach
                 </tbody>

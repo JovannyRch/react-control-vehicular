@@ -31,4 +31,13 @@ class CargaCombustible extends Model
 
         return '';
     }
+
+    public function getRendimiento()
+    {
+        if (is_numeric($this->litros) && is_numeric($this->kilometrosRecorridos()) && $this->litros > 0) {
+            return number_format(($this->kilometrosRecorridos() / $this->litros), 2) . ' km/l';
+        }
+
+        return '';
+    }
 }
