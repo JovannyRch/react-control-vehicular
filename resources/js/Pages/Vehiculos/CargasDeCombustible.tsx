@@ -24,14 +24,36 @@ interface CargasProps {
 
 const getKm = (carga: CargaCombustible) => {
     if (carga.odometro_final === null || isNaN(carga.odometro_final)) {
-        return "NF";
+        return "-";
     }
 
     if (carga.odometro_inicial === null || isNaN(carga.odometro_inicial)) {
-        return "NF";
+        return "-";
     }
 
     return `${Number(carga.odometro_final - carga.odometro_inicial)} km`;
+};
+
+const getRendimiento = (carga: CargaCombustible) => {
+    if (carga.odometro_final === null || isNaN(carga.odometro_final)) {
+        return "";
+    }
+
+    if (carga.odometro_inicial === null || isNaN(carga.odometro_inicial)) {
+        return "";
+    }
+
+    if (carga.litros === null || isNaN(carga.litros)) {
+        return "";
+    }
+
+    if (carga.litros === 0) {
+        return "";
+    }
+
+    return `${(
+        Number(carga.odometro_final - carga.odometro_inicial) / carga.litros
+    ).toFixed(2)} km/l`;
 };
 
 const safeReduceSum = (a: number, b: string | number) => {
@@ -197,6 +219,12 @@ const CargasDeCombustible = ({
                                         >
                                             Kilómetros
                                         </th>
+                                        <th
+                                            scope="col"
+                                            className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase"
+                                        >
+                                            Rendimiento
+                                        </th>
                                     </tr>
                                 </thead>
                                 <tbody className="bg-white divide-y divide-gray-200">
@@ -233,9 +261,11 @@ const CargasDeCombustible = ({
                                             <td className="px-6 py-4 text-sm text-gray-900 whitespace-nowrap">
                                                 {getKm(carga)}
                                             </td>
+                                            <td className="px-6 py-4 text-sm text-gray-900 whitespace-nowrap">
+                                                {getRendimiento(carga)}
+                                            </td>
                                         </tr>
                                     ))}
-                                    {/* Totales */}
                                     <tr className="bg-gray-100">
                                         <td className="px-6 py-4 text-sm text-gray-900 whitespace-nowrap">
                                             <b>Total</b>
@@ -262,6 +292,7 @@ const CargasDeCombustible = ({
                                                 {formatNumber(totales.km, "km")}
                                             </b>
                                         </td>
+                                        <td></td>
                                     </tr>
                                 </tbody>
                             </table>

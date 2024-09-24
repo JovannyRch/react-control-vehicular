@@ -29,6 +29,6 @@ class CargaCombustible extends Model
         }
 
 
-        return 'NF';
+        return '';
     }
 }

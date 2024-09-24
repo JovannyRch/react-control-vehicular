@@ -40,6 +40,24 @@ function getMonth($number)
     return $months[$number];
 }
 
+function getRendimiento($carga)
+{
+    if ($carga->odometro_inicial === null || $carga->odometro_final === null || $carga->odometro_inicial === 'NF' || $carga->odometro_final === 'NF') {
+        return '';
+    }
+
+    $rendimiento = 0;
+    if ($carga->kilometrosRecorridos() > 0) {
+        $rendimiento = $carga->litros / $carga->kilometrosRecorridos();
+    }
+    return number_format($rendimiento, 2) . ' km/l';
+}
+
+function formatCurrency($number)
+{
+    return number_format($number, 2);
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -60,10 +78,10 @@ function getMonth($number)
             font-size: 10px;
         }
 
-        .detail {
+        .details {
             border-collapse: collapse;
             width: 100%;
-            font-size: 12px;
+            font-size: 10px;
         }
 
         .value {
@@ -114,7 +132,7 @@ function getMonth($number)
 <body>
 
     <h2 style="text-align: center;">Detalles del vehículo</h2>
-    <table class="detail">
+    <table class="details">
         <tr>
             <td class="value"><strong># Económico</strong></td>
             <td class="value">{{ $vehiculo->numero_economico }}</td>
@@ -188,8 +206,8 @@ function getMonth($number)
             </h2>
             <div>
                 <strong>Total de cargas: </strong> {{ sizeof($cargas) }} &nbsp;&nbsp;
-                <strong>Total de litros: </strong> {{ $total_litros }} &nbsp;&nbsp;
-                <strong>Total de importe: </strong> ${{ $total_importe }}
+                <strong>Total de litros: </strong> {{ number_format($total_litros) }} &nbsp;&nbsp;
+                <strong>Total de importe: </strong> ${{ formatCurrency($total_importe) }}
             </div>
             <br>
 
@@ -202,6 +220,7 @@ function getMonth($number)
                         <th>Odom Ini</th>
                         <th>Odom Fin</th>
                         <th>Km recorridos</th>
+                        <th>Rendimiento</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -213,6 +232,7 @@ function getMonth($number)
                             <td>{{ $carga->odometro_inicial }}</td>
                             <td>{{ $carga->odometro_final }}</td>
                             <td>{{ $carga->kilometrosRecorridos() }}</td>
+                            <td>{{ getRendimiento($carga) }}</td>
                         </tr>
                     @endforeach
                 </tbody>
