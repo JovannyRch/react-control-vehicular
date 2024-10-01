@@ -6,22 +6,7 @@ import InputLabel from "@/Components/InputLabel";
 import TextInput from "@/Components/TextInput";
 import InputError from "@/Components/InputError";
 import PrimaryButton from "@/Components/PrimaryButton";
-
-interface Vehiculo {
-    id: string;
-    numero_economico: string;
-    marca: string;
-    tipo: string;
-    modelo: string;
-    placa: string;
-    plantilla: string;
-    estado: string;
-    no_serie: string;
-    no_motor: string;
-    area_asignacion: string;
-    resguardante: string;
-    detalle: string;
-}
+import { Vehiculo } from "@/types/Vehiculo";
 
 interface VehiculosProps extends PageProps {
     vehiculos: Vehiculo[];
@@ -92,6 +77,7 @@ export default function Create({
         detalle: mode === "edit" ? vehiculo.detalle : "",
         plantilla: mode === "edit" ? vehiculo.plantilla : plantilla,
         estado: mode === "edit" ? vehiculo.estado : "vigente",
+        civ: mode === "edit" ? vehiculo.civ : "",
     });
 
     const submit: FormEventHandler = (e) => {
@@ -184,6 +170,25 @@ export default function Create({
                                         </select>
                                     </div>
                                 )}
+
+                                <div className="mt-4">
+                                    <InputLabel htmlFor="civ" value="CIV" />
+                                    <TextInput
+                                        id="civ"
+                                        type="text"
+                                        name="civ"
+                                        value={data.civ ?? ""}
+                                        className="block w-full mt-1"
+                                        autoComplete="civ"
+                                        onChange={(e) =>
+                                            setData("civ", e.target.value)
+                                        }
+                                    />
+                                    <InputError
+                                        message={errors.civ}
+                                        className="mt-2"
+                                    />
+                                </div>
 
                                 <div className="mt-4">
                                     <InputLabel
@@ -413,7 +418,7 @@ export default function Create({
                                         {
                                             {
                                                 create: "Crear",
-                                                edit: "Editar",
+                                                edit: "Guardar cambios",
                                             }[mode]
                                         }
                                     </PrimaryButton>

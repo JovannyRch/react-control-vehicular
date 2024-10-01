@@ -18,6 +18,7 @@ class CargaCombustible extends Model
         'vehiculo_id',
         'odometro_inicial',
         'odometro_final',
+        'folio',
     ];
 
     //combustile recorrido

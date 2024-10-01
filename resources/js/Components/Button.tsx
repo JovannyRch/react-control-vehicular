@@ -49,7 +49,7 @@ const Button = ({
         <button
             onClick={onClick}
             type={type}
-            className={`${classNameButton} ${className}`}
+            className={`flex gap-1  items-center ${classNameButton} ${className}`}
             disabled={disabled}
             {...rest}
         >

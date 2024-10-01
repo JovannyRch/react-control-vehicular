@@ -68,6 +68,7 @@ const Detalles = ({ vehiculo, month, year, loadFuel }: DetallesProps) => {
             <div className="w-full px-6 py-4 mt-6 overflow-hidden sm:rounded-lg">
                 <div className="grid grid-cols-3 gap-4">
                     <Field label="ID" value={vehiculo.id} />
+                    <Field label="CIV" value={vehiculo.civ ?? ""} />
                     <Field
                         label="Número Económico"
                         value={vehiculo.numero_economico}

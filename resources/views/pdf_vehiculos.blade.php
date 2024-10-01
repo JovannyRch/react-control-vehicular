@@ -73,6 +73,7 @@
     <table id="vehicles">
         <thead>
             <tr>
+                <th>CIV</th>
                 <th># Económico</th>
                 <th>Marca</th>
                 <th>Tipo</th>
@@ -86,6 +87,7 @@
         <tbody>
             @foreach ($vehiculos as $vehiculo)
                 <tr>
+                    <td>{{ $vehiculo->civ }}</td>
                     <td>{{ $vehiculo->numero_economico }}</td>
                     <td>{{ $vehiculo->marca }}</td>
                     <td>{{ $vehiculo->tipo }}</td>

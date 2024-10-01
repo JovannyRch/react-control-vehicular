@@ -12,4 +12,5 @@ export interface Vehiculo {
     area_asignacion: string;
     resguardante: string;
     detalle: string;
+    civ: string | null;
 }

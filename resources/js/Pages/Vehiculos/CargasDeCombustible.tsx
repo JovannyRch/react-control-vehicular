@@ -14,6 +14,8 @@ import {
 } from "@/utils";
 import { router, useForm } from "@inertiajs/react";
 import { useEffect, useMemo, useState } from "react";
+import { GrAdd } from "react-icons/gr";
+import { PiSeal } from "react-icons/pi";
 
 interface CargasProps {
     cargas: CargaCombustible[];
@@ -79,6 +81,7 @@ const CargasDeCombustible = ({
         vehiculo_id: vehiculo.id,
         odometro_final: "",
         odometro_inicial: "",
+        folio: "",
     });
 
     const handleGetReport = ({
@@ -149,6 +152,22 @@ const CargasDeCombustible = ({
             </label>
             <div className="flex justify-end">
                 <div className="flex items-center gap-1">
+                    <div>
+                        <Button
+                            style="green"
+                            onClick={() =>
+                                window.open(
+                                    route("vehiculo.pega_ticket", {
+                                        vehiculo: vehiculo.id,
+                                    }),
+                                    "_blank"
+                                )
+                            }
+                        >
+                            Pega ticket
+                            <PiSeal />
+                        </Button>
+                    </div>
                     <ReportSelector fetchData={handleGetReport} />
                     <div>
                         <Button
@@ -156,6 +175,7 @@ const CargasDeCombustible = ({
                             onClick={() => setIsModalOpen(true)}
                         >
                             Agregar carga
+                            <GrAdd />
                         </Button>
                     </div>
                 </div>
@@ -183,6 +203,12 @@ const CargasDeCombustible = ({
                             <table className="min-w-full divide-y divide-gray-200">
                                 <thead className="bg-gray-50">
                                     <tr>
+                                        <th
+                                            scope="col"
+                                            className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase"
+                                        >
+                                            Folio
+                                        </th>
                                         <th
                                             scope="col"
                                             className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase"
@@ -231,6 +257,9 @@ const CargasDeCombustible = ({
                                     {cargas.map((carga) => (
                                         <tr key={carga.id}>
                                             <td className="px-6 py-4 text-sm text-gray-900 whitespace-nowrap">
+                                                {carga.folio || "-"}
+                                            </td>
+                                            <td className="px-6 py-4 text-sm text-gray-900 whitespace-nowrap">
                                                 {formatOnlyDateValue(
                                                     carga.fecha
                                                 )}
@@ -270,6 +299,8 @@ const CargasDeCombustible = ({
                                         <td className="px-6 py-4 text-sm text-gray-900 whitespace-nowrap">
                                             <b>Total</b>
                                         </td>
+                                        <td></td>
+
                                         <td className="px-6 py-4 text-sm text-gray-900 whitespace-nowrap">
                                             <b>
                                                 {formatCurrency(
@@ -321,7 +352,8 @@ const CargasDeCombustible = ({
                                         "importe",
                                         "fecha",
                                         "odometro_final",
-                                        "odometro_inicial"
+                                        "odometro_inicial",
+                                        "folio"
                                     );
                                     setIsModalOpen(false);
                                 },
@@ -334,6 +366,7 @@ const CargasDeCombustible = ({
                                 <TextInput
                                     id="litros"
                                     type="number"
+                                    min={0}
                                     name="litros"
                                     value={form.data.litros}
                                     className="block w-full mt-1"
@@ -353,6 +386,7 @@ const CargasDeCombustible = ({
                                     id="importe"
                                     type="number"
                                     name="importe"
+                                    min={0}
                                     value={form.data.importe}
                                     className="block w-full mt-1"
                                     onChange={(e) =>
@@ -427,6 +461,23 @@ const CargasDeCombustible = ({
                                 />
                                 <InputError
                                     message={form.errors.odometro_final}
+                                    className="mt-2"
+                                />
+                            </div>
+                            <div>
+                                <InputLabel htmlFor="folio" value="Folio" />
+                                <TextInput
+                                    id="folio"
+                                    type="text"
+                                    name="folio"
+                                    value={form.data.folio}
+                                    className="block w-full mt-1"
+                                    onChange={(e) =>
+                                        form.setData("folio", e.target.value)
+                                    }
+                                />
+                                <InputError
+                                    message={form.errors.folio}
                                     className="mt-2"
                                 />
                             </div>

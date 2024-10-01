@@ -34,6 +34,7 @@ class CargaCombustibleController extends Controller
             'importe' => 'required | numeric',
             'litros' => 'required | numeric',
             'vehiculo_id' => 'required',
+            'folio' => 'required'
         ]);
 
 
@@ -84,6 +85,7 @@ class CargaCombustibleController extends Controller
             return $vehiculo->cargasCombustible()
                 ->whereYear('fecha', $year)
                 ->whereMonth('fecha', $month)
+                ->orderBy('fecha', 'desc')
                 ->get();
         }
 

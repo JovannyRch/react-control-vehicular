@@ -5,7 +5,9 @@ import { useMemo } from "react";
 import { Vehiculo } from "@/types/Vehiculo";
 import Button from "@/Components/Button";
 import { BsFillFuelPumpDieselFill } from "react-icons/bs";
-import { AiFillEye } from "react-icons/ai";
+import { AiFillEye, AiOutlineDownload } from "react-icons/ai";
+import { MdEditNote } from "react-icons/md";
+import { BiPlus, BiSearch } from "react-icons/bi";
 
 interface VehiculosProps extends PageProps {
     vehiculos: Vehiculo[];
@@ -41,6 +43,10 @@ export default function Vehiculos({
 
     const tableHeaders = useMemo(() => {
         return [
+            {
+                label: "CIV",
+                key: "civ",
+            },
             {
                 label: "Número económico",
                 key: "name",
@@ -222,6 +228,7 @@ export default function Vehiculos({
                                         className="absolute end-2.5 bottom-0"
                                     >
                                         Buscar
+                                        <BiSearch />
                                     </Button>
                                 </div>
                             </form>
@@ -239,6 +246,7 @@ export default function Vehiculos({
                                         style="alternative"
                                     >
                                         Agregar vehículo
+                                        <BiPlus />
                                     </Button>
 
                                     <Button
@@ -258,6 +266,7 @@ export default function Vehiculos({
                                         style="alternative"
                                     >
                                         Generar PDF
+                                        <AiOutlineDownload />
                                     </Button>
                                 </div>
                             )}
@@ -285,6 +294,9 @@ export default function Vehiculos({
                                                 className="border-b border-gray-200 hover:bg-gray-100"
                                             >
                                                 <td className="px-6 py-4">
+                                                    {vehiculo.civ ?? "-"}
+                                                </td>
+                                                <td className="px-6 py-4">
                                                     {vehiculo.numero_economico}
                                                 </td>
                                                 <td className="px-6 py-4">
@@ -306,6 +318,7 @@ export default function Vehiculos({
                                                 <td className="px-6 py-4">
                                                     <div className="flex items-center space-x-2">
                                                         <Button
+                                                            style="alternative"
                                                             onClick={() =>
                                                                 router.visit(
                                                                     route(
@@ -351,7 +364,7 @@ export default function Vehiculos({
                                                                     )
                                                                 }
                                                             >
-                                                                Editar
+                                                                <MdEditNote />
                                                             </Button>
                                                         )}
                                                     </div>

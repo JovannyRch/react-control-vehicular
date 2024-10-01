@@ -21,7 +21,8 @@ class Vehiculo extends Model
         'resguardante',
         'plantilla',
         'estado',
-        'detalle'
+        'detalle',
+        'civ'
     ];
 
     public function historial()
@@ -32,6 +33,10 @@ class Vehiculo extends Model
 
     public function cargasCombustible()
     {
-        return $this->hasMany(CargaCombustible::class);
+        $cargas = $this->hasMany(CargaCombustible::class);
+
+        $cargas->orderBy('fecha', 'asc');
+
+        return $cargas;
     }
 }

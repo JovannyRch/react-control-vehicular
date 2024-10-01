@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import Button from "./Button";
+import { BiSearch } from "react-icons/bi";
 
 interface ReportSelectorProps {
     fetchData: ({ month, year }: { month: string; year: string }) => void;
@@ -42,6 +43,7 @@ const ReportSelector = ({ fetchData }: ReportSelectorProps) => {
         return (
             <Button style="green" onClick={() => setIsOpen(true)}>
                 Buscar
+                <BiSearch />
             </Button>
         );
     }

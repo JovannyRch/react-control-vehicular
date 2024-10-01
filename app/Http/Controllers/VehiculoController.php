@@ -103,6 +103,7 @@ class VehiculoController extends Controller
             'resguardante' => 'required',
             'plantilla' => 'required',
             'estado' => 'required',
+
         ]);
 
         Vehiculo::create($request->all());
@@ -164,8 +165,8 @@ class VehiculoController extends Controller
             'area_asignacion' => 'required',
             'resguardante' => 'required',
             'plantilla' => 'required',
-            'estado' => 'required',
-            'detalle' => 'required'
+            'estado' => 'required'
+
         ]);
 
         $vehiculo->update($request->all());
@@ -255,5 +256,17 @@ class VehiculoController extends Controller
 
 
         return $pdf->stream('pdf_vehiculo');
+    }
+
+    public function pegaTicket(Request $request, Vehiculo $vehiculo)
+    {
+        $pdf = PDF::loadView('pdf_pega_ticket', [
+            'vehiculo' => $vehiculo,
+        ]);
+
+
+
+
+        return $pdf->stream('pega_ticket');
     }
 }

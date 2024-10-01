@@ -157,6 +157,13 @@ function formatCurrency($number)
             <td class="value"><strong>Plantilla</strong></td>
             <td class="value">{{ $vehiculo->plantilla }}</td>
         </tr>
+        <tr>
+            <td class="value"><strong>CIV</strong></td>
+            <td class="value">{{ $vehiculo->civ }}</td>
+
+            <td></td>
+            <td></td>
+        </tr>
 
         @if ($vehiculo->plantilla === 'propia')
             <tr>

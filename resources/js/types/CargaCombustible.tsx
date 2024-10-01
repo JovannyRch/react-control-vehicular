@@ -8,4 +8,5 @@ export interface CargaCombustible {
     updated_at: string;
     odometro_inicial: number | null;
     odometro_final: number | null;
+    folio: string | null;
 }
