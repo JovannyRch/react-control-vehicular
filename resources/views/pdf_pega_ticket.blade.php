@@ -64,6 +64,7 @@
             border: 1px solid #aaa;
             text-align: left;
             /* space between lines of text */
+            min-width: calc(100%/3);
             line-height: 1.8;
         }
     </style>
@@ -73,69 +74,67 @@
 
 <body>
 
-    <table>
-        <thead>
-            <th>CIV</th>
-            <th>PLACA</th>
-            <th>SERIE</th>
-            <th>MARCA</th>
-            <th>TIPO</th>
-            <th>MODELO</th>
-        </thead>
-        <tbody>
-            <tr>
-                <td>
-                    {{ $vehiculo->civ }}
-                </td>
-                <td>
-                    {{ $vehiculo->placa }}
-                </td>
-                <td>
-                    {{ $vehiculo->no_serie }}
-                </td>
-                <td>
-                    {{ $vehiculo->marca }}
-                </td>
-                <td>
-                    {{ $vehiculo->tipo }}
-                </td>
-                <td>
-                    {{ $vehiculo->modelo }}
-                </td>
-            </tr>
+    @for ($i = 0; $i < $total_pages; $i++)
+        <table>
+            <thead>
+                <th>CIV</th>
+                <th>PLACA</th>
+                <th>SERIE</th>
+                <th>MARCA</th>
+                <th>TIPO</th>
+                <th>MODELO</th>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        {{ $vehiculo->civ }}
+                    </td>
+                    <td>
+                        {{ $vehiculo->placa }}
+                    </td>
+                    <td>
+                        {{ $vehiculo->no_serie }}
+                    </td>
+                    <td>
+                        {{ $vehiculo->marca }}
+                    </td>
+                    <td>
+                        {{ $vehiculo->tipo }}
+                    </td>
+                    <td>
+                        {{ $vehiculo->modelo }}
+                    </td>
+                </tr>
 
-        </tbody>
-    </table>
-    <div class="spacer"></div>
-    <table class="boxes">
-        <thead>
-            <th></th>
-            <th></th>
-            <th></th>
-        </thead>
-        <tbody>
-            <tr>
-                <td>
-                    <div><strong>DÍA:</strong></div>
-                    <div><strong>FOLIO:</strong></div>
-                    <div><strong>ODÓMETRO:</strong></div>
-                    <div><strong>CONSUMO: $</strong></div>
-                </td>
-                <td>
-                    <div><strong>DÍA:</strong></div>
-                    <div><strong>FOLIO:</strong></div>
-                    <div><strong>ODÓMETRO:</strong></div>
-                    <div><strong>CONSUMO: $</strong></div>
-                </td>
-                <td>
-                    <div><strong>DÍA:</strong></div>
-                    <div><strong>FOLIO:</strong></div>
-                    <div><strong>ODÓMETRO:</strong></div>
-                    <div><strong>CONSUMO: $</strong></div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+            </tbody>
+        </table>
+        <div class="spacer"></div>
+        <table class="boxes">
+            <thead>
+                @foreach ($cargas_per_page[$i] as $carga)
+                    <th>
+
+                    </th>
+                @endforeach
+            </thead>
+            <tbody>
+                <tr>
+                    @foreach ($cargas_per_page[$i] as $carga)
+                        <td>
+                            <div><strong>DÍA:</strong> {{ $carga->formattedDate() }}</div>
+                            <div><strong>FOLIO:</strong> {{ $carga->folio }}</div>
+                            <div><strong>ODÓMETRO:</strong>
+                                {{ $carga->odometro_inicial }}
+                            </div>
+                            <div><strong>CONSUMO: </strong> ${{ $carga->importe }}</div>
+                        </td>
+                    @endforeach
+
+
+                </tr>
+            </tbody>
+        </table>
+    @endfor
 </body>
 
 </html>

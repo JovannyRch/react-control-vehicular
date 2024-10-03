@@ -152,22 +152,26 @@ const CargasDeCombustible = ({
             </label>
             <div className="flex justify-end">
                 <div className="flex items-center gap-1">
-                    <div>
-                        <Button
-                            style="green"
-                            onClick={() =>
-                                window.open(
-                                    route("vehiculo.pega_ticket", {
-                                        vehiculo: vehiculo.id,
-                                    }),
-                                    "_blank"
-                                )
-                            }
-                        >
-                            Pega ticket
-                            <PiSeal />
-                        </Button>
-                    </div>
+                    {month && year && cargas.length > 0 && (
+                        <div>
+                            <Button
+                                style="green"
+                                onClick={() =>
+                                    window.open(
+                                        route("vehiculo.pega_ticket", {
+                                            vehiculo: vehiculo.id,
+                                            month,
+                                            year,
+                                        }),
+                                        "_blank"
+                                    )
+                                }
+                            >
+                                Pega ticket
+                                <PiSeal />
+                            </Button>
+                        </div>
+                    )}
                     <ReportSelector fetchData={handleGetReport} />
                     <div>
                         <Button

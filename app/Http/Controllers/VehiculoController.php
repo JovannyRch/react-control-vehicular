@@ -231,7 +231,6 @@ class VehiculoController extends Controller
 
 
         $cargasController = new CargaCombustibleController();
-
         $cargas = $cargasController->getHistorialCargasCombustible($vehiculo, $year, $month);
 
 
@@ -258,10 +257,27 @@ class VehiculoController extends Controller
         return $pdf->stream('pdf_vehiculo');
     }
 
+    private function chunkCargas($cargas)
+    {
+        return $cargas->chunk(3);
+    }
+
     public function pegaTicket(Request $request, Vehiculo $vehiculo)
     {
+
+        $year = $request->input('year');
+        $month = $request->input('month');
+
+        $cargasController = new CargaCombustibleController();
+        $cargas = $cargasController->getHistorialCargasCombustible($vehiculo, $year, $month);
+
+        $total_pages = ceil($cargas->count() / 3);
+        $cargas_per_page = $cargas->chunk(3);
+
         $pdf = PDF::loadView('pdf_pega_ticket', [
             'vehiculo' => $vehiculo,
+            'total_pages' => $total_pages,
+            'cargas_per_page' => $cargas_per_page
         ]);
 
 
