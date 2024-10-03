@@ -369,7 +369,6 @@ const CargasDeCombustible = ({
                                 <InputLabel htmlFor="litros" value="Litros" />
                                 <TextInput
                                     id="litros"
-                                    type="number"
                                     min={0}
                                     name="litros"
                                     value={form.data.litros}
@@ -388,7 +387,6 @@ const CargasDeCombustible = ({
                                 <InputLabel htmlFor="importe" value="Importe" />
                                 <TextInput
                                     id="importe"
-                                    type="number"
                                     name="importe"
                                     min={0}
                                     value={form.data.importe}
