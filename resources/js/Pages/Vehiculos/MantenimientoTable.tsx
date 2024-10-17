@@ -20,8 +20,8 @@ import { FiPlus } from "react-icons/fi";
 interface MantenimientoTableProps {
     registros: Mantenimiento[];
     vehiculo: Vehiculo;
-    month: string;
-    year: string;
+    month: string | null;
+    year: string | null;
 }
 
 const MantenimientoTable = ({
