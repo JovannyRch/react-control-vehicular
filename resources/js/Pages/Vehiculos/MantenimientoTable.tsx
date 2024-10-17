@@ -2,6 +2,7 @@ import Button from "@/Components/Button";
 import InputError from "@/Components/InputError";
 import InputLabel from "@/Components/InputLabel";
 import Modal from "@/Components/Modal";
+import ReportSelector from "@/Components/ReportSelector";
 import TextInput from "@/Components/TextInput";
 import { Mantenimiento, mantenimientoStatus } from "@/types/Mantenimiento";
 import { Vehiculo } from "@/types/Vehiculo";
@@ -10,19 +11,24 @@ import {
     formatDate,
     formatOnlyDateValue,
     generateDate,
+    getMonthName,
 } from "@/utils";
-import { useForm } from "@inertiajs/react";
-import React, { useEffect, useState } from "react";
+import { router, useForm } from "@inertiajs/react";
+import React, { useState } from "react";
 import { FiPlus } from "react-icons/fi";
 
 interface MantenimientoTableProps {
     registros: Mantenimiento[];
     vehiculo: Vehiculo;
+    month: string;
+    year: string;
 }
 
 const MantenimientoTable = ({
     vehiculo,
     registros = [],
+    month,
+    year,
 }: MantenimientoTableProps) => {
     const [openModal, setOpenModal] = useState(false);
     const [isEditMode, setIsEditMode] = useState(false);
@@ -82,9 +88,17 @@ const MantenimientoTable = ({
         setOpenModal(true);
     };
 
-    useEffect(() => {
-        console.log("data", data);
-    }, [data]);
+    const handleGetReport = ({
+        month,
+        year,
+    }: {
+        month: string;
+        year: string;
+    }) => {
+        router.visit(
+            `/vehiculos/${vehiculo.id}?maintenance=true&month=${month}&year=${year}`
+        );
+    };
 
     return (
         <div className="p-4 mt-6 bg-white shadow-sm sm:rounded-lg sm:mx-8">
@@ -92,14 +106,27 @@ const MantenimientoTable = ({
                 htmlFor="historial"
                 className="block mb-3 text-xl font-medium text-gray-700"
             >
-                <b>Mantenimientos</b>
+                <b>
+                    Mantenimientos
+                    {month && year && (
+                        <span>
+                            {" "}
+                            - {getMonthName(Number(month))} / {year}
+                        </span>
+                    )}
+                </b>
             </label>
 
-            <div className="flex justify-end">
-                <Button style="green" onClick={() => setOpenModal(true)}>
-                    <FiPlus className="w-6 h-6" />
-                    Agregar mantenimiento
-                </Button>
+            <div className="flex items-center justify-end gap-4">
+                <div>
+                    <ReportSelector fetchData={handleGetReport} />
+                </div>
+                <div>
+                    <Button style="green" onClick={() => setOpenModal(true)}>
+                        <FiPlus className="w-6 h-6" />
+                        Agregar mantenimiento
+                    </Button>
+                </div>
             </div>
 
             <div className="grid grid-cols-12 gap-6 p-8">

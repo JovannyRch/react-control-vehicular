@@ -79,6 +79,8 @@ export default function Show({
                         <MantenimientoTable
                             vehiculo={vehiculo}
                             registros={mantenimientos}
+                            month={month}
+                            year={year}
                         />
                     )}
                     {!loadFuel && !maintenance && (

@@ -128,6 +128,13 @@ class VehiculoController extends Controller
         $historial = $vehiculo->historial;
         $mantenimientos = $vehiculo->mantenimientos;
 
+        if ($month && $year) {
+            $mantenimientos = $vehiculo->mantenimientos()->whereYear('fecha_elaboracion', $year)
+                ->whereMonth('fecha_elaboracion', $month)
+                ->orderBy('fecha_elaboracion', 'desc')
+                ->get();
+        }
+
         $cargasController = new CargaCombustibleController();
         $cargas = $cargasController->getHistorialCargasCombustible($vehiculo, $year, $month);
 
@@ -236,6 +243,13 @@ class VehiculoController extends Controller
 
         $historial = $vehiculo->historial;
         $mantenimientos = $vehiculo->mantenimientos;
+
+        if ($month && $year) {
+            $mantenimientos = $vehiculo->mantenimientos()->whereYear('fecha_elaboracion', $year)
+                ->whereMonth('fecha_elaboracion', $month)
+                ->orderBy('fecha_elaboracion', 'desc')
+                ->get();
+        }
 
 
         $cargasController = new CargaCombustibleController();
