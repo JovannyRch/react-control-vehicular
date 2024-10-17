@@ -464,7 +464,7 @@ const MantenimientoTable = ({
                                 />
                                 <TextInput
                                     id="folio_fiscal"
-                                    type="number"
+                                    type="text"
                                     name="folio_fiscal"
                                     value={data.folio_fiscal ?? ""}
                                     className="block w-full mt-1"
