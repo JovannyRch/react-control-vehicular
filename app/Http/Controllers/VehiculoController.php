@@ -35,6 +35,7 @@ class VehiculoController extends Controller
         $plantilla = $request->input('plantilla');
         $search = $request->input('search');
         $loadFuel = $request->input('loadFuel');
+        $maintenance = $request->input('maintenance');
 
         $vehiculos = [];
 
@@ -68,7 +69,8 @@ class VehiculoController extends Controller
             'plantilla' => $plantilla,
             'estado' => $estado ?? null,
             'search' => $search ?? '',
-            'loadFuel' => $loadFuel ?? false
+            'loadFuel' => $loadFuel ?? false,
+            'maintenance' => $maintenance ?? false
         ]);
     }
 
@@ -119,10 +121,12 @@ class VehiculoController extends Controller
         $loadFuel = $request->input('loadFuel');
         $month = $request->input('month');
         $year = $request->input('year');
+        $maintenance = $request->input('maintenance');
 
 
 
         $historial = $vehiculo->historial;
+        $mantenimientos = $vehiculo->mantenimientos;
 
         $cargasController = new CargaCombustibleController();
         $cargas = $cargasController->getHistorialCargasCombustible($vehiculo, $year, $month);
@@ -133,7 +137,9 @@ class VehiculoController extends Controller
             'cargas' => $cargas,
             'loadFuel' => $loadFuel ?? false,
             'month' => $month ?? '',
-            'year' => $year ?? ''
+            'year' => $year ?? '',
+            'maintenance' => $maintenance ?? false,
+            'mantenimientos' => $mantenimientos
         ]);
     }
 
@@ -225,9 +231,11 @@ class VehiculoController extends Controller
         $loadFuel = $request->input('loadFuel');
         $month = $request->input('month');
         $year = $request->input('year');
+        $maintenance = $request->input('maintenance');
 
 
         $historial = $vehiculo->historial;
+        $mantenimientos = $vehiculo->mantenimientos;
 
 
         $cargasController = new CargaCombustibleController();
@@ -245,10 +253,12 @@ class VehiculoController extends Controller
             'historial' => $historial,
             'cargas' => $cargas,
             'loadFuel' => $loadFuel ?? false,
+            'maintenance' => $maintenance ?? false,
             'month' => $month ?? '',
             'year' => $year ?? '',
             'total_importe' => $total_importe,
-            'total_litros' => $total_litros
+            'total_litros' => $total_litros,
+            'mantenimientos' => $mantenimientos
         ])->setPaper('a4', 'landscape');
 
 

@@ -236,6 +236,71 @@ function formatCurrency($number)
             <br>
             <p style="text-align: center;">No hay cargas registradas</p>
         @endif
+    @elseif ($maintenance)
+        @if (sizeof($mantenimientos) > 0)
+            <h2 id="title">Mantenimientos
+                @if ($month)
+                    de {{ getMonth($month) }}
+                @endif
+                @if ($year)
+                    {{ $year }}
+                @endif
+            </h2>
+            <div>
+                <strong>Total de mantenimientos: </strong> {{ sizeof($mantenimientos) }}
+            </div>
+            <br>
+            <table id="cargas">
+                <thead>
+                    <tr>
+                        <th>Fecha elaboración/th>
+                        <th>Folio</th>
+                        <th>Fecha ingreso</th>
+                        <th>Fecha salida</th>
+                        <th>Taller asignación</th>
+                        <th>Servicio solicitado</th>
+                        <th>Servicio realizado</th>
+                        <th>Importe</th>
+                        <th>Folio fiscal</th>
+                        <th>Folio afectación</th>
+                        <th>Estado</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($mantenimientos as $mantenimiento)
+                        <tr>
+                            <td>{{ $mantenimiento->folio }}</td>
+                            <td>{{ formatDate($mantenimiento->fecha_elaboracion) }}</td>
+                            <td>{{ formatDate($mantenimiento->fecha_ingreso) }}</td>
+                            <td>{{ formatDate($mantenimiento->fecha_salida) }}</td>
+                            <td>{{ $mantenimiento->taller_asignacion }}</td>
+                            <td>{{ $mantenimiento->servicio_solicitado }}</td>
+                            <td>{{ $mantenimiento->servicio_realizado }}</td>
+                            <td>${{ formatCurrency($mantenimiento->importe) }}</td>
+                            <td>
+                                @if ($mantenimiento->folio_fiscal)
+                                    {{ $mantenimiento->folio_fiscal }}
+                                @else
+                                    Sin folio fiscal
+                                @endif
+                            </td>
+                            <td>
+                                @if ($mantenimiento->folio_afectacion)
+                                    {{ $mantenimiento->folio_afectacion }}
+                                @else
+                                    Sin folio afectación
+                                @endif
+                            </td>
+                            <td>{{ $mantenimiento->estado }}</td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        @else
+            <h3 style="text-align: center;">Mantenimientos</h3>
+            <br>
+            <p style="text-align: center;">No hay mantenimientos registrados</p>
+        @endif
     @else
         <h2 id="title">Historial</h2>
 

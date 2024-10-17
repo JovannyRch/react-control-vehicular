@@ -30,6 +30,15 @@ class Vehiculo extends Model
         return $this->hasMany(Historial::class);
     }
 
+    public function mantenimientos()
+    {
+        $mantenimientos =  $this->hasMany(Mantenimiento::class);
+
+        $mantenimientos->orderBy('fecha_elaboracion', 'asc');
+
+        return $mantenimientos;
+    }
+
 
     public function cargasCombustible()
     {

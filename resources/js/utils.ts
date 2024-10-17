@@ -1,6 +1,6 @@
 export const formatDate = (date: string): string => {
     const dateObj = new Date(date);
-    return `${dateObj.getDate()}/${
+    return `${dateObj.getDate() + 1}/${
         dateObj.getMonth() + 1
     }/${dateObj.getFullYear()}`;
 };
@@ -15,6 +15,11 @@ export const formatCurrency = (value: number): string => {
 export const formatOnlyDateValue = (date: string): string => {
     const [year = "-", month = "-", day = "-"] = date.split("-");
     return `${day} ${getMonthName(Number(month))} ${year}`;
+};
+
+export const generateDate = (date: string): string => {
+    const [year = "-", month = "-", day = "-"] = date.split("-");
+    return `${year}-${month}-${day}`;
 };
 
 export const formatNumber = (

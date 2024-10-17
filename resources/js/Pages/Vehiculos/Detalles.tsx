@@ -8,6 +8,7 @@ interface DetallesProps {
     month: string | null;
     year: string | null;
     loadFuel: boolean;
+    maintenance: boolean;
 }
 
 const BackButton = () => {
@@ -34,7 +35,13 @@ const Field = ({ label, value }: { label: string; value: string }) => {
     );
 };
 
-const Detalles = ({ vehiculo, month, year, loadFuel }: DetallesProps) => {
+const Detalles = ({
+    vehiculo,
+    month,
+    year,
+    loadFuel,
+    maintenance,
+}: DetallesProps) => {
     return (
         <div className="mx-8 bg-white shadow-sm sm:rounded-lg sm:px-6 lg:px-8">
             <div className="flex justify-between pt-4 mt-4">
@@ -53,6 +60,7 @@ const Detalles = ({ vehiculo, month, year, loadFuel }: DetallesProps) => {
                                     vehiculo: vehiculo.id,
                                     ...(month && year && { month, year }),
                                     ...(loadFuel && { loadFuel: true }),
+                                    ...(maintenance && { maintenance: true }),
                                 }),
                                 "_blank"
                             )

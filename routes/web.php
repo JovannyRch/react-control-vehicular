@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CargaCombustibleController;
 use App\Http\Controllers\HistorialController;
+use App\Http\Controllers\MantenimientosController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\VehiculoController;
 use Illuminate\Foundation\Application;
@@ -27,6 +28,7 @@ Route::get('/vehiculo/pega_ticket/{vehiculo}', [VehiculoController::class, 'pega
 Route::get('/vehiculo/pdf/{vehiculo}', [VehiculoController::class, 'detailPdf'])->middleware('auth', 'verified')->name('vehiculo.pdf');
 Route::resource('vehiculos', VehiculoController::class)->middleware('auth', 'verified');
 Route::resource('historial', HistorialController::class)->middleware('auth', 'verified');
+Route::resource('mantenimiento', MantenimientosController::class)->middleware('auth', 'verified');
 Route::resource('carga_combustible', CargaCombustibleController::class)->middleware('auth', 'verified');
 
 

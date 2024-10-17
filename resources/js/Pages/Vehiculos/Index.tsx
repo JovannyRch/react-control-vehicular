@@ -7,7 +7,7 @@ import Button from "@/Components/Button";
 import { BsFillFuelPumpDieselFill } from "react-icons/bs";
 import { AiFillEye, AiOutlineDownload } from "react-icons/ai";
 import { MdEditNote } from "react-icons/md";
-import { BiPlus, BiSearch } from "react-icons/bi";
+import { BiPlus, BiSearch, BiSolidCarMechanic } from "react-icons/bi";
 
 interface VehiculosProps extends PageProps {
     vehiculos: Vehiculo[];
@@ -15,6 +15,7 @@ interface VehiculosProps extends PageProps {
     estado: string;
     search: string;
     loadFuel: boolean;
+    maintenance: boolean;
 }
 
 export default function Vehiculos({
@@ -24,6 +25,7 @@ export default function Vehiculos({
     estado,
     search,
     loadFuel,
+    maintenance,
 }: VehiculosProps) {
     const form = useForm({
         search,
@@ -168,6 +170,7 @@ export default function Vehiculos({
                         <div className="p-4">
                             <div className="text-2xl font-semibold text-gray-800">
                                 Lista de vehículos
+                                {maintenance && " | Mantenimiento"}
                             </div>
 
                             {plantilla && (
@@ -331,25 +334,34 @@ export default function Vehiculos({
                                                                                       loadFuel:
                                                                                           "true",
                                                                                   }
-                                                                                : {}),
+                                                                                : maintenance && {
+                                                                                      maintenance:
+                                                                                          "true",
+                                                                                  }),
                                                                         }
                                                                     )
                                                                 )
                                                             }
                                                             className="flex items-center gap-2"
                                                         >
-                                                            {!loadFuel && (
-                                                                <AiFillEye />
-                                                            )}
+                                                            {!(
+                                                                loadFuel ||
+                                                                maintenance
+                                                            ) && <AiFillEye />}
                                                             {canLoadFuel(
                                                                 vehiculo
                                                             ) && (
-                                                                <>
-                                                                    <BsFillFuelPumpDieselFill />
-                                                                </>
+                                                                <BsFillFuelPumpDieselFill />
+                                                            )}
+
+                                                            {maintenance && (
+                                                                <BiSolidCarMechanic />
                                                             )}
                                                         </Button>
-                                                        {!loadFuel && (
+                                                        {!(
+                                                            loadFuel ||
+                                                            maintenance
+                                                        ) && (
                                                             <Button
                                                                 style="alternative"
                                                                 onClick={() =>
