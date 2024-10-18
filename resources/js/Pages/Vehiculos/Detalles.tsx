@@ -1,7 +1,7 @@
+import BackButton from "@/Components/BackButton";
 import Button from "@/Components/Button";
 import { Vehiculo } from "@/types/Vehiculo";
 import { AiOutlineDownload } from "react-icons/ai";
-import { IoMdArrowBack } from "react-icons/io";
 
 interface DetallesProps {
     vehiculo: Vehiculo;
@@ -9,20 +9,8 @@ interface DetallesProps {
     year: string | null;
     loadFuel: boolean;
     maintenance: boolean;
+    readonly?: boolean;
 }
-
-const BackButton = () => {
-    return (
-        <Button
-            onClick={() => window.history.back()}
-            className="flex items-center gap-2"
-            style="dark"
-        >
-            Regresar
-            <IoMdArrowBack />
-        </Button>
-    );
-};
 
 const Field = ({ label, value }: { label: string; value: string }) => {
     return (
@@ -41,6 +29,7 @@ const Detalles = ({
     year,
     loadFuel,
     maintenance,
+    readonly = false,
 }: DetallesProps) => {
     return (
         <div className="mx-8 bg-white shadow-sm sm:rounded-lg sm:px-6 lg:px-8">
@@ -51,27 +40,31 @@ const Detalles = ({
                 >
                     <b>Detalles del vehículo</b>
                 </label>
-                <div className="flex gap-1">
-                    <BackButton />
-                    <Button
-                        onClick={() =>
-                            window.open(
-                                route("vehiculo.pdf", {
-                                    vehiculo: vehiculo.id,
-                                    ...(month && year && { month, year }),
-                                    ...(loadFuel && { loadFuel: true }),
-                                    ...(maintenance && { maintenance: true }),
-                                }),
-                                "_blank"
-                            )
-                        }
-                        className="flex items-center gap-2"
-                        style="dark"
-                    >
-                        Generar PDF
-                        <AiOutlineDownload />
-                    </Button>
-                </div>
+                {!readonly && (
+                    <div className="flex gap-1">
+                        <BackButton />
+                        <Button
+                            onClick={() =>
+                                window.open(
+                                    route("vehiculo.pdf", {
+                                        vehiculo: vehiculo.id,
+                                        ...(month && year && { month, year }),
+                                        ...(loadFuel && { loadFuel: true }),
+                                        ...(maintenance && {
+                                            maintenance: true,
+                                        }),
+                                    }),
+                                    "_blank"
+                                )
+                            }
+                            className="flex items-center gap-2"
+                            style="dark"
+                        >
+                            Generar PDF
+                            <AiOutlineDownload />
+                        </Button>
+                    </div>
+                )}
             </div>
             <div className="w-full px-6 py-4 mt-6 overflow-hidden sm:rounded-lg">
                 <div className="grid grid-cols-3 gap-4">

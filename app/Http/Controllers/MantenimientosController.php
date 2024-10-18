@@ -4,10 +4,19 @@ namespace App\Http\Controllers;
 
 use App\Models\Mantenimiento;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class MantenimientosController extends Controller
 {
 
+    public function show(Mantenimiento $mantenimiento)
+    {
+        $vehiculo = $mantenimiento->vehiculo;
+        return Inertia::render('Vehiculos/MantenimientoShow', [
+            'vehiculo' => $vehiculo,
+            'mantenimiento' => $mantenimiento
+        ]);
+    }
 
     public function store(Request $request)
     {

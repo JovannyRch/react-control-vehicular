@@ -20,3 +20,10 @@ export const mantenimientoStatus = [
     { value: "cancelado", label: "Cancelado" },
     { value: "finalizado", label: "Finalizado" },
 ];
+
+export const mantenimientoStatusMap: Record<string, string> = {
+    proceso: "En proceso",
+    afectado: "Afectado",
+    cancelado: "Cancelado",
+    finalizado: "Finalizado",
+};

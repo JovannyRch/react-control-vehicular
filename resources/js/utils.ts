@@ -53,3 +53,9 @@ export const getMonthName = (month: number): string => {
 
     return months[month - 1];
 };
+
+export const getCurrentDateOfMexico = (): string => {
+    const date = new Date();
+    date.setHours(date.getHours() - 6);
+    return date.toISOString().split("T")[0];
+};

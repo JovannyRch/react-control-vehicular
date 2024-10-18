@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Mantenimiento;
 use App\Models\Vehiculo;
 use Illuminate\Http\Request;
 use Inertia\Inertia;

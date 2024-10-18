@@ -23,4 +23,9 @@ class Mantenimiento extends Model
         "folio_afectacion",
         "estado"
     ];
+
+    public function vehiculo()
+    {
+        return $this->belongsTo(Vehiculo::class);
+    }
 }
