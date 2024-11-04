@@ -38,6 +38,20 @@ class CargaCombustibleController extends Controller
         ]);
 
 
+        //Odometro final del ultimo registro sera el odometro inicial de este registro
+        $odometroInicial = CargaCombustible::where('vehiculo_id', $request->vehiculo_id)
+            ->orderBy('fecha', 'desc')
+            ->first();
+
+        if ($odometroInicial) {
+            $request->merge(['odometro_inicial' => $odometroInicial->odometro_final]);
+        } else {
+            $request->merge(['odometro_inicial' => 0]);
+        }
+
+        $request->merge(['odometro_final' => $request->odometro]);
+        $request->offsetUnset('odometro');
+
         CargaCombustible::create($request->all());
 
 

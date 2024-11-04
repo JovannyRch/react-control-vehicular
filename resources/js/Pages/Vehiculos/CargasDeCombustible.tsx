@@ -79,8 +79,7 @@ const CargasDeCombustible = ({
         litros: "",
         importe: "",
         vehiculo_id: vehiculo.id,
-        odometro_final: "",
-        odometro_inicial: "",
+        odometro: "",
         folio: "",
     });
 
@@ -303,8 +302,13 @@ const CargasDeCombustible = ({
                                         <td className="px-6 py-4 text-sm text-gray-900 whitespace-nowrap">
                                             <b>Total</b>
                                         </td>
-                                        <td></td>
-
+                                        <td className="px-6 py-4 text-sm text-gray-900 whitespace-nowrap">
+                                            <b>
+                                                {cargas.length === 1
+                                                    ? "1 carga"
+                                                    : `${cargas.length} cargas`}
+                                            </b>
+                                        </td>
                                         <td className="px-6 py-4 text-sm text-gray-900 whitespace-nowrap">
                                             <b>
                                                 {formatCurrency(
@@ -355,8 +359,7 @@ const CargasDeCombustible = ({
                                         "litros",
                                         "importe",
                                         "fecha",
-                                        "odometro_final",
-                                        "odometro_inicial",
+                                        "odometro",
                                         "folio"
                                     );
                                     setIsModalOpen(false);
@@ -422,50 +425,25 @@ const CargasDeCombustible = ({
                         <div className="flex items-center gap-2 mt-4">
                             <div>
                                 <InputLabel
-                                    htmlFor="odometro_inicial"
-                                    value="Odómetro inicial"
+                                    htmlFor="odometro"
+                                    value="Odometro"
                                 />
                                 <TextInput
-                                    id="odometro_inicial"
+                                    id="odometro"
                                     type="text"
-                                    name="odometro_inicial"
-                                    value={form.data.odometro_inicial}
+                                    name="odometro"
+                                    value={form.data.odometro}
                                     className="block w-full mt-1"
                                     onChange={(e) =>
-                                        form.setData(
-                                            "odometro_inicial",
-                                            e.target.value
-                                        )
+                                        form.setData("odometro", e.target.value)
                                     }
                                 />
                                 <InputError
-                                    message={form.errors.odometro_inicial}
+                                    message={form.errors.odometro}
                                     className="mt-2"
                                 />
                             </div>
-                            <div>
-                                <InputLabel
-                                    htmlFor="odometro_final"
-                                    value="Odómetro final"
-                                />
-                                <TextInput
-                                    id="odometro_final"
-                                    type="text"
-                                    name="odometro_final"
-                                    value={form.data.odometro_final}
-                                    className="block w-full mt-1"
-                                    onChange={(e) =>
-                                        form.setData(
-                                            "odometro_final",
-                                            e.target.value
-                                        )
-                                    }
-                                />
-                                <InputError
-                                    message={form.errors.odometro_final}
-                                    className="mt-2"
-                                />
-                            </div>
+
                             <div>
                                 <InputLabel htmlFor="folio" value="Folio" />
                                 <TextInput
