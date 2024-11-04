@@ -236,7 +236,7 @@ export default function Vehiculos({
                                 </div>
                             </form>
 
-                            {!loadFuel && (
+                            {!loadFuel && !maintenance && (
                                 <div className="flex justify-end gap-4 mb-4">
                                     <Button
                                         onClick={() =>
