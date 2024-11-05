@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\CargaCombustible;
+use App\Models\Factura;
 use App\Models\Vehiculo;
 use Illuminate\Http\Request;
 
@@ -120,5 +121,19 @@ class CargaCombustibleController extends Controller
         }
 
         return $vehiculo->cargasCombustible;
+    }
+
+    public function getFacturas(Vehiculo $vehiculo, $year, $month)
+    {
+        $vehiculo_id = $vehiculo->id;
+        $cargas = CargaCombustible::where('vehiculo_id', $vehiculo_id)
+            ->whereNotNull('factura_id')
+            ->whereYear('fecha', $year)
+            ->whereMonth('fecha', $month)
+            ->get();
+
+        $facturas = Factura::whereIn('id', $cargas->pluck('factura_id')->unique())->get();
+
+        return $facturas;
     }
 }

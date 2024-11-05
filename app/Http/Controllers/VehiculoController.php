@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CargaCombustible;
+use App\Models\Factura;
 use App\Models\Mantenimiento;
 use App\Models\Vehiculo;
 use Illuminate\Http\Request;
@@ -141,6 +143,8 @@ class VehiculoController extends Controller
         $cargas = $cargasController->getHistorialCargasCombustible($vehiculo, $year, $month);
         $cargasDisponibles = $cargasController->getCargasDisponiblesParaFactura($vehiculo, $year, $month);
 
+        $facturas = $cargasController->getFacturas($vehiculo, $year, $month);
+
         return Inertia::render('Vehiculos/Show', [
             'vehiculo' => $vehiculo,
             'historial' => $historial,
@@ -150,7 +154,8 @@ class VehiculoController extends Controller
             'year' => $year ?? '',
             'maintenance' => $maintenance ?? false,
             'mantenimientos' => $mantenimientos,
-            'cargasDisponibles' => $cargasDisponibles
+            'cargasDisponibles' => $cargasDisponibles,
+            'facturas' => $facturas
         ]);
     }
 
@@ -290,19 +295,18 @@ class VehiculoController extends Controller
         return $cargas->chunk(3);
     }
 
-    public function pegaTicket(Request $request, Vehiculo $vehiculo)
+    public function pegaTicket(Factura $factura)
     {
 
-        $year = $request->input('year');
-        $month = $request->input('month');
 
-        $cargasController = new CargaCombustibleController();
-        $cargas = $cargasController->getHistorialCargasCombustible($vehiculo, $year, $month);
+        $cargas = CargaCombustible::where('factura_id', $factura->id)->get();
+        $vehiculo = Vehiculo::find($cargas->first()->vehiculo_id);
 
         $total_pages = ceil($cargas->count() / 3);
         $cargas_per_page = $cargas->chunk(3);
 
         $pdf = PDF::loadView('pdf_pega_ticket', [
+            'factura' => $factura,
             'vehiculo' => $vehiculo,
             'total_pages' => $total_pages,
             'cargas_per_page' => $cargas_per_page

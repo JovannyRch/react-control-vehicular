@@ -2,10 +2,12 @@ import AddInvoiceModal from "@/Components/AddInvoiceModal";
 import Button from "@/Components/Button";
 import InputError from "@/Components/InputError";
 import InputLabel from "@/Components/InputLabel";
+import InvoicesSelectorModal from "@/Components/InvoicesSelectorModal";
 import Modal from "@/Components/Modal";
 import ReportSelector from "@/Components/ReportSelector";
 import TextInput from "@/Components/TextInput";
 import { CargaCombustible } from "@/types/CargaCombustible";
+import { Factura } from "@/types/Factura";
 import { Vehiculo } from "@/types/Vehiculo";
 import {
     formatCurrency,
@@ -24,6 +26,7 @@ interface CargasProps {
     month: string | null;
     year: string | null;
     cargasDisponibles: CargaCombustible[];
+    facturas: Factura[];
 }
 
 const getKm = (carga: CargaCombustible) => {
@@ -74,9 +77,14 @@ const CargasDeCombustible = ({
     month,
     year,
     cargasDisponibles,
+    facturas,
 }: CargasProps) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isInvoiceModalOpen, setIsInvoiceModalOpen] = useState(false);
+    const [isSelectInvoiceModalOpen, setIsSelectInvoiceModalOpen] =
+        useState(false);
+
+    console.log("facturas", facturas);
 
     const form = useForm({
         fecha: new Date().toISOString().split("T")[0],
@@ -134,6 +142,8 @@ const CargasDeCombustible = ({
         };
     }, [cargas]);
 
+    const showInvoiceFeatures = cargas.length > 0 && month && year;
+
     return (
         <div
             className="p-6 mt-6 mb-8 bg-white shadow-sm sm:rounded-lg sm:mx-8"
@@ -155,26 +165,6 @@ const CargasDeCombustible = ({
             </label>
             <div className="flex justify-end">
                 <div className="flex items-center gap-1">
-                    {month && year && cargas.length > 0 && (
-                        <div>
-                            <Button
-                                style="green"
-                                onClick={() =>
-                                    window.open(
-                                        route("vehiculo.pega_ticket", {
-                                            vehiculo: vehiculo.id,
-                                            month,
-                                            year,
-                                        }),
-                                        "_blank"
-                                    )
-                                }
-                            >
-                                Pega ticket
-                                <PiSeal />
-                            </Button>
-                        </div>
-                    )}
                     <ReportSelector fetchData={handleGetReport} />
                     <div>
                         <Button
@@ -185,15 +175,30 @@ const CargasDeCombustible = ({
                             <GrAdd />
                         </Button>
                     </div>
-                    <div>
-                        <Button
-                            style="green"
-                            onClick={() => setIsInvoiceModalOpen(true)}
-                        >
-                            Agregar factura
-                            <PiInvoice />
-                        </Button>
-                    </div>
+                    {showInvoiceFeatures && (
+                        <>
+                            <div>
+                                <Button
+                                    style="green"
+                                    onClick={() => setIsInvoiceModalOpen(true)}
+                                >
+                                    Agregar factura
+                                    <PiInvoice />
+                                </Button>
+                            </div>
+                            <div>
+                                <Button
+                                    style="green"
+                                    onClick={() =>
+                                        setIsSelectInvoiceModalOpen(true)
+                                    }
+                                >
+                                    Pega ticket
+                                    <PiSeal />
+                                </Button>
+                            </div>
+                        </>
+                    )}
                 </div>
             </div>
             <div className="grid grid-cols-12 gap-6 p-8">
@@ -492,6 +497,13 @@ const CargasDeCombustible = ({
                 onClose={() => setIsInvoiceModalOpen(false)}
                 vehiculoId={vehiculo.id}
                 cargasDisponibles={cargasDisponibles}
+            />
+            <InvoicesSelectorModal
+                open={isSelectInvoiceModalOpen}
+                onClose={() => setIsSelectInvoiceModalOpen(false)}
+                facturas={facturas}
+                month={month}
+                year={year}
             />
         </div>
     );

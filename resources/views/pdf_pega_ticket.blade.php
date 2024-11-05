@@ -77,15 +77,19 @@
     @for ($i = 0; $i < $total_pages; $i++)
         <table>
             <thead>
+                <th>FACTURA</th>
                 <th>CIV</th>
                 <th>PLACA</th>
                 <th>SERIE</th>
                 <th>MARCA</th>
-                <th>TIPO</th>
+
                 <th>MODELO</th>
             </thead>
             <tbody>
                 <tr>
+                    <td>
+                        {{ $factura->folio }}
+                    </td>
                     <td>
                         {{ $vehiculo->civ }}
                     </td>
@@ -98,9 +102,7 @@
                     <td>
                         {{ $vehiculo->marca }}
                     </td>
-                    <td>
-                        {{ $vehiculo->tipo }}
-                    </td>
+
                     <td>
                         {{ $vehiculo->modelo }}
                     </td>

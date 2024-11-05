@@ -11,6 +11,7 @@ import Button from "@/Components/Button";
 import { useEffect } from "react";
 import MantenimientoTable from "./MantenimientoTable";
 import { Mantenimiento } from "@/types/Mantenimiento";
+import { Factura } from "@/types/Factura";
 
 interface VehiculosProps extends PageProps {
     vehiculo: Vehiculo;
@@ -22,6 +23,7 @@ interface VehiculosProps extends PageProps {
     year: string | null;
     maintenance: boolean;
     mantenimientos: Mantenimiento[];
+    facturas: Factura[];
 }
 
 export default function Show({
@@ -35,6 +37,7 @@ export default function Show({
     year,
     maintenance = false,
     mantenimientos,
+    facturas,
 }: VehiculosProps) {
     useEffect(() => {
         if (loadFuel) {
@@ -75,6 +78,7 @@ export default function Show({
                                 month={month}
                                 year={year}
                                 cargasDisponibles={cargasDisponibles}
+                                facturas={facturas}
                             />
                         )}
 
