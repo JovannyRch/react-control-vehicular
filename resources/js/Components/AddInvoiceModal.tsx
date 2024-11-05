@@ -77,38 +77,62 @@ const AddInvoiceModal = ({
                     </div>
 
                     <div className="mt-3">
-                        <InputLabel htmlFor="" value="Seleccione cargas" />
-                        <ul>
-                            {cargasDisponibles.map((carga) => (
-                                <li key={carga.id}>
-                                    <input
-                                        className="mr-3"
-                                        type="checkbox"
-                                        value={carga.id}
-                                        onChange={(e) => {
-                                            if (e.target.checked) {
-                                                form.setData("cargas", [
-                                                    ...form.data.cargas,
-                                                    carga.id,
-                                                ]);
-                                            } else {
-                                                form.setData(
-                                                    "cargas",
-                                                    form.data.cargas.filter(
-                                                        (c) => c !== carga.id
-                                                    )
-                                                );
-                                            }
-                                        }}
-                                    />
-                                    {carga.folio} - {carga.fecha} -
-                                    {formatCurrency(carga.importe)}
-                                </li>
-                            ))}
-                        </ul>
+                        <InputLabel
+                            htmlFor=""
+                            value="Seleccione cargas disponibles"
+                        />
+                        <table className="w-full mt-2">
+                            <thead>
+                                <tr>
+                                    <th className="text-left">Folio</th>
+                                    <th className="text-left">Fecha</th>
+                                    <th className="text-left">Litros</th>
+                                    <th className="text-left">Importe</th>
+                                    <th className="text-left">Seleccionar</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {cargasDisponibles.map((carga) => (
+                                    <tr key={carga.id}>
+                                        <td>{carga.folio ?? "-"}</td>
+                                        <td>{carga.fecha}</td>
+                                        <td>{carga.litros}</td>
+                                        <td>{formatCurrency(carga.importe)}</td>
+                                        <td>
+                                            <input
+                                                type="checkbox"
+                                                className="w-5 h-5 text-blue-600 form-checkbox"
+                                                checked={form.data.cargas.includes(
+                                                    carga.id
+                                                )}
+                                                onChange={(e) => {
+                                                    if (e.target.checked) {
+                                                        form.setData(
+                                                            "cargas",
+                                                            form.data.cargas.concat(
+                                                                carga.id
+                                                            )
+                                                        );
+                                                    } else {
+                                                        form.setData(
+                                                            "cargas",
+                                                            form.data.cargas.filter(
+                                                                (id) =>
+                                                                    id !==
+                                                                    carga.id
+                                                            )
+                                                        );
+                                                    }
+                                                }}
+                                            />
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
                     </div>
 
-                    <div className="mt-5 text-center">
+                    <div className="flex justify-end">
                         <Button
                             disabled={
                                 form.processing ||
@@ -118,7 +142,7 @@ const AddInvoiceModal = ({
                             style="green"
                             type="submit"
                         >
-                            Agregar
+                            Guardar
                         </Button>
                     </div>
                 </form>
