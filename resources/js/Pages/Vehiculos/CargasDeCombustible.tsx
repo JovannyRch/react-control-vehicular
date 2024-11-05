@@ -502,8 +502,8 @@ const CargasDeCombustible = ({
                 open={isSelectInvoiceModalOpen}
                 onClose={() => setIsSelectInvoiceModalOpen(false)}
                 facturas={facturas}
-                month={month}
-                year={year}
+                month={Number(month)}
+                year={year!}
             />
         </div>
     );
