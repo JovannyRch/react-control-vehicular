@@ -1,3 +1,4 @@
+import AddInvoiceModal from "@/Components/AddInvoiceModal";
 import Button from "@/Components/Button";
 import InputError from "@/Components/InputError";
 import InputLabel from "@/Components/InputLabel";
@@ -15,13 +16,14 @@ import {
 import { router, useForm } from "@inertiajs/react";
 import { useEffect, useMemo, useState } from "react";
 import { GrAdd } from "react-icons/gr";
-import { PiSeal } from "react-icons/pi";
+import { PiInvoice, PiSeal } from "react-icons/pi";
 
 interface CargasProps {
     cargas: CargaCombustible[];
     vehiculo: Vehiculo;
     month: string | null;
     year: string | null;
+    cargasDisponibles: CargaCombustible[];
 }
 
 const getKm = (carga: CargaCombustible) => {
@@ -71,8 +73,10 @@ const CargasDeCombustible = ({
     vehiculo,
     month,
     year,
+    cargasDisponibles,
 }: CargasProps) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isInvoiceModalOpen, setIsInvoiceModalOpen] = useState(false);
 
     const form = useForm({
         fecha: new Date().toISOString().split("T")[0],
@@ -179,6 +183,15 @@ const CargasDeCombustible = ({
                         >
                             Agregar carga
                             <GrAdd />
+                        </Button>
+                    </div>
+                    <div>
+                        <Button
+                            style="green"
+                            onClick={() => setIsInvoiceModalOpen(true)}
+                        >
+                            Agregar factura
+                            <PiInvoice />
                         </Button>
                     </div>
                 </div>
@@ -474,6 +487,12 @@ const CargasDeCombustible = ({
                     </form>
                 </div>
             </Modal>
+            <AddInvoiceModal
+                open={isInvoiceModalOpen}
+                onClose={() => setIsInvoiceModalOpen(false)}
+                vehiculoId={vehiculo.id}
+                cargasDisponibles={cargasDisponibles}
+            />
         </div>
     );
 };

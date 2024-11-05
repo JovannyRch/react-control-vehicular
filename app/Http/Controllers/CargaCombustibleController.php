@@ -105,4 +105,20 @@ class CargaCombustibleController extends Controller
 
         return $vehiculo->cargasCombustible;
     }
+
+
+    public function getCargasDisponiblesParaFactura(Vehiculo $vehiculo, $year, $month)
+    {
+
+        if ($month && $year) {
+            return $vehiculo->cargasCombustible()
+                ->whereYear('fecha', $year)
+                ->where('factura_id', null)
+                ->whereMonth('fecha', $month)
+                ->orderBy('fecha', 'desc')
+                ->get();
+        }
+
+        return $vehiculo->cargasCombustible;
+    }
 }

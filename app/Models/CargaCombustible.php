@@ -19,7 +19,13 @@ class CargaCombustible extends Model
         'odometro_inicial',
         'odometro_final',
         'folio',
+        'factura_id'
     ];
+
+    public function factura()
+    {
+        return $this->hasOne(Factura::class);
+    }
 
     //combustile recorrido
     public function kilometrosRecorridos()

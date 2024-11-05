@@ -19,6 +19,7 @@ class VehiculoController extends Controller
         return $query->where(function ($query) use ($search) {
             $query->where('numero_economico', 'like', '%' . $search . '%')
                 ->orWhere('marca', 'like', '%' . $search . '%')
+                ->orWhere('civ', 'like', '%' . $search . '%')
                 ->orWhere('tipo', 'like', '%' . $search . '%')
                 ->orWhere('modelo', 'like', '%' . $search . '%')
                 ->orWhere('placa', 'like', '%' . $search . '%')
@@ -138,6 +139,7 @@ class VehiculoController extends Controller
 
         $cargasController = new CargaCombustibleController();
         $cargas = $cargasController->getHistorialCargasCombustible($vehiculo, $year, $month);
+        $cargasDisponibles = $cargasController->getCargasDisponiblesParaFactura($vehiculo, $year, $month);
 
         return Inertia::render('Vehiculos/Show', [
             'vehiculo' => $vehiculo,
@@ -147,7 +149,8 @@ class VehiculoController extends Controller
             'month' => $month ?? '',
             'year' => $year ?? '',
             'maintenance' => $maintenance ?? false,
-            'mantenimientos' => $mantenimientos
+            'mantenimientos' => $mantenimientos,
+            'cargasDisponibles' => $cargasDisponibles
         ]);
     }
 

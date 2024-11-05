@@ -49,7 +49,9 @@ const Button = ({
         <button
             onClick={onClick}
             type={type}
-            className={`flex gap-1  items-center ${classNameButton} ${className}`}
+            className={`flex gap-1  items-center ${classNameButton}
+                ${disabled ? "cursor-not-allowed opacity-50" : "cursor-pointer"}
+            ${className}`}
             disabled={disabled}
             {...rest}
         >

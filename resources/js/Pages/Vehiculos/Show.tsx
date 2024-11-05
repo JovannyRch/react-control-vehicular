@@ -16,6 +16,7 @@ interface VehiculosProps extends PageProps {
     vehiculo: Vehiculo;
     historial: Historial[];
     cargas: CargaCombustible[];
+    cargasDisponibles: CargaCombustible[];
     loadFuel: boolean;
     month: string | null;
     year: string | null;
@@ -28,6 +29,7 @@ export default function Show({
     vehiculo,
     historial,
     cargas,
+    cargasDisponibles,
     loadFuel = false,
     month,
     year,
@@ -72,6 +74,7 @@ export default function Show({
                                 vehiculo={vehiculo}
                                 month={month}
                                 year={year}
+                                cargasDisponibles={cargasDisponibles}
                             />
                         )}
 
