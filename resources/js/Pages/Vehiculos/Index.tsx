@@ -291,98 +291,104 @@ export default function Vehiculos({
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {vehicles.map((vehiculo, index) => (
-                                            <tr
-                                                key={index}
-                                                className="border-b border-gray-200 hover:bg-gray-100"
-                                            >
-                                                <td className="px-6 py-4">
-                                                    {vehiculo.civ ?? "-"}
-                                                </td>
-                                                <td className="px-6 py-4">
-                                                    {vehiculo.numero_economico}
-                                                </td>
-                                                <td className="px-6 py-4">
-                                                    {vehiculo.placa}
-                                                </td>
-                                                <td className="px-6 py-4">
-                                                    {vehiculo.no_serie}
-                                                </td>
-                                                <td className="px-6 py-4">
-                                                    {vehiculo.marca}
-                                                </td>
-                                                <td className="px-6 py-4">
-                                                    {vehiculo.tipo}
-                                                </td>
-                                                <td className="px-6 py-4">
-                                                    {vehiculo.modelo}
-                                                </td>
+                                        {vehicles.map((vehiculo, index) => {
+                                            if (
+                                                loadFuel &&
+                                                !canLoadFuel(vehiculo)
+                                            ) {
+                                                return null;
+                                            }
+                                            return (
+                                                <tr
+                                                    key={index}
+                                                    className="border-b border-gray-200 hover:bg-gray-100"
+                                                >
+                                                    <td className="px-6 py-4">
+                                                        {vehiculo.civ ?? "-"}
+                                                    </td>
+                                                    <td className="px-6 py-4">
+                                                        {
+                                                            vehiculo.numero_economico
+                                                        }
+                                                    </td>
+                                                    <td className="px-6 py-4">
+                                                        {vehiculo.placa}
+                                                    </td>
+                                                    <td className="px-6 py-4">
+                                                        {vehiculo.no_serie}
+                                                    </td>
+                                                    <td className="px-6 py-4">
+                                                        {vehiculo.marca}
+                                                    </td>
+                                                    <td className="px-6 py-4">
+                                                        {vehiculo.tipo}
+                                                    </td>
+                                                    <td className="px-6 py-4">
+                                                        {vehiculo.modelo}
+                                                    </td>
 
-                                                <td className="px-6 py-4">
-                                                    <div className="flex items-center space-x-2">
-                                                        <Button
-                                                            style="alternative"
-                                                            onClick={() =>
-                                                                router.visit(
-                                                                    route(
-                                                                        "vehiculos.show",
-                                                                        {
-                                                                            vehiculo:
-                                                                                vehiculo.id,
-                                                                            ...(loadFuel
-                                                                                ? {
-                                                                                      loadFuel:
-                                                                                          "true",
-                                                                                  }
-                                                                                : maintenance && {
-                                                                                      maintenance:
-                                                                                          "true",
-                                                                                  }),
-                                                                        }
-                                                                    )
-                                                                )
-                                                            }
-                                                            className="flex items-center gap-2"
-                                                        >
-                                                            {!(
-                                                                loadFuel ||
-                                                                maintenance
-                                                            ) && <AiFillEye />}
-                                                            {canLoadFuel(
-                                                                vehiculo
-                                                            ) && (
-                                                                <BsFillFuelPumpDieselFill />
-                                                            )}
-
-                                                            {maintenance && (
-                                                                <BiSolidCarMechanic />
-                                                            )}
-                                                        </Button>
-                                                        {!(
-                                                            loadFuel ||
-                                                            maintenance
-                                                        ) && (
+                                                    <td className="px-6 py-4">
+                                                        <div className="flex items-center space-x-2">
                                                             <Button
                                                                 style="alternative"
                                                                 onClick={() =>
                                                                     router.visit(
                                                                         route(
-                                                                            "vehiculos.edit",
+                                                                            "vehiculos.show",
                                                                             {
                                                                                 vehiculo:
                                                                                     vehiculo.id,
+                                                                                ...(loadFuel
+                                                                                    ? {
+                                                                                          loadFuel:
+                                                                                              "true",
+                                                                                      }
+                                                                                    : maintenance && {
+                                                                                          maintenance:
+                                                                                              "true",
+                                                                                      }),
                                                                             }
                                                                         )
                                                                     )
                                                                 }
+                                                                className="flex items-center gap-2"
                                                             >
-                                                                <MdEditNote />
+                                                                {canLoadFuel(
+                                                                    vehiculo
+                                                                ) ? (
+                                                                    <BsFillFuelPumpDieselFill />
+                                                                ) : maintenance ? (
+                                                                    <BiSolidCarMechanic />
+                                                                ) : (
+                                                                    <AiFillEye />
+                                                                )}
                                                             </Button>
-                                                        )}
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        ))}
+                                                            {!(
+                                                                loadFuel ||
+                                                                maintenance
+                                                            ) && (
+                                                                <Button
+                                                                    style="alternative"
+                                                                    onClick={() =>
+                                                                        router.visit(
+                                                                            route(
+                                                                                "vehiculos.edit",
+                                                                                {
+                                                                                    vehiculo:
+                                                                                        vehiculo.id,
+                                                                                }
+                                                                            )
+                                                                        )
+                                                                    }
+                                                                >
+                                                                    <MdEditNote />
+                                                                </Button>
+                                                            )}
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            );
+                                        })}
                                     </tbody>
                                 </table>
                             </div>

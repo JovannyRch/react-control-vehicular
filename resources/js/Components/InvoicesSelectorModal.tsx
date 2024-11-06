@@ -31,7 +31,7 @@ const InvoicesSelectorModal = ({
 
                 {facturas.length > 0 && (
                     <>
-                        <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+                        <div className="relative overflow-y-auto shadow-md sm:rounded-lg max-h-[350px] ">
                             <table className="w-full text-sm text-left text-gray-500 rtl:text-right dark:text-gray-400">
                                 <thead className="text-xs text-gray-700 uppercase bg-gray-50 ">
                                     <tr>
@@ -88,8 +88,8 @@ const InvoicesSelectorModal = ({
                 )}
 
                 {facturas.length === 0 && (
-                    <div className="text-center text-gray-400">
-                        No hay facturas
+                    <div className="text-center text-gray-400 h-[80px] flex items-center justify-center">
+                        <div>Nos se encontraron facturas</div>
                     </div>
                 )}
             </div>

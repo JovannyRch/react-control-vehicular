@@ -52,6 +52,10 @@ export default function Dashboard({ auth }: PageProps) {
             onSelect: () =>
                 router.visit("/vehiculos?plantilla=2024&loadFuel=true"),
         },
+        {
+            label: "Listar todas",
+            onSelect: () => router.visit("/vehiculos?loadFuel=true"),
+        },
     ];
 
     const mantenimientoItems = [
