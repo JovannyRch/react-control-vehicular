@@ -41,7 +41,7 @@ class CargaCombustibleController extends Controller
 
         //Odometro final del ultimo registro sera el odometro inicial de este registro
         $odometroInicial = CargaCombustible::where('vehiculo_id', $request->vehiculo_id)
-            ->orderBy('fecha', 'desc')
+            ->orderBy('id', 'desc')
             ->first();
 
         if ($odometroInicial) {

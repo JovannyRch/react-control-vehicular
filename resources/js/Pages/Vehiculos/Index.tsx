@@ -39,6 +39,7 @@ export default function Vehiculos({
                 search: form.data.search,
                 plantilla,
                 ...(Boolean(estado) && { estado }),
+                ...(loadFuel && { loadFuel: "true" }),
             })
         );
     };
