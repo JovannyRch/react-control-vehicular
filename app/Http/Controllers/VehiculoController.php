@@ -126,11 +126,13 @@ class VehiculoController extends Controller
         $month = $request->input('month');
         $year = $request->input('year');
         $maintenance = $request->input('maintenance');
+        $tools = $request->input('tools');
 
 
 
         $historial = $vehiculo->historial;
         $mantenimientos = $vehiculo->mantenimientos;
+        $accesorios = $vehiculo->accesorios;
 
         if ($month && $year) {
             $mantenimientos = $vehiculo->mantenimientos()->whereYear('fecha_elaboracion', $year)
@@ -153,9 +155,11 @@ class VehiculoController extends Controller
             'month' => $month ?? '',
             'year' => $year ?? '',
             'maintenance' => $maintenance ?? false,
+            'tools' => $tools ?? false,
             'mantenimientos' => $mantenimientos,
             'cargasDisponibles' => $cargasDisponibles,
-            'facturas' => $facturas
+            'facturas' => $facturas,
+            'accesorios' => $accesorios
         ]);
     }
 
@@ -248,10 +252,14 @@ class VehiculoController extends Controller
         $month = $request->input('month');
         $year = $request->input('year');
         $maintenance = $request->input('maintenance');
+        $tools = $request->input('tools');
 
 
         $historial = $vehiculo->historial;
         $mantenimientos = $vehiculo->mantenimientos;
+        $accesorios = $vehiculo->accesorios;
+
+
 
         if ($month && $year) {
             $mantenimientos = $vehiculo->mantenimientos()->whereYear('fecha_elaboracion', $year)
@@ -277,11 +285,13 @@ class VehiculoController extends Controller
             'cargas' => $cargas,
             'loadFuel' => $loadFuel ?? false,
             'maintenance' => $maintenance ?? false,
+            'tools' => $tools ?? false,
             'month' => $month ?? '',
             'year' => $year ?? '',
             'total_importe' => $total_importe,
             'total_litros' => $total_litros,
-            'mantenimientos' => $mantenimientos
+            'mantenimientos' => $mantenimientos,
+            'accesorios' => $accesorios
         ])->setPaper('a4', 'landscape');
 
 

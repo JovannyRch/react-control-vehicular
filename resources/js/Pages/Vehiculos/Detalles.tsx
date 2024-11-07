@@ -9,6 +9,7 @@ interface DetallesProps {
     year: string | null;
     loadFuel: boolean;
     maintenance: boolean;
+    tools: boolean;
     readonly?: boolean;
 }
 
@@ -29,6 +30,7 @@ const Detalles = ({
     year,
     loadFuel,
     maintenance,
+    tools,
     readonly = false,
 }: DetallesProps) => {
     return (
@@ -53,6 +55,7 @@ const Detalles = ({
                                         ...(maintenance && {
                                             maintenance: true,
                                         }),
+                                        ...(tools && { tools: true }),
                                     }),
                                     "_blank"
                                 )

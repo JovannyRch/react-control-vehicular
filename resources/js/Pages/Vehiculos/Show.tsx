@@ -12,6 +12,8 @@ import { useEffect } from "react";
 import MantenimientoTable from "./MantenimientoTable";
 import { Mantenimiento } from "@/types/Mantenimiento";
 import { Factura } from "@/types/Factura";
+import { Accesorio } from "@/types/Accesorio";
+import Accesorios from "./Accesorios";
 
 interface VehiculosProps extends PageProps {
     vehiculo: Vehiculo;
@@ -22,8 +24,10 @@ interface VehiculosProps extends PageProps {
     month: string | null;
     year: string | null;
     maintenance: boolean;
+    tools: boolean;
     mantenimientos: Mantenimiento[];
     facturas: Factura[];
+    accesorios: Accesorio[];
 }
 
 export default function Show({
@@ -36,8 +40,10 @@ export default function Show({
     month,
     year,
     maintenance = false,
+    tools = false,
     mantenimientos,
     facturas,
+    accesorios,
 }: VehiculosProps) {
     useEffect(() => {
         if (loadFuel) {
@@ -67,6 +73,7 @@ export default function Show({
                         year={year}
                         loadFuel={loadFuel}
                         maintenance={maintenance}
+                        tools={tools}
                     />
                     {loadFuel &&
                         (vehiculo.plantilla !== "propia" ||
@@ -90,7 +97,15 @@ export default function Show({
                             year={year}
                         />
                     )}
-                    {!loadFuel && !maintenance && (
+
+                    {tools && (
+                        <Accesorios
+                            vehiculoId={vehiculo.id}
+                            accesorios={accesorios}
+                        />
+                    )}
+
+                    {!loadFuel && !maintenance && !tools && (
                         <HistorialTable
                             vehiculo={vehiculo}
                             historial={historial}

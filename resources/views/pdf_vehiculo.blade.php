@@ -301,6 +301,42 @@ function formatCurrency($number)
             <br>
             <p style="text-align: center;">No hay mantenimientos registrados</p>
         @endif
+    @elseif ($tools)
+        @if (sizeof($accesorios) > 0)
+            <h2 id="title">Accesorios
+            </h2>
+            <div>
+                <strong>Total de accesorios: </strong> {{ sizeof($accesorios) }}
+            </div>
+            <br>
+            <table id="cargas">
+                <thead>
+                    <tr>
+                        <th>Fecha/th>
+                        <th>Folio</th>
+                        <th>Detalle</th>
+                        <th>Persona encargada</th>
+                        <th>Persona entregada</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($accesorios as $accesorio)
+                        <tr>
+                            <td>{{ formatDate($accesorio->fecha) }}</td>
+                            <td>{{ $accesorio->folio }}</td>
+                            <td>{{ $accesorio->detalle }}</td>
+                            <td>{{ $accesorio->persona_encargada }}</td>
+                            <td>{{ $accesorio->persona_entregada }}</td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        @else
+            <h3 style="text-align: center;">Accesorios</h3>
+            <br>
+            <p style="text-align: center;">No hay accesorios registrados</p>
+        @endif
     @else
         <h2 id="title">Historial</h2>
 

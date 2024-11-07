@@ -8,6 +8,7 @@ import { BsFillFuelPumpDieselFill } from "react-icons/bs";
 import { AiFillEye, AiOutlineDownload } from "react-icons/ai";
 import { MdEditNote } from "react-icons/md";
 import { BiPlus, BiSearch, BiSolidCarMechanic } from "react-icons/bi";
+import { FaEdit, FaTools } from "react-icons/fa";
 
 interface VehiculosProps extends PageProps {
     vehiculos: Vehiculo[];
@@ -368,22 +369,41 @@ export default function Vehiculos({
                                                                 loadFuel ||
                                                                 maintenance
                                                             ) && (
-                                                                <Button
-                                                                    style="alternative"
-                                                                    onClick={() =>
-                                                                        router.visit(
-                                                                            route(
-                                                                                "vehiculos.edit",
-                                                                                {
-                                                                                    vehiculo:
-                                                                                        vehiculo.id,
-                                                                                }
+                                                                <>
+                                                                    <Button
+                                                                        style="alternative"
+                                                                        onClick={() =>
+                                                                            router.visit(
+                                                                                route(
+                                                                                    "vehiculos.show",
+                                                                                    {
+                                                                                        vehiculo:
+                                                                                            vehiculo.id,
+                                                                                        tools: "true",
+                                                                                    }
+                                                                                )
                                                                             )
-                                                                        )
-                                                                    }
-                                                                >
-                                                                    <MdEditNote />
-                                                                </Button>
+                                                                        }
+                                                                    >
+                                                                        <FaTools />
+                                                                    </Button>
+                                                                    <Button
+                                                                        style="alternative"
+                                                                        onClick={() =>
+                                                                            router.visit(
+                                                                                route(
+                                                                                    "vehiculos.edit",
+                                                                                    {
+                                                                                        vehiculo:
+                                                                                            vehiculo.id,
+                                                                                    }
+                                                                                )
+                                                                            )
+                                                                        }
+                                                                    >
+                                                                        <FaEdit />
+                                                                    </Button>
+                                                                </>
                                                             )}
                                                         </div>
                                                     </td>

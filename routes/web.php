@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AccesoriosController;
 use App\Http\Controllers\CargaCombustibleController;
 use App\Http\Controllers\FacturaController;
 use App\Http\Controllers\HistorialController;
@@ -31,6 +32,7 @@ Route::get('/vehiculo/pdf/{vehiculo}', [VehiculoController::class, 'detailPdf'])
 Route::resource('vehiculos', VehiculoController::class)->middleware('auth', 'verified');
 Route::resource('historial', HistorialController::class)->middleware('auth', 'verified');
 Route::resource('mantenimiento', MantenimientosController::class)->middleware('auth', 'verified');
+Route::resource('accesorio', AccesoriosController::class)->middleware('auth', 'verified');
 Route::resource('carga_combustible', CargaCombustibleController::class)->middleware('auth', 'verified');
 Route::post('/factura/{vehiculo}', [FacturaController::class, 'store'])->middleware('auth', 'verified')->name('factura.store');
 

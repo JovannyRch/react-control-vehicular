@@ -48,4 +48,9 @@ class Vehiculo extends Model
 
         return $cargas;
     }
+
+    public function accesorios()
+    {
+        return $this->hasMany(Accesorio::class);
+    }
 }
