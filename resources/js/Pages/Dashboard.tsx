@@ -7,6 +7,7 @@ import Button from "@/Components/Button";
 import { Dropdown as NestedDropdown } from "react-nested-dropdown";
 import "react-nested-dropdown/dist/styles.css";
 import { BsChevronRight } from "react-icons/bs";
+import { FaTools } from "react-icons/fa";
 
 const CardButton = ({ title, onClick, icon }: any) => (
     <button
@@ -156,6 +157,15 @@ export default function Dashboard({ auth }: PageProps) {
                                     />
                                 )}
                             </NestedDropdown>
+                            <CardButton
+                                style="green"
+                                className="flex items-center gap-2 text-black"
+                                onClick={() => {
+                                    router.visit("/vehiculos?tools=true");
+                                }}
+                                title="Accesorios/Refacciones"
+                                icon={<FaTools className="w-10 h-10" />}
+                            />
                         </div>
                     </div>
                 </div>

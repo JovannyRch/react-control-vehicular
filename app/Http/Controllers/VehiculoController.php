@@ -39,6 +39,7 @@ class VehiculoController extends Controller
         $plantilla = $request->input('plantilla');
         $search = $request->input('search');
         $loadFuel = $request->input('loadFuel');
+        $tools = $request->input('tools');
         $maintenance = $request->input('maintenance');
 
         $vehiculos = [];
@@ -70,6 +71,7 @@ class VehiculoController extends Controller
 
         return Inertia::render('Vehiculos/Index', [
             'vehiculos' => $vehiculos,
+            'tools' => $tools ?? false,
             'plantilla' => $plantilla,
             'estado' => $estado ?? null,
             'search' => $search ?? '',

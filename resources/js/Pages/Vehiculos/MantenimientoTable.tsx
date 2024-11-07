@@ -83,8 +83,8 @@ const MantenimientoTable = ({
                     </div>
                 ) : (
                     <div className="col-span-12">
-                        <div className="overflow-scroll border border-gray-200 rounded-md overflow-x">
-                            <table className="w-full min-w-full overflow-scroll divide-y divide-gray-200 table-auto">
+                        <div className="border border-gray-200 rounded-md ">
+                            <table className="w-full min-w-full divide-y divide-gray-200 table-auto">
                                 <thead className="bg-gray-50">
                                     <tr>
                                         {tableHeaders.map((header) => (

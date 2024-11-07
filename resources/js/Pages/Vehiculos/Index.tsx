@@ -16,6 +16,7 @@ interface VehiculosProps extends PageProps {
     estado: string;
     search: string;
     loadFuel: boolean;
+    tools: boolean;
     maintenance: boolean;
 }
 
@@ -27,6 +28,7 @@ export default function Vehiculos({
     search,
     loadFuel,
     maintenance,
+    tools,
 }: VehiculosProps) {
     const form = useForm({
         search,
@@ -331,62 +333,67 @@ export default function Vehiculos({
 
                                                     <td className="px-6 py-4">
                                                         <div className="flex items-center space-x-2">
-                                                            <Button
-                                                                style="alternative"
-                                                                onClick={() =>
-                                                                    router.visit(
-                                                                        route(
-                                                                            "vehiculos.show",
-                                                                            {
-                                                                                vehiculo:
-                                                                                    vehiculo.id,
-                                                                                ...(loadFuel
-                                                                                    ? {
-                                                                                          loadFuel:
-                                                                                              "true",
-                                                                                      }
-                                                                                    : maintenance && {
-                                                                                          maintenance:
-                                                                                              "true",
-                                                                                      }),
-                                                                            }
+                                                            {!tools && (
+                                                                <Button
+                                                                    style="alternative"
+                                                                    onClick={() =>
+                                                                        router.visit(
+                                                                            route(
+                                                                                "vehiculos.show",
+                                                                                {
+                                                                                    vehiculo:
+                                                                                        vehiculo.id,
+                                                                                    ...(loadFuel
+                                                                                        ? {
+                                                                                              loadFuel:
+                                                                                                  "true",
+                                                                                          }
+                                                                                        : maintenance && {
+                                                                                              maintenance:
+                                                                                                  "true",
+                                                                                          }),
+                                                                                }
+                                                                            )
                                                                         )
-                                                                    )
-                                                                }
-                                                                className="flex items-center gap-2"
-                                                            >
-                                                                {canLoadFuel(
-                                                                    vehiculo
-                                                                ) ? (
-                                                                    <BsFillFuelPumpDieselFill />
-                                                                ) : maintenance ? (
-                                                                    <BiSolidCarMechanic />
-                                                                ) : (
-                                                                    <AiFillEye />
-                                                                )}
-                                                            </Button>
+                                                                    }
+                                                                    className="flex items-center gap-2"
+                                                                >
+                                                                    {canLoadFuel(
+                                                                        vehiculo
+                                                                    ) ? (
+                                                                        <BsFillFuelPumpDieselFill />
+                                                                    ) : maintenance ? (
+                                                                        <BiSolidCarMechanic />
+                                                                    ) : (
+                                                                        <AiFillEye />
+                                                                    )}
+                                                                </Button>
+                                                            )}
+                                                            {tools && (
+                                                                <Button
+                                                                    style="alternative"
+                                                                    onClick={() =>
+                                                                        router.visit(
+                                                                            route(
+                                                                                "vehiculos.show",
+                                                                                {
+                                                                                    vehiculo:
+                                                                                        vehiculo.id,
+                                                                                    tools: "true",
+                                                                                }
+                                                                            )
+                                                                        )
+                                                                    }
+                                                                >
+                                                                    <FaTools />
+                                                                </Button>
+                                                            )}
                                                             {!(
                                                                 loadFuel ||
-                                                                maintenance
+                                                                maintenance ||
+                                                                tools
                                                             ) && (
                                                                 <>
-                                                                    <Button
-                                                                        style="alternative"
-                                                                        onClick={() =>
-                                                                            router.visit(
-                                                                                route(
-                                                                                    "vehiculos.show",
-                                                                                    {
-                                                                                        vehiculo:
-                                                                                            vehiculo.id,
-                                                                                        tools: "true",
-                                                                                    }
-                                                                                )
-                                                                            )
-                                                                        }
-                                                                    >
-                                                                        <FaTools />
-                                                                    </Button>
                                                                     <Button
                                                                         style="alternative"
                                                                         onClick={() =>
