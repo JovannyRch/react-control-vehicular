@@ -117,7 +117,7 @@ function formatCurrency($number)
 
 
 <body>
-
+    <img src="img/logo.png" style="width: 200px;">
     <h2 style="text-align: center;">Detalles del vehículo</h2>
     <table class="details">
         <tr>

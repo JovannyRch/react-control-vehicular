@@ -7,6 +7,12 @@ import { Link, router } from "@inertiajs/react";
 import { User } from "@/types";
 import { Dropdown as NestedDropdown } from "react-nested-dropdown";
 import "react-nested-dropdown/dist/styles.css";
+import { HiHome } from "react-icons/hi";
+import { GrDashboard } from "react-icons/gr";
+import { MdDashboard } from "react-icons/md";
+import { GiPoliceOfficerHead } from "react-icons/gi";
+import { RiPoliceCarLine } from "react-icons/ri";
+import { BsTools } from "react-icons/bs";
 
 export default function Authenticated({
     user,
@@ -74,8 +80,8 @@ export default function Authenticated({
     ];
 
     return (
-        <div className="min-h-screen bg-[#1f2c54]">
-            <nav className="bg-white border-b border-gray-100">
+        <div className="min-h-screen bg-gray-100">
+            {/*  <nav className="bg-white border-b border-gray-100">
                 <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
                     <div className="flex justify-between h-16">
                         <div className="flex">
@@ -92,56 +98,7 @@ export default function Authenticated({
                                 >
                                     Dashboard
                                 </NavLink>
-                                <NestedDropdown
-                                    items={items}
-                                    className="relative"
-                                    renderOption={(option) => (
-                                        <button
-                                            type="button"
-                                            onClick={option.onSelect}
-                                            className="flex items-center justify-between w-full px-1 pt-1 text-sm font-medium leading-5 text-gray-900 transition duration-150 ease-in-out focus:outline-none focus:border-indigo-700"
-                                        >
-                                            <div className="flex-1 block w-full text-sm leading-5 text-gray-700 transition duration-150 ease-in-out text-start focus:outline-none focus:bg-gray-100 ">
-                                                {option.label}
-                                            </div>
-                                            {option.items && (
-                                                <div>
-                                                    <svg
-                                                        className="w-2.5 h-2.5 ms-3 rtl:rotate-180"
-                                                        aria-hidden="true"
-                                                        xmlns="http://www.w3.org/2000/svg"
-                                                        fill="none"
-                                                        viewBox="0 0 6 10"
-                                                    >
-                                                        <path
-                                                            stroke="currentColor"
-                                                            stroke-linecap="round"
-                                                            stroke-linejoin="round"
-                                                            stroke-width="2"
-                                                            d="m1 9 4-4-4-4"
-                                                        />
-                                                    </svg>
-                                                </div>
-                                            )}
-                                        </button>
-                                    )}
-                                >
-                                    {({ onClick }) => (
-                                        <button
-                                            type="button"
-                                            onClick={onClick}
-                                            className={`inline-flex items-center h-full px-1 pt-1 text-sm font-medium leading-5 text-gray-900 transition duration-150 ease-in-out focus:outline-none focus:border-indigo-700 ${
-                                                route().current(
-                                                    "vehiculos.index"
-                                                )
-                                                    ? "border-b-2  border-indigo-400 "
-                                                    : ""
-                                            }`}
-                                        >
-                                            Vehículos
-                                        </button>
-                                    )}
-                                </NestedDropdown>
+
                             </div>
                         </div>
 
@@ -154,8 +111,7 @@ export default function Authenticated({
                                                 type="button"
                                                 className="inline-flex items-center px-3 py-2 text-sm font-medium leading-4 text-gray-500 transition duration-150 ease-in-out bg-white border border-transparent rounded-md hover:text-gray-700 focus:outline-none"
                                             >
-                                                {user.name}
-
+                                                {user.username}
                                                 <svg
                                                     className="ms-2 -me-0.5 h-4 w-4"
                                                     xmlns="http://www.w3.org/2000/svg"
@@ -173,11 +129,6 @@ export default function Authenticated({
                                     </Dropdown.Trigger>
 
                                     <Dropdown.Content>
-                                        <Dropdown.Link
-                                            href={route("profile.edit")}
-                                        >
-                                            Profile
-                                        </Dropdown.Link>
                                         <Dropdown.Link
                                             href={route("logout")}
                                             method="post"
@@ -273,7 +224,7 @@ export default function Authenticated({
                     </div>
                 </div>
             </nav>
-
+ */}
             {header && (
                 <header className="bg-white shadow">
                     <div className="px-4 py-6 mx-auto max-w-7xl sm:px-6 lg:px-8">
@@ -282,7 +233,137 @@ export default function Authenticated({
                 </header>
             )}
 
-            <main>{children}</main>
+            <main>
+                <aside
+                    id="default-sidebar"
+                    className="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0"
+                    aria-label="Sidebar"
+                >
+                    <div className="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
+                        <ul className="space-y-2 font-medium">
+                            <li>
+                                <a
+                                    href="#"
+                                    className="flex items-center gap-4 p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+                                >
+                                    <svg
+                                        className="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                                        aria-hidden="true"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="currentColor"
+                                        viewBox="0 0 18 18"
+                                    >
+                                        <path d="M6.143 0H1.857A1.857 1.857 0 0 0 0 1.857v4.286C0 7.169.831 8 1.857 8h4.286A1.857 1.857 0 0 0 8 6.143V1.857A1.857 1.857 0 0 0 6.143 0Zm10 0h-4.286A1.857 1.857 0 0 0 10 1.857v4.286C10 7.169 10.831 8 11.857 8h4.286A1.857 1.857 0 0 0 18 6.143V1.857A1.857 1.857 0 0 0 16.143 0Zm-10 10H1.857A1.857 1.857 0 0 0 0 11.857v4.286C0 17.169.831 18 1.857 18h4.286A1.857 1.857 0 0 0 8 16.143v-4.286A1.857 1.857 0 0 0 6.143 10Zm10 0h-4.286A1.857 1.857 0 0 0 10 11.857v4.286c0 1.026.831 1.857 1.857 1.857h4.286A1.857 1.857 0 0 0 18 16.143v-4.286A1.857 1.857 0 0 0 16.143 10Z" />
+                                    </svg>
+                                    <NavLink
+                                        href={route("dashboard")}
+                                        active={route().current("dashboard")}
+                                    >
+                                        Dashboard
+                                    </NavLink>
+                                </a>
+                            </li>
+                            <li>
+                                <a
+                                    href="#"
+                                    className="flex items-center gap-4 p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+                                >
+                                    <RiPoliceCarLine className="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" />
+
+                                    <NestedDropdown
+                                        items={items}
+                                        className="relative"
+                                        renderOption={(option) => (
+                                            <button
+                                                type="button"
+                                                onClick={option.onSelect}
+                                                className="flex items-center justify-between w-[200px] px-1 pt-1 text-sm font-medium leading-5 text-gray-900 transition duration-150 ease-in-out focus:outline-none focus:border-indigo-700"
+                                            >
+                                                <div className="flex-1 block w-full text-sm leading-5 text-gray-700 transition duration-150 ease-in-out text-start focus:outline-none focus:bg-gray-100 ">
+                                                    {option.label}
+                                                </div>
+                                                {option.items && (
+                                                    <div>
+                                                        <svg
+                                                            className="w-2.5 h-2.5 ms-3 rtl:rotate-180"
+                                                            aria-hidden="true"
+                                                            xmlns="http://www.w3.org/2000/svg"
+                                                            fill="none"
+                                                            viewBox="0 0 6 10"
+                                                        >
+                                                            <path
+                                                                stroke="currentColor"
+                                                                stroke-linecap="round"
+                                                                stroke-linejoin="round"
+                                                                stroke-width="2"
+                                                                d="m1 9 4-4-4-4"
+                                                            />
+                                                        </svg>
+                                                    </div>
+                                                )}
+                                            </button>
+                                        )}
+                                    >
+                                        {({ onClick }) => (
+                                            <button
+                                                type="button"
+                                                onClick={onClick}
+                                                className={`inline-flex items-center h-full px-1 pt-1 text-sm font-medium leading-5 text-gray-900 transition duration-150 ease-in-out focus:outline-none focus:border-indigo-700 ${
+                                                    route().current(
+                                                        "vehiculos.index"
+                                                    )
+                                                        ? "border-b-2  border-indigo-400 "
+                                                        : ""
+                                                }`}
+                                            >
+                                                Plantilla vehicular
+                                            </button>
+                                        )}
+                                    </NestedDropdown>
+                                </a>
+                            </li>
+                            <li>
+                                <a
+                                    href="#"
+                                    className="flex items-center gap-4 p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+                                >
+                                    <svg
+                                        className="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                                        aria-hidden="true"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="currentColor"
+                                        viewBox="0 0 18 18"
+                                    >
+                                        <path d="M6.143 0H1.857A1.857 1.857 0 0 0 0 1.857v4.286C0 7.169.831 8 1.857 8h4.286A1.857 1.857 0 0 0 8 6.143V1.857A1.857 1.857 0 0 0 6.143 0Zm10 0h-4.286A1.857 1.857 0 0 0 10 1.857v4.286C10 7.169 10.831 8 11.857 8h4.286A1.857 1.857 0 0 0 18 6.143V1.857A1.857 1.857 0 0 0 16.143 0Zm-10 10H1.857A1.857 1.857 0 0 0 0 11.857v4.286C0 17.169.831 18 1.857 18h4.286A1.857 1.857 0 0 0 8 16.143v-4.286A1.857 1.857 0 0 0 6.143 10Zm10 0h-4.286A1.857 1.857 0 0 0 10 11.857v4.286c0 1.026.831 1.857 1.857 1.857h4.286A1.857 1.857 0 0 0 18 16.143v-4.286A1.857 1.857 0 0 0 16.143 10Z" />
+                                    </svg>
+                                    <NavLink
+                                        href={route("dashboard")}
+                                        active={route().current("dashboard")}
+                                    >
+                                        Combustible
+                                    </NavLink>
+                                </a>
+                            </li>
+                            <li>
+                                <a
+                                    href="#"
+                                    className="flex items-center gap-4 p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+                                >
+                                    <BsTools />
+                                    <NavLink
+                                        href="/mantenimiento"
+                                        active={false}
+                                    >
+                                        Mantenimiento
+                                    </NavLink>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </aside>
+
+                <div className="p-4 sm:ml-64">{children}</div>
+            </main>
         </div>
     );
 }

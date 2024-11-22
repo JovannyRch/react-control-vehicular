@@ -15,7 +15,7 @@ export default function Login({
     canResetPassword: boolean;
 }) {
     const { data, setData, post, processing, errors, reset } = useForm({
-        email: "",
+        username: "",
         password: "",
         remember: false,
     });
@@ -40,20 +40,20 @@ export default function Login({
 
             <form onSubmit={submit}>
                 <div>
-                    <InputLabel htmlFor="email" value="Correo electrónico" />
+                    <InputLabel htmlFor="username" value="Nombre de usuario" />
 
                     <TextInput
-                        id="email"
-                        type="email"
-                        name="email"
-                        value={data.email}
+                        id="username"
+                        type="text"
+                        name="username"
+                        value={data.username}
                         className="block w-full mt-1"
                         autoComplete="username"
                         isFocused={true}
-                        onChange={(e) => setData("email", e.target.value)}
+                        onChange={(e) => setData("username", e.target.value)}
                     />
 
-                    <InputError message={errors.email} className="mt-2" />
+                    <InputError message={errors.username} className="mt-2" />
                 </div>
 
                 <div className="mt-4">
@@ -73,15 +73,6 @@ export default function Login({
                 </div>
 
                 <div className="flex items-center justify-end mt-4">
-                    {/*  {canResetPassword && (
-                        <Link
-                            href={route("password.request")}
-                            className="text-sm text-gray-600 underline rounded-md hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                        >
-                            Forgot your password?
-                        </Link>
-                    )}
- */}
                     <PrimaryButton className="ms-4" disabled={processing}>
                         Iniciar sesión
                     </PrimaryButton>
