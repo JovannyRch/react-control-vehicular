@@ -117,7 +117,7 @@ export default function Dashboard({ auth }: PageProps) {
                                 </div>
                                 <div className="p-4 text-center border border-gray-400 rounded-md h-100 w-100">
                                     <h2 className="text-xl">
-                                        Comisionario General
+                                        Comisario General
                                     </h2>
                                     <h2 className="text-2xl font-bold text-gray-600">
                                         Placido Jarquín
