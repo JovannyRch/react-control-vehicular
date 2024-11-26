@@ -170,8 +170,9 @@ export default function Authenticated({
         <div className="min-h-screen bg-gray-100">
             {header && (
                 <header className="bg-white shadow">
-                    <div className="px-4 py-6 mx-auto max-w-7xl sm:px-6 lg:px-8">
-                        {header}
+                    <div className="flex gap-8 px-4 py-6 mx-auto max-w-7xl sm:px-6 lg:px-8">
+                        <div className="flex-1">{header}</div>
+                        <div>{user.username}</div>
                     </div>
                 </header>
             )}
