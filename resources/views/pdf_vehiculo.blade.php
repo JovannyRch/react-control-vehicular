@@ -111,259 +111,294 @@ function formatCurrency($number)
             text-align: center;
             font-size: 14px;
         }
+
+        .mark {
+            position: absolute;
+            top: -20px;
+            right: -40px;
+            width: 100%;
+            opacity: 0.1;
+        }
+
+        @page {
+            margin: 0cm 0cm;
+        }
+
+        body {
+            margin-top: 1cm;
+            margin-bottom: 1cm;
+            margin-left: 1cm;
+            margin-right: 1cm;
+        }
+
+        #watermark {
+            position: fixed;
+            top: 0px;
+            right: 10px;
+            opacity: 0.05;
+            height: 21.8cm;
+            width: 29.7cm;
+
+            z-index: -1000;
+        }
     </style>
 
 </head>
 
 
 <body>
-    <img src="img/logo.png" style="width: 200px;">
-    <h2 style="text-align: center;">Detalles del vehículo</h2>
-    <table class="details">
-        <tr>
-            <td class="value"><strong># Económico</strong></td>
-            <td class="value">{{ $vehiculo->numero_economico }}</td>
-            <td class="value"><strong>Marca</strong></td>
-            <td class="value">{{ $vehiculo->marca }}</td>
-        </tr>
-
-        <tr>
-            <td class="value"><strong>Modelo</strong></td>
-            <td class="value">{{ $vehiculo->modelo }}</td>
-            <td class="value"><strong>Placa</strong></td>
-            <td class="value">{{ $vehiculo->placa }}</td>
-        </tr>
-
-
-        <tr>
-            <td class="value"><strong>Tipo</strong></td>
-            <td class="value">{{ $vehiculo->tipo }}</td>
-            <td class="value"><strong># Serie</strong></td>
-            <td class="value">{{ $vehiculo->no_serie }}</td>
-        </tr>
-
-
-        <tr>
-            <td class="value"><strong># Motor</strong></td>
-            <td class="value">{{ $vehiculo->no_motor }}</td>
-
-            <td class="value"><strong>Área asignación</strong></td>
-            <td class="value">{{ $vehiculo->area_asignacion }}</td>
-        </tr>
-        <tr>
-            <td class="value"><strong>Resguardante</strong></td>
-            <td class="value">{{ $vehiculo->resguardante }}</td>
-
-            <td class="value"><strong>Plantilla</strong></td>
-            <td class="value">{{ $vehiculo->plantilla }}</td>
-        </tr>
-        <tr>
-            <td class="value"><strong>CIV</strong></td>
-            <td class="value">{{ $vehiculo->civ }}</td>
-
-            <td></td>
-            <td></td>
-        </tr>
-
-        @if ($vehiculo->plantilla === 'propia')
+    <div id="watermark">
+        <img src="img/marca_horizontal.png" height="100%" width="100%" />
+    </div>
+    <main>
+        <img src="img/logo.png" style="width: 200px;">
+        <h2 style="text-align: center;">Detalles del vehículo</h2>
+        <table class="details">
             <tr>
-                <td class="value"><strong>Estado</strong></td>
-                <td class="value">{{ $vehiculo->estado }}</td>
+                <td class="value"><strong># Económico</strong></td>
+                <td class="value">{{ $vehiculo->numero_economico }}</td>
+                <td class="value"><strong>Marca</strong></td>
+                <td class="value">{{ $vehiculo->marca }}</td>
             </tr>
-        @endif
 
-    </table>
+            <tr>
+                <td class="value"><strong>Modelo</strong></td>
+                <td class="value">{{ $vehiculo->modelo }}</td>
+                <td class="value"><strong>Placa</strong></td>
+                <td class="value">{{ $vehiculo->placa }}</td>
+            </tr>
 
-    <br>
 
-    @if ($vehiculo->detalle)
-        <div class="detail">
-            <strong>Detalles</strong>
-            <br>
-            <p>
-                {{ $vehiculo->detalle }}
-            </p>
-        </div>
-    @endif
+            <tr>
+                <td class="value"><strong>Tipo</strong></td>
+                <td class="value">{{ $vehiculo->tipo }}</td>
+                <td class="value"><strong># Serie</strong></td>
+                <td class="value">{{ $vehiculo->no_serie }}</td>
+            </tr>
 
-    <br><br>
-    @if ($loadFuel)
-        @if (sizeof($cargas) > 0)
-            <h2 id="title">Cargas de combustible
-                @if ($month)
-                    de {{ getMonth($month) }}
-                @endif
-                @if ($year)
-                    {{ $year }}
-                @endif
 
-            </h2>
-            <div>
-                <strong>Total de cargas: </strong> {{ sizeof($cargas) }} &nbsp;&nbsp;
-                <strong>Total de litros: </strong> {{ number_format($total_litros) }} &nbsp;&nbsp;
-                <strong>Total de importe: </strong> ${{ formatCurrency($total_importe) }}
+            <tr>
+                <td class="value"><strong># Motor</strong></td>
+                <td class="value">{{ $vehiculo->no_motor }}</td>
+
+                <td class="value"><strong>Área asignación</strong></td>
+                <td class="value">{{ $vehiculo->area_asignacion }}</td>
+            </tr>
+            <tr>
+                <td class="value"><strong>Resguardante</strong></td>
+                <td class="value">{{ $vehiculo->resguardante }}</td>
+
+                <td class="value"><strong>Plantilla</strong></td>
+                <td class="value">{{ $vehiculo->plantilla }}</td>
+            </tr>
+            <tr>
+                <td class="value"><strong>CIV</strong></td>
+                <td class="value">{{ $vehiculo->civ }}</td>
+
+                <td></td>
+                <td></td>
+            </tr>
+
+            @if ($vehiculo->plantilla === 'propia')
+                <tr>
+                    <td class="value"><strong>Estado</strong></td>
+                    <td class="value">{{ $vehiculo->estado }}</td>
+                </tr>
+            @endif
+
+        </table>
+
+        <br>
+
+        @if ($vehiculo->detalle)
+            <div class="detail">
+                <strong>Detalles</strong>
+                <br>
+                <p>
+                    {{ $vehiculo->detalle }}
+                </p>
             </div>
-            <br>
+        @endif
 
-            <table id="cargas">
-                <thead>
-                    <tr>
-                        <th>Fecha</th>
-                        <th>Importe</th>
-                        <th>Litros</th>
-                        <th>Odom Ini</th>
-                        <th>Odom Fin</th>
-                        <th>Km recorridos</th>
-                        <th>Rendimiento</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($cargas as $carga)
-                        <tr>
-                            <td>{{ formatDate($carga->fecha) }}</td>
-                            <td>${{ $carga->importe }}</td>
-                            <td>{{ $carga->litros }}</td>
-                            <td>{{ $carga->odometro_inicial }}</td>
-                            <td>{{ $carga->odometro_final }}</td>
-                            <td>{{ $carga->kilometrosRecorridos() }}</td>
-                            <td>{{ $carga->getRendimiento() }}</td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        @else
-            <h3 style="text-align: center;">Cargas</h3>
-            <br>
-            <p style="text-align: center;">No hay cargas registradas</p>
-        @endif
-    @elseif ($maintenance)
-        @if (sizeof($mantenimientos) > 0)
-            <h2 id="title">Mantenimientos
-                @if ($month)
-                    de {{ getMonth($month) }}
-                @endif
-                @if ($year)
-                    {{ $year }}
-                @endif
-            </h2>
-            <div>
-                <strong>Total de mantenimientos: </strong> {{ sizeof($mantenimientos) }}
-            </div>
-            <br>
-            <table id="cargas">
-                <thead>
-                    <tr>
-                        <th>Fecha elaboración/th>
-                        <th>Folio</th>
-                        <th>Fecha ingreso</th>
-                        <th>Fecha salida</th>
-                        <th>Taller asignación</th>
-                        <th>Servicio solicitado</th>
-                        <th>Servicio realizado</th>
-                        <th>Importe</th>
-                        <th>Folio fiscal</th>
-                        <th>Folio afectación</th>
-                        <th>Estado</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($mantenimientos as $mantenimiento)
-                        <tr>
-                            <td>{{ $mantenimiento->folio }}</td>
-                            <td>{{ formatDate($mantenimiento->fecha_elaboracion) }}</td>
-                            <td>{{ formatDate($mantenimiento->fecha_ingreso) }}</td>
-                            <td>{{ formatDate($mantenimiento->fecha_salida) }}</td>
-                            <td>{{ $mantenimiento->taller_asignacion }}</td>
-                            <td>{{ $mantenimiento->servicio_solicitado }}</td>
-                            <td>{{ $mantenimiento->servicio_realizado }}</td>
-                            <td>${{ formatCurrency($mantenimiento->importe) }}</td>
-                            <td>
-                                @if ($mantenimiento->folio_fiscal)
-                                    {{ $mantenimiento->folio_fiscal }}
-                                @else
-                                    Sin folio fiscal
-                                @endif
-                            </td>
-                            <td>
-                                @if ($mantenimiento->folio_afectacion)
-                                    {{ $mantenimiento->folio_afectacion }}
-                                @else
-                                    Sin folio afectación
-                                @endif
-                            </td>
-                            <td>{{ $mantenimiento->estado }}</td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        @else
-            <h3 style="text-align: center;">Mantenimientos</h3>
-            <br>
-            <p style="text-align: center;">No hay mantenimientos registrados</p>
-        @endif
-    @elseif ($tools)
-        @if (sizeof($accesorios) > 0)
-            <h2 id="title">Accesorios
-            </h2>
-            <div>
-                <strong>Total de accesorios: </strong> {{ sizeof($accesorios) }}
-            </div>
-            <br>
-            <table id="cargas">
-                <thead>
-                    <tr>
-                        <th>Fecha/th>
-                        <th>Folio</th>
-                        <th>Detalle</th>
-                        <th>Persona encargada</th>
-                        <th>Persona entregada</th>
+        <br><br>
+        @if ($loadFuel)
+            @if (sizeof($cargas) > 0)
+                <h2 id="title">Cargas de combustible
+                    @if ($month)
+                        de {{ getMonth($month) }}
+                    @endif
+                    @if ($year)
+                        {{ $year }}
+                    @endif
 
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($accesorios as $accesorio)
-                        <tr>
-                            <td>{{ formatDate($accesorio->fecha) }}</td>
-                            <td>{{ $accesorio->folio }}</td>
-                            <td>{{ $accesorio->detalle }}</td>
-                            <td>{{ $accesorio->persona_encargada }}</td>
-                            <td>{{ $accesorio->persona_entregada }}</td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        @else
-            <h3 style="text-align: center;">Accesorios</h3>
-            <br>
-            <p style="text-align: center;">No hay accesorios registrados</p>
-        @endif
-    @else
-        <h2 id="title">Historial</h2>
+                </h2>
+                <div>
+                    <strong>Total de cargas: </strong> {{ sizeof($cargas) }} &nbsp;&nbsp;
+                    <strong>Total de litros: </strong> {{ number_format($total_litros) }} &nbsp;&nbsp;
+                    <strong>Total de importe: </strong> ${{ formatCurrency($total_importe) }}
+                </div>
+                <br>
 
-        @if (count($historial) > 0)
-            <table id="cargas">
-                <thead>
-                    <tr>
-                        <th>Suceso</th>
-                        <th>Fecha</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($historial as $suceso)
+                <table id="cargas">
+                    <thead>
                         <tr>
-                            <td>{{ $suceso->detalle }}</td>
-                            <td>
-                                {{ $suceso->created_at->format('d-m-Y') }}
-                            </td>
+                            <th>Fecha</th>
+                            <th>Importe</th>
+                            <th>Litros</th>
+                            <th>Odom Ini</th>
+                            <th>Odom Fin</th>
+                            <th>Km recorridos</th>
+                            <th>Rendimiento</th>
                         </tr>
-                    @endforeach
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        @foreach ($cargas as $carga)
+                            <tr>
+                                <td>{{ formatDate($carga->fecha) }}</td>
+                                <td>${{ $carga->importe }}</td>
+                                <td>{{ $carga->litros }}</td>
+                                <td>{{ $carga->odometro_inicial }}</td>
+                                <td>{{ $carga->odometro_final }}</td>
+                                <td>{{ $carga->kilometrosRecorridos() }}</td>
+                                <td>{{ $carga->getRendimiento() }}</td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            @else
+                <h3 style="text-align: center;">Cargas</h3>
+                <br>
+                <p style="text-align: center;">No hay cargas registradas</p>
+            @endif
+        @elseif ($maintenance)
+            @if (sizeof($mantenimientos) > 0)
+                <h2 id="title">Mantenimientos
+                    @if ($month)
+                        de {{ getMonth($month) }}
+                    @endif
+                    @if ($year)
+                        {{ $year }}
+                    @endif
+                </h2>
+                <div>
+                    <strong>Total de mantenimientos: </strong> {{ sizeof($mantenimientos) }}
+                </div>
+                <br>
+                <table id="cargas">
+                    <thead>
+                        <tr>
+                            <th>Fecha elaboración/th>
+                            <th>Folio</th>
+                            <th>Fecha ingreso</th>
+                            <th>Fecha salida</th>
+                            <th>Taller asignación</th>
+                            <th>Servicio solicitado</th>
+                            <th>Servicio realizado</th>
+                            <th>Importe</th>
+                            <th>Folio fiscal</th>
+                            <th>Folio afectación</th>
+                            <th>Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($mantenimientos as $mantenimiento)
+                            <tr>
+                                <td>{{ $mantenimiento->folio }}</td>
+                                <td>{{ formatDate($mantenimiento->fecha_elaboracion) }}</td>
+                                <td>{{ formatDate($mantenimiento->fecha_ingreso) }}</td>
+                                <td>{{ formatDate($mantenimiento->fecha_salida) }}</td>
+                                <td>{{ $mantenimiento->taller_asignacion }}</td>
+                                <td>{{ $mantenimiento->servicio_solicitado }}</td>
+                                <td>{{ $mantenimiento->servicio_realizado }}</td>
+                                <td>${{ formatCurrency($mantenimiento->importe) }}</td>
+                                <td>
+                                    @if ($mantenimiento->folio_fiscal)
+                                        {{ $mantenimiento->folio_fiscal }}
+                                    @else
+                                        Sin folio fiscal
+                                    @endif
+                                </td>
+                                <td>
+                                    @if ($mantenimiento->folio_afectacion)
+                                        {{ $mantenimiento->folio_afectacion }}
+                                    @else
+                                        Sin folio afectación
+                                    @endif
+                                </td>
+                                <td>{{ $mantenimiento->estado }}</td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            @else
+                <h3 style="text-align: center;">Mantenimientos</h3>
+                <br>
+                <p style="text-align: center;">No hay mantenimientos registrados</p>
+            @endif
+        @elseif ($tools)
+            @if (sizeof($accesorios) > 0)
+                <h2 id="title">Accesorios
+                </h2>
+                <div>
+                    <strong>Total de accesorios: </strong> {{ sizeof($accesorios) }}
+                </div>
+                <br>
+                <table id="cargas">
+                    <thead>
+                        <tr>
+                            <th>Fecha/th>
+                            <th>Folio</th>
+                            <th>Detalle</th>
+                            <th>Persona encargada</th>
+                            <th>Persona entregada</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($accesorios as $accesorio)
+                            <tr>
+                                <td>{{ formatDate($accesorio->fecha) }}</td>
+                                <td>{{ $accesorio->folio }}</td>
+                                <td>{{ $accesorio->detalle }}</td>
+                                <td>{{ $accesorio->persona_encargada }}</td>
+                                <td>{{ $accesorio->persona_entregada }}</td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            @else
+                <h3 style="text-align: center;">Accesorios</h3>
+                <br>
+                <p style="text-align: center;">No hay accesorios registrados</p>
+            @endif
         @else
-            <br>
-            <p style="text-align: center;">No hay historial registrado</p>
+            <h2 id="title">Historial</h2>
+
+            @if (count($historial) > 0)
+                <table id="cargas">
+                    <thead>
+                        <tr>
+                            <th>Suceso</th>
+                            <th>Fecha</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($historial as $suceso)
+                            <tr>
+                                <td>{{ $suceso->detalle }}</td>
+                                <td>
+                                    {{ $suceso->created_at->format('d-m-Y') }}
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            @else
+                <br>
+                <p style="text-align: center;">No hay historial registrado</p>
+            @endif
         @endif
-    @endif
+    </main>
 </body>
 
 </html>

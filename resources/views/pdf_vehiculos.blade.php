@@ -49,58 +49,85 @@
             width: 100%;
             font-size: 12px;
         }
+
+        @page {
+            margin: 0cm 0cm;
+        }
+
+        body {
+            margin-top: 1cm;
+            margin-bottom: 1cm;
+            margin-left: 1cm;
+            margin-right: 1cm;
+        }
+
+        #watermark {
+            position: fixed;
+            top: 0px;
+            right: 10px;
+            opacity: 0.05;
+            height: 21.8cm;
+            width: 29.7cm;
+
+            z-index: -1000;
+        }
     </style>
 </head>
 
 <body>
-
-    <h2 id="title">Reporte vehículos</h2>
-    @if ($plantilla)
-        <div class="detail">
-            <strong>Plantilla: </strong> {{ $plantilla }} <br>
-        </div>
-    @endif
-    @if ($estado && $plantilla === 'propia')
-        <div class="detail">
-            <strong>Estado: </strong> {{ $estado }} <br>
-        </div>
-    @endif
-    <div class="detail">
-        <strong>Fecha:</strong> {{ now()->format('d-m-Y') }}
+    <div id="watermark">
+        <img src="img/marca_horizontal.png" height="100%" width="100%" />
     </div>
-    <br>
-    <br>
-    <table id="vehicles">
-        <thead>
-            <tr>
-                <th>CIV</th>
-                <th># Económico</th>
-                <th>Marca</th>
-                <th>Tipo</th>
-                <th>Placa</th>
-                <th>Modelo</th>
-                <th># Motor</th>
-                <th># Serie</th>
-                <th>Área asignación</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach ($vehiculos as $vehiculo)
+    <main>
+        <img src="img/logo.png" style="width: 200px;">
+        <h2 id="title">Reporte vehículos</h2>
+        @if ($plantilla)
+            <div class="detail">
+                <strong>Plantilla: </strong> {{ $plantilla }} <br>
+            </div>
+        @endif
+        @if ($estado && $plantilla === 'propia')
+            <div class="detail">
+                <strong>Estado: </strong> {{ $estado }} <br>
+            </div>
+        @endif
+        <div class="detail">
+            <strong>Fecha:</strong> {{ now()->format('d-m-Y') }}
+        </div>
+        <br>
+        <br>
+        <table id="vehicles">
+            <thead>
                 <tr>
-                    <td>{{ $vehiculo->civ }}</td>
-                    <td>{{ $vehiculo->numero_economico }}</td>
-                    <td>{{ $vehiculo->marca }}</td>
-                    <td>{{ $vehiculo->tipo }}</td>
-                    <td>{{ $vehiculo->placa }}</td>
-                    <td>{{ $vehiculo->modelo }}</td>
-                    <td>{{ $vehiculo->no_motor }}</td>
-                    <td>{{ $vehiculo->no_serie }}</td>
-                    <td>{{ $vehiculo->area_asignacion }}</td>
+                    <th>CIV</th>
+                    <th># Económico</th>
+                    <th>Marca</th>
+                    <th>Tipo</th>
+                    <th>Placa</th>
+                    <th>Modelo</th>
+                    <th># Motor</th>
+                    <th># Serie</th>
+                    <th>Área asignación</th>
                 </tr>
-            @endforeach
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                @foreach ($vehiculos as $vehiculo)
+                    <tr>
+                        <td>{{ $vehiculo->civ }}</td>
+                        <td>{{ $vehiculo->numero_economico }}</td>
+                        <td>{{ $vehiculo->marca }}</td>
+                        <td>{{ $vehiculo->tipo }}</td>
+                        <td>{{ $vehiculo->placa }}</td>
+                        <td>{{ $vehiculo->modelo }}</td>
+                        <td>{{ $vehiculo->no_motor }}</td>
+                        <td>{{ $vehiculo->no_serie }}</td>
+                        <td>{{ $vehiculo->area_asignacion }}</td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
 
+    </main>
 </body>
 
 </html>

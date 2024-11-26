@@ -53,8 +53,8 @@
         }
 
         .boxes th {
-            background-color: white;
-            height: calc(100% - 250px);
+            background-color: transparent;
+            height: calc(100% - 280px);
             border: 1px solid #aaa;
 
         }
@@ -63,9 +63,29 @@
             height: 120px;
             border: 1px solid #aaa;
             text-align: left;
-            /* space between lines of text */
             min-width: calc(100%/3);
             line-height: 1.8;
+        }
+
+        @page {
+            margin: 0cm 0cm;
+        }
+
+        body {
+            margin-top: 1cm;
+            margin-bottom: 1cm;
+            margin-left: 1cm;
+            margin-right: 1cm;
+        }
+
+        #watermark {
+            position: fixed;
+            top: 0px;
+            right: 10px;
+            opacity: 0.05;
+            width: 21.8cm;
+            height: 29.7cm;
+            z-index: -1000;
         }
     </style>
 
@@ -73,70 +93,76 @@
 
 
 <body>
+    <div id="watermark">
+        <img src="img/marca_vertical.png" height="100%" width="100%" />
+    </div>
+    <main>
+        <img src="img/logo.png" style="width: 200px;">
 
-    @for ($i = 0; $i < $total_pages; $i++)
-        <table>
-            <thead>
-                <th>FACTURA</th>
-                <th>CIV</th>
-                <th>PLACA</th>
-                <th>SERIE</th>
-                <th>MARCA</th>
+        @for ($i = 0; $i < $total_pages; $i++)
+            <table>
+                <thead>
+                    <th>FACTURA</th>
+                    <th>CIV</th>
+                    <th>PLACA</th>
+                    <th>SERIE</th>
+                    <th>MARCA</th>
 
-                <th>MODELO</th>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>
-                        {{ $factura->folio }}
-                    </td>
-                    <td>
-                        {{ $vehiculo->civ }}
-                    </td>
-                    <td>
-                        {{ $vehiculo->placa }}
-                    </td>
-                    <td>
-                        {{ $vehiculo->no_serie }}
-                    </td>
-                    <td>
-                        {{ $vehiculo->marca }}
-                    </td>
-
-                    <td>
-                        {{ $vehiculo->modelo }}
-                    </td>
-                </tr>
-
-            </tbody>
-        </table>
-        <div class="spacer"></div>
-        <table class="boxes">
-            <thead>
-                @foreach ($cargas_per_page[$i] as $carga)
-                    <th>
-
-                    </th>
-                @endforeach
-            </thead>
-            <tbody>
-                <tr>
-                    @foreach ($cargas_per_page[$i] as $carga)
+                    <th>MODELO</th>
+                </thead>
+                <tbody>
+                    <tr>
                         <td>
-                            <div><strong>DÍA:</strong> {{ $carga->formattedDate() }}</div>
-                            <div><strong>FOLIO:</strong> {{ $carga->folio }}</div>
-                            <div><strong>ODÓMETRO:</strong>
-                                {{ $carga->odometro_inicial }}
-                            </div>
-                            <div><strong>CONSUMO: </strong> ${{ $carga->importe }}</div>
+                            {{ $factura->folio }}
                         </td>
+                        <td>
+                            {{ $vehiculo->civ }}
+                        </td>
+                        <td>
+                            {{ $vehiculo->placa }}
+                        </td>
+                        <td>
+                            {{ $vehiculo->no_serie }}
+                        </td>
+                        <td>
+                            {{ $vehiculo->marca }}
+                        </td>
+
+                        <td>
+                            {{ $vehiculo->modelo }}
+                        </td>
+                    </tr>
+
+                </tbody>
+            </table>
+            <div class="spacer"></div>
+            <table class="boxes">
+                <thead>
+                    @foreach ($cargas_per_page[$i] as $carga)
+                        <th>
+
+                        </th>
                     @endforeach
+                </thead>
+                <tbody>
+                    <tr>
+                        @foreach ($cargas_per_page[$i] as $carga)
+                            <td>
+                                <div><strong>DÍA:</strong> {{ $carga->formattedDate() }}</div>
+                                <div><strong>FOLIO:</strong> {{ $carga->folio }}</div>
+                                <div><strong>ODÓMETRO:</strong>
+                                    {{ $carga->odometro_inicial }}
+                                </div>
+                                <div><strong>CONSUMO: </strong> ${{ $carga->importe }}</div>
+                            </td>
+                        @endforeach
 
 
-                </tr>
-            </tbody>
-        </table>
-    @endfor
+                    </tr>
+                </tbody>
+            </table>
+        @endfor
+    </main>
 </body>
 
 </html>
