@@ -9,7 +9,7 @@ import "react-nested-dropdown/dist/styles.css";
 
 import { RiPoliceCarLine } from "react-icons/ri";
 import { BsFuelPump, BsTools } from "react-icons/bs";
-import { BiLogOut } from "react-icons/bi";
+import { BiLogOut, BiSolidCarMechanic } from "react-icons/bi";
 import { RxDashboard } from "react-icons/rx";
 
 export default function Authenticated({
@@ -135,27 +135,37 @@ export default function Authenticated({
             icon: <RxDashboard className="w-5 h-5" />,
             label: "Dashboard",
             href: route("dashboard"),
-        },
-        {
-            icon: <BsFuelPump className="w-5 h-5" />,
-            label: "Combustible",
-            href: route("vehiculos.index", { loadFuel: "true" }),
-            items: cargaItems,
+            hide: false,
         },
         {
             icon: <RiPoliceCarLine className="w-5 h-5" />,
             label: "Vehiculos",
             href: route("vehiculos.index"),
             items,
+            hide: false,
         },
         {
-            icon: <BsTools className="w-5 h-5" />,
+            icon: <BsFuelPump className="w-5 h-5" />,
+            label: "Combustible",
+            href: route("vehiculos.index", { loadFuel: "true" }),
+            items: cargaItems,
+            hide: user.role !== "ADMIN" && user.role !== "FUEL",
+        },
+        {
+            icon: <BiSolidCarMechanic className="w-5 h-5" />,
             label: "Mantenimiento",
             href: route("vehiculos.index", { maintenance: "true" }),
             items: mantenimientoItems,
+            hide: user.role !== "ADMIN" && user.role !== "MAINT",
+        },
+        {
+            icon: <BsTools className="w-5 h-5" />,
+            label: "Accesorios",
+            href: route("vehiculos.index", { tools: "true" }),
+            hide: user.role !== "ADMIN" && user.role !== "MAINT",
         },
     ];
-
+    console.log("user", user);
     return (
         <div className="min-h-screen bg-gray-100">
             {header && (
@@ -178,7 +188,7 @@ export default function Authenticated({
                         </Link>
                         <ul className="space-y-2 font-medium">
                             {navItems.map((item, index) =>
-                                item.items ? (
+                                item.hide ? null : item.items ? (
                                     <li key={index}>
                                         <NestedDropdown
                                             items={item.items}
@@ -193,7 +203,7 @@ export default function Authenticated({
                                                         <span className="flex items-center h-8">
                                                             {item.icon}
                                                         </span>
-                                                        <span className="text-md">
+                                                        <span className="text-[14px]">
                                                             {item.label}
                                                         </span>
                                                     </div>
