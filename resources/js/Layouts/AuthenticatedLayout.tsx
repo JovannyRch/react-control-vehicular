@@ -1,19 +1,16 @@
-import { useState, PropsWithChildren, ReactNode } from "react";
+import { PropsWithChildren, ReactNode } from "react";
 import ApplicationLogo from "@/Components/ApplicationLogo";
-import Dropdown from "@/Components/Dropdown";
 import NavLink from "@/Components/NavLink";
 import ResponsiveNavLink from "@/Components/ResponsiveNavLink";
 import { Link, router } from "@inertiajs/react";
 import { User } from "@/types";
 import { Dropdown as NestedDropdown } from "react-nested-dropdown";
 import "react-nested-dropdown/dist/styles.css";
-import { HiHome } from "react-icons/hi";
-import { GrDashboard } from "react-icons/gr";
-import { MdDashboard } from "react-icons/md";
-import { GiPoliceOfficerHead } from "react-icons/gi";
+
 import { RiPoliceCarLine } from "react-icons/ri";
 import { BsFuelPump, BsTools } from "react-icons/bs";
 import { BiLogOut } from "react-icons/bi";
+import { RxDashboard } from "react-icons/rx";
 
 export default function Authenticated({
     user,
@@ -77,9 +74,65 @@ export default function Authenticated({
         },
     ];
 
+    const cargaItems = [
+        {
+            label: "2019",
+            onSelect: () => {
+                router.visit("/vehiculos?plantilla=2019&loadFuel=true");
+            },
+        },
+        {
+            label: "2023",
+            onSelect: () => {
+                router.visit("/vehiculos?plantilla=2023&loadFuel=true");
+            },
+        },
+        {
+            label: "Propia",
+            items: [
+                {
+                    label: "Vigente",
+                    onSelect: () =>
+                        router.visit(
+                            "/vehiculos?plantilla=propia&estado=vigente&loadFuel=true"
+                        ),
+                },
+            ],
+        },
+        {
+            label: "2024",
+            onSelect: () =>
+                router.visit("/vehiculos?plantilla=2024&loadFuel=true"),
+        },
+        {
+            label: "Listar todas",
+            onSelect: () => router.visit("/vehiculos?loadFuel=true"),
+        },
+    ];
+
+    const mantenimientoItems = [
+        {
+            label: "Propia",
+            items: [
+                {
+                    label: "Vigente",
+                    onSelect: () =>
+                        router.visit(
+                            "/vehiculos?plantilla=propia&estado=vigente&maintenance=true"
+                        ),
+                },
+            ],
+        },
+        {
+            label: "2024",
+            onSelect: () =>
+                router.visit("/vehiculos?plantilla=2024&maintenance=true"),
+        },
+    ];
+
     const navItems = [
         {
-            icon: <GrDashboard className="w-5 h-5" />,
+            icon: <RxDashboard className="w-5 h-5" />,
             label: "Dashboard",
             href: route("dashboard"),
         },
@@ -87,6 +140,7 @@ export default function Authenticated({
             icon: <BsFuelPump className="w-5 h-5" />,
             label: "Combustible",
             href: route("vehiculos.index", { loadFuel: "true" }),
+            items: cargaItems,
         },
         {
             icon: <RiPoliceCarLine className="w-5 h-5" />,
@@ -98,6 +152,7 @@ export default function Authenticated({
             icon: <BsTools className="w-5 h-5" />,
             label: "Mantenimiento",
             href: route("vehiculos.index", { maintenance: "true" }),
+            items: mantenimientoItems,
         },
     ];
 
@@ -122,31 +177,56 @@ export default function Authenticated({
                             <ApplicationLogo className="w-[200px] text-gray-500 fill-current pb-8" />
                         </Link>
                         <ul className="space-y-2 font-medium">
-                            {navItems.map((item, index) => (
-                                <li key={index}>
-                                    <ResponsiveNavLink
-                                        href={item.href}
-                                        active={route().current(item.href)}
-                                    >
-                                        <div className="flex items-center gap-2">
-                                            <span className="flex items-center h-8">
-                                                {item.icon}
-                                            </span>
-                                            <span className="text-md">
-                                                {item.label}
-                                            </span>
-                                        </div>
-                                    </ResponsiveNavLink>
-                                </li>
-                            ))}
-                            {/* divider */}
+                            {navItems.map((item, index) =>
+                                item.items ? (
+                                    <li key={index}>
+                                        <NestedDropdown
+                                            items={item.items}
+                                            containerWidth={100}
+                                        >
+                                            {({ onClick }) => (
+                                                <div
+                                                    onClick={onClick}
+                                                    className="pl-1 cursor-pointer w-100 "
+                                                >
+                                                    <div className="flex items-center gap-2">
+                                                        <span className="flex items-center h-8">
+                                                            {item.icon}
+                                                        </span>
+                                                        <span className="text-md">
+                                                            {item.label}
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            )}
+                                        </NestedDropdown>
+                                    </li>
+                                ) : (
+                                    <li key={index}>
+                                        <NavLink
+                                            href={item.href}
+                                            active={route().current(item.href)}
+                                        >
+                                            <div className="flex items-center gap-2 text-black">
+                                                <span className="flex items-center h-8">
+                                                    {item.icon}
+                                                </span>
+                                                <span className="text-md">
+                                                    {item.label}
+                                                </span>
+                                            </div>
+                                        </NavLink>
+                                    </li>
+                                )
+                            )}
                             <li className="border-t border-gray-200"></li>
                             <li>
-                                <ResponsiveNavLink
+                                <NavLink
                                     href={route("logout")}
+                                    active={false}
                                     method="post"
                                 >
-                                    <div className="flex items-center gap-2">
+                                    <div className="flex items-center gap-2 text-black">
                                         <span className="flex items-center h-8">
                                             <BiLogOut className="w-5 h-5" />
                                         </span>
@@ -154,7 +234,7 @@ export default function Authenticated({
                                             Cerrar sesión
                                         </span>
                                     </div>
-                                </ResponsiveNavLink>
+                                </NavLink>
                             </li>
                         </ul>
                     </div>
