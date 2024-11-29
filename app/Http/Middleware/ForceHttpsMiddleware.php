@@ -9,7 +9,7 @@ class ForceHttpsMiddleware
 {
     public function handle(Request $request, Closure $next)
     {
-        if (!$request->secure() && app()->environment('production')) {
+        if ($request->header('x-forwarded-proto') !== 'https' && env('APP_ENV') === 'production') {
             return redirect()->secure($request->getRequestUri());
         }
 
