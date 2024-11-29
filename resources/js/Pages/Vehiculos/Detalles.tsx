@@ -34,7 +34,7 @@ const Detalles = ({
     readonly = false,
 }: DetallesProps) => {
     return (
-        <div className="mx-8 bg-white shadow-sm sm:rounded-lg sm:px-6 lg:px-8">
+        <div className="bg-white shadow-sm sm:rounded-lg sm:px-4 lg:px-6">
             <div className="flex justify-between pt-4 mt-4">
                 <label
                     htmlFor="historial"

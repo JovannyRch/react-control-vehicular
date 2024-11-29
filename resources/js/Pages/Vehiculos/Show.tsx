@@ -66,7 +66,7 @@ export default function Show({
             <Head title="Vehículos" />
 
             <div className="flex justify-center">
-                <div className="y-12 max-w-[1200px]">
+                <div className="max-w-[1200px]">
                     <Detalles
                         vehiculo={vehiculo}
                         month={month}

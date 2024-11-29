@@ -84,8 +84,6 @@ const CargasDeCombustible = ({
     const [isSelectInvoiceModalOpen, setIsSelectInvoiceModalOpen] =
         useState(false);
 
-    console.log("facturas", facturas);
-
     const form = useForm({
         fecha: new Date().toISOString().split("T")[0],
         litros: "",
@@ -146,7 +144,7 @@ const CargasDeCombustible = ({
 
     return (
         <div
-            className="p-6 mt-6 mb-8 bg-white shadow-sm sm:rounded-lg sm:mx-8"
+            className="p-6 mt-6 mb-8 bg-white shadow-sm sm:rounded-lg"
             id="cargas_combustibles"
         >
             <label
@@ -290,7 +288,7 @@ const CargasDeCombustible = ({
                                             </td>
 
                                             <td className="px-6 py-4 text-sm text-gray-900 whitespace-nowrap">
-                                                {carga.litros} litros
+                                                {carga.litros} l
                                             </td>
                                             <td className="px-6 py-4 text-sm text-gray-900 whitespace-nowrap">
                                                 {isNaN(carga?.odometro_inicial!)
@@ -338,7 +336,7 @@ const CargasDeCombustible = ({
                                             <b>
                                                 {formatNumber(
                                                     totales.litros,
-                                                    "litros"
+                                                    "l"
                                                 )}
                                             </b>
                                         </td>

@@ -27,10 +27,7 @@ const ReportSelector = ({ fetchData }: ReportSelectorProps) => {
     ];
 
     const currentYear = new Date().getFullYear();
-    const years = Array.from(
-        new Array(10),
-        (val, index) => currentYear - index
-    );
+    const years = Array.from(new Array(2), (val, index) => currentYear - index);
 
     useEffect(() => {
         if (month && year) {

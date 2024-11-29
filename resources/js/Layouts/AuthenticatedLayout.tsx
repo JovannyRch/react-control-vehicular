@@ -1,7 +1,6 @@
-import { PropsWithChildren, ReactNode } from "react";
+import { PropsWithChildren, ReactNode, useMemo } from "react";
 import ApplicationLogo from "@/Components/ApplicationLogo";
 import NavLink from "@/Components/NavLink";
-import ResponsiveNavLink from "@/Components/ResponsiveNavLink";
 import { Link, router } from "@inertiajs/react";
 import { User } from "@/types";
 import { Dropdown as NestedDropdown } from "react-nested-dropdown";
@@ -133,7 +132,7 @@ export default function Authenticated({
     const navItems = [
         {
             icon: <RxDashboard className="w-5 h-5" />,
-            label: "Dashboard",
+            label: "Inicio",
             href: route("dashboard"),
             hide: false,
         },
@@ -165,27 +164,17 @@ export default function Authenticated({
             hide: user.role !== "ADMIN" && user.role !== "MAINT",
         },
     ];
-    console.log("user", user);
     return (
         <div className="min-h-screen bg-gray-100">
-            {header && (
-                <header className="bg-white shadow">
-                    <div className="flex gap-8 px-4 py-6 mx-auto max-w-7xl sm:px-6 lg:px-8">
-                        <div className="flex-1">{header}</div>
-                        <div>{user.username}</div>
-                    </div>
-                </header>
-            )}
-
-            <main>
+            <main className="relative">
                 <aside
-                    id="default-sidebar"
-                    className="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0"
+                    id="app-sidebar"
+                    className="fixed top-0 left-0 z-40 h-screen transition-transform -translate-x-full w-52 sm:translate-x-0 position"
                     aria-label="Sidebar"
                 >
                     <div className="h-full px-3 py-4 overflow-y-auto bg-gray-50 ">
                         <Link href="/">
-                            <ApplicationLogo className="w-[200px] text-gray-500 fill-current pb-8" />
+                            <ApplicationLogo className="w-[180px] text-gray-500 fill-current pb-8" />
                         </Link>
                         <ul className="space-y-2 font-medium">
                             {navItems.map((item, index) =>
@@ -193,12 +182,12 @@ export default function Authenticated({
                                     <li key={index}>
                                         <NestedDropdown
                                             items={item.items}
-                                            containerWidth={100}
+                                            containerWidth={140}
                                         >
                                             {({ onClick }) => (
                                                 <div
                                                     onClick={onClick}
-                                                    className="pl-1 cursor-pointer w-100 "
+                                                    className="pl-1 cursor-pointer"
                                                 >
                                                     <div className="flex items-center gap-2">
                                                         <span className="flex items-center h-8">
@@ -217,6 +206,7 @@ export default function Authenticated({
                                         <NavLink
                                             href={item.href}
                                             active={route().current(item.href)}
+                                            className="w-[100px]"
                                         >
                                             <div className="flex items-center gap-2 text-black">
                                                 <span className="flex items-center h-8">
@@ -251,7 +241,17 @@ export default function Authenticated({
                     </div>
                 </aside>
 
-                <div className="p-4 sm:ml-64">{children}</div>
+                <div className="flex-1 sm:ml-52">
+                    {header && (
+                        <header className="bg-white shadow">
+                            <div className="flex gap-8 px-4 py-6 mx-auto max-w-7xl sm:px-6 lg:px-8">
+                                <div className="flex-1">{header}</div>
+                                <div>{user.username}</div>
+                            </div>
+                        </header>
+                    )}
+                    <div>{children}</div>
+                </div>
             </main>
         </div>
     );

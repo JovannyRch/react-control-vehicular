@@ -43,6 +43,8 @@ export default function Vehiculos({
                 plantilla,
                 ...(Boolean(estado) && { estado }),
                 ...(loadFuel && { loadFuel: "true" }),
+                ...(maintenance && { maintenance: "true" }),
+                ...(tools && { tools: "true" }),
             })
         );
     };
@@ -240,7 +242,7 @@ export default function Vehiculos({
                                 </div>
                             </form>
 
-                            {!loadFuel && !maintenance && (
+                            {!loadFuel && !maintenance && !tools && (
                                 <div className="flex justify-end gap-4 mb-4">
                                     <Button
                                         onClick={() =>

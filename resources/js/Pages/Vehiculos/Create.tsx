@@ -113,8 +113,11 @@ export default function Create({
             <div className="py-12">
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
                     <div className="flex justify-center overflow-hidden bg-white shadow-sm sm:rounded-lg">
-                        <div className="justify-center w-full px-6 py-4 mt-6 overflow-hidden bg-white sm:max-w-md sm:rounded-lg">
-                            <form onSubmit={submit} className="flex-1">
+                        <div className="justify-center w-full px-6 py-4 mt-6 overflow-hidden bg-white sm:rounded-lg md:max-w-[900px]">
+                            <form
+                                onSubmit={submit}
+                                className="grid gap-4 md:grid-cols-2 sm:grid-cols-1"
+                            >
                                 <div>
                                     <InputLabel
                                         htmlFor="plantilla"
@@ -410,7 +413,7 @@ export default function Create({
                                     />
                                 </div>
 
-                                <div className="flex items-center justify-end mt-4">
+                                <div className="flex items-center justify-center col-span-2 mt-4">
                                     <PrimaryButton
                                         className="ms-4"
                                         disabled={processing}

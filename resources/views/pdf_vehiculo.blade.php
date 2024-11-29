@@ -195,16 +195,14 @@ function formatCurrency($number)
                 <td class="value"><strong>CIV</strong></td>
                 <td class="value">{{ $vehiculo->civ }}</td>
 
-                <td></td>
-                <td></td>
-            </tr>
 
-            @if ($vehiculo->plantilla === 'propia')
-                <tr>
+                @if ($vehiculo->plantilla === 'propia')
                     <td class="value"><strong>Estado</strong></td>
                     <td class="value">{{ $vehiculo->estado }}</td>
-                </tr>
-            @endif
+                @endif
+            </tr>
+
+
 
         </table>
 
@@ -287,7 +285,7 @@ function formatCurrency($number)
                 <table id="cargas">
                     <thead>
                         <tr>
-                            <th>Fecha elaboración/th>
+                            <th>Fecha elaboración</th>
                             <th>Folio</th>
                             <th>Fecha ingreso</th>
                             <th>Fecha salida</th>
