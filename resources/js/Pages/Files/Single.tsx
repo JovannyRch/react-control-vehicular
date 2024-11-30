@@ -89,7 +89,9 @@ const Files = ({ auth }: PageProps) => {
                                 type="file"
                                 accept=".csv"
                                 className="hidden"
-                                onChange={(e) => setCsvFile(e.target.files[0])}
+                                onChange={(e) =>
+                                    setCsvFile(e.target.files?.[0] || null)
+                                }
                                 required
                             />
                         </label>
