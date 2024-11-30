@@ -207,6 +207,6 @@ class FileController extends Controller
 
         $pdfFileName = 'pega_ticket_' . $groupKey . '.pdf';
 
-        return $pdf->stream(pdfFileName);
+        return $pdf->stream($pdfFileName);
     }
 }
