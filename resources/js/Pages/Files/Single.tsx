@@ -8,7 +8,7 @@ const Files = ({ auth }: PageProps) => {
     const [csvFile, setCsvFile] = useState<File | null>(null);
     const [groups, setGroups] = useState([]);
 
-    const handleSubmit = (e) => {
+    const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         if (!csvFile) return;
 
