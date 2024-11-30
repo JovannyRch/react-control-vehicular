@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use PDF;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Cache;
 
 
 class FileController extends Controller
@@ -84,10 +86,21 @@ class FileController extends Controller
         $pdfFiles = [];
 
 
-        $i = 0;
+        //Define a range of groups, for example, 1 to 10
+        $initialRange = 191;
+        $finalRange = 230;
+        $range = range($initialRange, $finalRange);
+
         // Generar un PDF por cada grupo
+        $index = 1;
         foreach ($groupedData as $groupKey => $cargas) {
-            $i++;
+
+
+            //if the group key is not in the range, skip it
+            if (!in_array($groupKey, $range)) {
+                continue;
+            }
+
             $total_pages = ceil(count($cargas) / 3);
             $cargas_per_page = $this->chunkArray($cargas, 3);
 
@@ -118,10 +131,7 @@ class FileController extends Controller
                 'name' => $pdfFileName,
                 'content' => $pdfContent
             ];
-
-            if ($i == 24) {
-                break;
-            }
+            $index++;
         }
 
 
@@ -155,6 +165,11 @@ class FileController extends Controller
         return Inertia::render('Files/Single', []);
     }
 
+    public function packages()
+    {
+        return Inertia::render('Files/Packages', []);
+    }
+
     public function uploadSingleCSV(Request $request)
     {
         // Validar el archivo
@@ -173,6 +188,107 @@ class FileController extends Controller
 
         // Retornar la lista de grupos al frontend
         return response()->json(['groups' => $groupKeys]);
+    }
+
+    public function uploadPackagedCSV(Request $request)
+    {
+        // Validar el archivo y el tamaño del paquete
+        $request->validate([
+            'csv_file' => 'required|file|mimes:csv,txt',
+            'package_size' => 'required|string|min:1',
+        ]);
+
+        $packageSize = intval($request->input('package_size'));
+
+        // Procesar el archivo CSV y agrupar los datos
+        $groupedData = $this->readCSV($request->file('csv_file'));
+
+        // Obtener las claves de los grupos
+        $groupKeys = array_keys($groupedData);
+
+        // Dividir los grupos en paquetes según el tamaño especificado
+        $packages = array_chunk($groupKeys, $packageSize);
+
+        // Generar un identificador único para el proceso actual
+        $cacheKey = Str::uuid()->toString();
+
+        // Almacenar los paquetes y los datos asociados en caché
+        $cachedPackages = [];
+        foreach ($packages as $index => $packageGroupKeys) {
+            $packageId = $cacheKey . '_package_' . $index;
+            $packageData = [];
+
+            foreach ($packageGroupKeys as $groupKey) {
+                $packageData[$groupKey] = $groupedData[$groupKey];
+            }
+
+            // Guardar el paquete en caché (ejemplo: 30 minutos)
+            Cache::put($packageId, $packageData, now()->addMinutes(30));
+
+            // Almacenar el ID del paquete
+            $cachedPackages[] = $packageId;
+        }
+
+        // Retornar la lista de paquetes y el cacheKey al frontend
+        return response()->json([
+            'packages' => $cachedPackages,
+            'cacheKey' => $cacheKey,
+        ]);
+    }
+
+    public function downloadPackage(Request $request, $cacheKey, $packageId)
+    {
+        // Construir la clave completa del paquete
+        $fullPackageId = $packageId;
+
+        // Obtener los datos del paquete desde el caché
+        $packageData = Cache::get($fullPackageId);
+
+        if (!$packageData) {
+            return response()->json(['error' => 'Paquete no encontrado o expirado.'], 404);
+        }
+
+        $zip = new \ZipArchive();
+        $zipFileName = 'paquete_' . $packageId . '.zip';
+        $zipFilePath = storage_path('app/public/' . $zipFileName);
+
+        if ($zip->open($zipFilePath, \ZipArchive::CREATE | \ZipArchive::OVERWRITE) === TRUE) {
+            // Generar PDFs y agregarlos al ZIP
+            foreach ($packageData as $groupKey => $cargas) {
+
+                $total_pages = ceil(count($cargas) / 3);
+                $cargas_per_page = $this->chunkArray($cargas, 3);
+
+                $vehiculo = $cargas[0];
+                $factura = $cargas[0];
+
+
+                // Generar PDF con los datos
+                $pdf = PDF::loadView('pdf_calculo', [
+                    'data' => $cargas,
+                    'factura' => $factura,
+                    'vehiculo' => $vehiculo,
+                    'total_pages' => $total_pages,
+                    'cargas_per_page' => $cargas_per_page
+                ]);
+
+
+                // Obtener el contenido del PDF
+                $pdfContent = $pdf->output();
+
+                // Crear un nombre para el archivo PDF
+                $pdfFileName = 'pega_ticket_' . $groupKey . '.pdf';
+
+                // Agregar el PDF al ZIP
+                $zip->addFromString($pdfFileName, $pdfContent);
+            }
+            $zip->close();
+        } else {
+            return response()->json(['error' => 'No se pudo crear el archivo ZIP'], 500);
+        }
+
+        // Enviar el archivo ZIP para descarga y eliminarlo después
+        return response()->download($zipFilePath)->deleteFileAfterSend(true);
     }
 
 

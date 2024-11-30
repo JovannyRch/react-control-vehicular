@@ -32,11 +32,14 @@ Route::resource('accesorio', AccesoriosController::class)->middleware('auth', 'v
 Route::resource('carga_combustible', CargaCombustibleController::class)->middleware('auth', 'verified');
 Route::post('/factura/{vehiculo}', [FacturaController::class, 'store'])->middleware('auth', 'verified')->name('factura.store');
 Route::get('/files/single', [FileController::class, 'single'])->middleware('auth', 'verified')->name('files.ui.single');
+Route::get('/files/packages', [FileController::class, 'packages'])->middleware('auth', 'verified')->name('files.ui.packages');
 Route::get('/files', [FileController::class, 'index'])->middleware('auth', 'verified')->name('files.ui');
+Route::post('/files/upload/package', [FileController::class, 'uploadPackagedCSV'])->middleware('auth', 'verified')->name('files.upload.package');
 Route::post('/files/upload', [FileController::class, 'uploadCSV'])->middleware('auth', 'verified')->name('files.upload');
 
 Route::post('/upload-csv', [FileController::class, 'uploadSingleCSV'])->name('upload.csv');
 Route::get('/download-pdf/{groupKey}', [FileController::class, 'downloadPDF'])->name('download.pdf');
+Route::get('/download-package/{cacheKey}/{packageId}', [FileController::class, 'downloadPackage'])->name('download.package');
 
 
 Route::middleware('auth')->group(function () {
