@@ -3,6 +3,7 @@
 use App\Http\Controllers\AccesoriosController;
 use App\Http\Controllers\CargaCombustibleController;
 use App\Http\Controllers\FacturaController;
+use App\Http\Controllers\FileController;
 use App\Http\Controllers\HistorialController;
 use App\Http\Controllers\MantenimientosController;
 use App\Http\Controllers\ProfileController;
@@ -30,7 +31,12 @@ Route::resource('mantenimiento', MantenimientosController::class)->middleware('a
 Route::resource('accesorio', AccesoriosController::class)->middleware('auth', 'verified');
 Route::resource('carga_combustible', CargaCombustibleController::class)->middleware('auth', 'verified');
 Route::post('/factura/{vehiculo}', [FacturaController::class, 'store'])->middleware('auth', 'verified')->name('factura.store');
+Route::get('/files/single', [FileController::class, 'single'])->middleware('auth', 'verified')->name('files.ui.single');
+Route::get('/files', [FileController::class, 'index'])->middleware('auth', 'verified')->name('files.ui');
+Route::post('/files/upload', [FileController::class, 'uploadCSV'])->middleware('auth', 'verified')->name('files.upload');
 
+Route::post('/upload-csv', [FileController::class, 'uploadSingleCSV'])->name('upload.csv');
+Route::get('/download-pdf/{groupKey}', [FileController::class, 'downloadPDF'])->name('download.pdf');
 
 
 Route::middleware('auth')->group(function () {

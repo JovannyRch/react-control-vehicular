@@ -17,6 +17,7 @@ return Application::configure(basePath: dirname(__DIR__))
             \App\Http\Middleware\ForceHttpsMiddleware::class,
             \App\Http\Middleware\TrustProxies::class,
             \Illuminate\Http\Middleware\AddLinkHeadersForPreloadedAssets::class,
+
         ]);
 
         //

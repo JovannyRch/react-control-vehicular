@@ -40,7 +40,11 @@ export default function Login({
 
             <form onSubmit={submit}>
                 <div>
-                    <InputLabel htmlFor="username" value="Nombre de usuario" />
+                    <InputLabel
+                        htmlFor="username"
+                        value="Nombre de usuario"
+                        className="text-white"
+                    />
 
                     <TextInput
                         id="username"
@@ -57,7 +61,11 @@ export default function Login({
                 </div>
 
                 <div className="mt-4">
-                    <InputLabel htmlFor="password" value="Contraseña" />
+                    <InputLabel
+                        htmlFor="password"
+                        value="Contraseña"
+                        className="text-white"
+                    />
 
                     <TextInput
                         id="password"
