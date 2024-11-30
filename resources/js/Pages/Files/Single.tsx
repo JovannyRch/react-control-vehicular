@@ -11,7 +11,6 @@ const Files = ({ auth }: PageProps) => {
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         if (!csvFile) return;
-
         const formData = new FormData();
         formData.append("csv_file", csvFile);
 
@@ -89,46 +88,59 @@ const Files = ({ auth }: PageProps) => {
                                 type="file"
                                 accept=".csv"
                                 className="hidden"
-                                onChange={(e) =>
-                                    setCsvFile(e.target.files?.[0] || null)
-                                }
+                                onChange={(e) => {
+                                    setCsvFile(e.target.files?.[0] || null);
+                                    setGroups([]);
+                                }}
                                 required
                             />
                         </label>
                     </div>
-                    <button
-                        type="submit"
-                        className="w-full px-4 py-2 mt-4 font-semibold text-white transition duration-300 ease-in-out bg-blue-500 rounded-lg shadow-md hover:bg-blue-600"
-                    >
-                        Procesar Archivo
-                    </button>
+                    {csvFile && (
+                        <>
+                            <h1 className="mt-4 mb-2 text-2xl font-bold text-gray-700">
+                                {csvFile?.name}
+                            </h1>
+                            <button
+                                type="submit"
+                                disabled={!csvFile}
+                                className="w-full px-4 py-2 mt-4 font-semibold text-white transition duration-300 ease-in-out bg-blue-500 rounded-lg shadow-md hover:bg-blue-600"
+                            >
+                                Procesar Archivo
+                            </button>
+                        </>
+                    )}
                 </form>
+                <div>
+                    {groups.length > 0 && (
+                        <>
+                            <h2 className="mb-2 text-xl font-semibold text-gray-700">
+                                Pega tickets encontrados:
+                            </h2>
 
-                {groups.length > 0 && (
-                    <div>
-                        <h2 className="mb-2 text-xl font-semibold text-gray-700">
-                            Grupos Encontrados:
-                        </h2>
-                        <ul className="space-y-2">
-                            {groups.map((groupKey) => (
-                                <li
-                                    key={groupKey}
-                                    className="flex items-center justify-between p-3 bg-gray-100 rounded-md shadow-sm"
-                                >
-                                    <span className="text-gray-800">
-                                        Pega ticket {groupKey}
-                                    </span>
-                                    <button
-                                        onClick={() => handleDownload(groupKey)}
-                                        className="px-3 py-1 text-sm font-medium text-white transition duration-300 ease-in-out bg-green-500 rounded-md hover:bg-green-600"
+                            <ul className="space-y-2">
+                                {groups.map((groupKey) => (
+                                    <li
+                                        key={groupKey}
+                                        className="flex items-center justify-between p-3 bg-gray-100 rounded-md shadow-sm"
                                     >
-                                        Descargar PDF
-                                    </button>
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
-                )}
+                                        <span className="text-gray-800">
+                                            Pega ticket {groupKey}
+                                        </span>
+                                        <button
+                                            onClick={() =>
+                                                handleDownload(groupKey)
+                                            }
+                                            className="px-3 py-1 text-sm font-medium text-white transition duration-300 ease-in-out bg-green-500 rounded-md hover:bg-green-600"
+                                        >
+                                            Descargar PDF
+                                        </button>
+                                    </li>
+                                ))}
+                            </ul>
+                        </>
+                    )}
+                </div>
             </div>
         </AuthenticatedLayout>
     );
