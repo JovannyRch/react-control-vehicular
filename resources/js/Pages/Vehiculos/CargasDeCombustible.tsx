@@ -6,6 +6,7 @@ import InvoicesSelectorModal from "@/Components/InvoicesSelectorModal";
 import Modal from "@/Components/Modal";
 import ReportSelector from "@/Components/ReportSelector";
 import TextInput from "@/Components/TextInput";
+import { Typography } from "@/Components/Typography";
 import { CargaCombustible } from "@/types/CargaCombustible";
 import { Factura } from "@/types/Factura";
 import { Vehiculo } from "@/types/Vehiculo";
@@ -144,29 +145,24 @@ const CargasDeCombustible = ({
 
     return (
         <div
-            className="p-6 mt-6 mb-8 bg-white shadow-sm sm:rounded-lg"
+            className="p-6 mt-6 mb-8 bg-[#141E30] shadow-sm sm:rounded-lg"
             id="cargas_combustibles"
         >
-            <label
-                htmlFor="historial"
-                className="block mb-3 text-xl font-medium text-gray-700"
-            >
-                <b>
-                    Cargas de combustible
-                    {month && year && (
-                        <>
-                            {" "}
-                            de <b>{`${getMonthName(Number(month))} ${year}`}</b>
-                        </>
-                    )}
-                </b>
-            </label>
+            <Typography.Title className="block mb-3 text-xl font-medium ">
+                Cargas de combustible
+                {month && year && (
+                    <>
+                        {" "}
+                        de <b>{`${getMonthName(Number(month))} ${year}`}</b>
+                    </>
+                )}
+            </Typography.Title>
             <div className="flex justify-end">
                 <div className="flex items-center gap-1">
                     <ReportSelector fetchData={handleGetReport} />
                     <div>
                         <Button
-                            style="green"
+                            style="main"
                             onClick={() => setIsModalOpen(true)}
                         >
                             Agregar carga
@@ -177,7 +173,7 @@ const CargasDeCombustible = ({
                         <>
                             <div>
                                 <Button
-                                    style="green"
+                                    style="main"
                                     onClick={() => setIsInvoiceModalOpen(true)}
                                 >
                                     Agregar factura
@@ -186,7 +182,7 @@ const CargasDeCombustible = ({
                             </div>
                             <div>
                                 <Button
-                                    style="green"
+                                    style="main"
                                     onClick={() =>
                                         setIsSelectInvoiceModalOpen(true)
                                     }
@@ -202,7 +198,7 @@ const CargasDeCombustible = ({
             <div className="grid grid-cols-12 gap-6 p-8">
                 {cargas.length === 0 ? (
                     <div className="col-span-12 text-center">
-                        <p className="text-center">
+                        <Typography.Paragraph className="text-center">
                             No hay cargas de combustible registradas
                             <br />
                             {month && year && (
@@ -214,83 +210,83 @@ const CargasDeCombustible = ({
                                     </b>
                                 </>
                             )}
-                        </p>
+                        </Typography.Paragraph>
                     </div>
                 ) : (
                     <div className="col-span-12">
                         <div className="overflow-hidden border border-gray-200 rounded-md">
                             <table className="min-w-full divide-y divide-gray-200">
-                                <thead className="bg-gray-50">
+                                <thead className="bg-[#141E30]">
                                     <tr>
                                         <th
                                             scope="col"
-                                            className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase"
+                                            className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-400 uppercase"
                                         >
                                             Folio
                                         </th>
                                         <th
                                             scope="col"
-                                            className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase"
+                                            className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-400 uppercase"
                                         >
                                             Fecha
                                         </th>
                                         <th
                                             scope="col"
-                                            className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase"
+                                            className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-400 uppercase"
                                         >
                                             Importe
                                         </th>
                                         <th
                                             scope="col"
-                                            className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase"
+                                            className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-400 uppercase"
                                         >
                                             Litros
                                         </th>
                                         <th
                                             scope="col"
-                                            className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase"
+                                            className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-400 uppercase"
                                         >
                                             Odom Ini
                                         </th>
                                         <th
                                             scope="col"
-                                            className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase"
+                                            className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-400 uppercase"
                                         >
                                             Odom Fin
                                         </th>
                                         <th
                                             scope="col"
-                                            className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase"
+                                            className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-400 uppercase"
                                         >
                                             Kilómetros
                                         </th>
                                         <th
                                             scope="col"
-                                            className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase"
+                                            className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-400 uppercase"
                                         >
                                             Rendimiento
                                         </th>
                                     </tr>
                                 </thead>
-                                <tbody className="bg-white divide-y divide-gray-200">
+                                <tbody className="bg-[#141E30] divide-y divide-gray-200">
                                     {cargas.map((carga) => (
                                         <tr key={carga.id}>
-                                            <td className="px-6 py-4 text-sm text-gray-900 whitespace-nowrap">
+                                            <td className="px-6 py-4 text-sm font-bold text-white whitespace-nowrap">
                                                 {carga.folio || "-"}
                                             </td>
-                                            <td className="px-6 py-4 text-sm text-gray-900 whitespace-nowrap">
+                                            <td className="px-6 py-4 text-sm text-gray-300 whitespace-nowrap">
                                                 {formatOnlyDateValue(
                                                     carga.fecha
                                                 )}
                                             </td>
-                                            <td className="px-6 py-4 text-sm text-gray-900 whitespace-nowrap">
+                                            <td className="px-6 py-4 text-sm text-gray-300 whitespace-nowrap">
                                                 {formatCurrency(carga.importe)}
                                             </td>
 
-                                            <td className="px-6 py-4 text-sm text-gray-900 whitespace-nowrap">
+                                            <td className="px-6 py-4 text-sm text-gray-300 whitespace-nowrap">
                                                 {carga.litros} l
                                             </td>
-                                            <td className="px-6 py-4 text-sm text-gray-900 whitespace-nowrap">
+                                            <td className="px-6 py-4 text-sm text-gray-300 whitespace-nowrap">
                                                 {isNaN(carga?.odometro_inicial!)
                                                     ? carga.odometro_inicial
                                                     : formatNumber(
@@ -298,7 +294,7 @@ const CargasDeCombustible = ({
                                                           "km"
                                                       )}
                                             </td>
-                                            <td className="px-6 py-4 text-sm text-gray-900 whitespace-nowrap">
+                                            <td className="px-6 py-4 text-sm text-gray-300 whitespace-nowrap">
                                                 {isNaN(carga?.odometro_final!)
                                                     ? carga.odometro_final
                                                     : formatNumber(
@@ -306,33 +302,33 @@ const CargasDeCombustible = ({
                                                           "km"
                                                       )}
                                             </td>
-                                            <td className="px-6 py-4 text-sm text-gray-900 whitespace-nowrap">
+                                            <td className="px-6 py-4 text-sm text-gray-300 whitespace-nowrap">
                                                 {getKm(carga)}
                                             </td>
-                                            <td className="px-6 py-4 text-sm text-gray-900 whitespace-nowrap">
+                                            <td className="px-6 py-4 text-sm text-gray-300 whitespace-nowrap">
                                                 {getRendimiento(carga)}
                                             </td>
                                         </tr>
                                     ))}
-                                    <tr className="bg-gray-100">
-                                        <td className="px-6 py-4 text-sm text-gray-900 whitespace-nowrap">
+                                    <tr className="bg-[#141E30]">
+                                        <td className="px-6 py-4 text-sm text-gray-100 whitespace-nowrap">
                                             <b>Total</b>
                                         </td>
-                                        <td className="px-6 py-4 text-sm text-gray-900 whitespace-nowrap">
+                                        <td className="px-6 py-4 text-sm text-gray-100 whitespace-nowrap">
                                             <b>
                                                 {cargas.length === 1
                                                     ? "1 carga"
                                                     : `${cargas.length} cargas`}
                                             </b>
                                         </td>
-                                        <td className="px-6 py-4 text-sm text-gray-900 whitespace-nowrap">
+                                        <td className="px-6 py-4 text-sm text-gray-100 whitespace-nowrap">
                                             <b>
                                                 {formatCurrency(
                                                     totales.importe
                                                 )}
                                             </b>
                                         </td>
-                                        <td className="px-6 py-4 text-sm text-gray-900 whitespace-nowrap">
+                                        <td className="px-6 py-4 text-sm text-gray-100 whitespace-nowrap">
                                             <b>
                                                 {formatNumber(
                                                     totales.litros,
@@ -340,9 +336,9 @@ const CargasDeCombustible = ({
                                                 )}
                                             </b>
                                         </td>
-                                        <td className="px-6 py-4 text-sm text-gray-900 whitespace-nowrap"></td>
-                                        <td className="px-6 py-4 text-sm text-gray-900 whitespace-nowrap"></td>
-                                        <td className="px-6 py-4 text-sm text-gray-900 whitespace-nowrap">
+                                        <td className="px-6 py-4 text-sm text-gray-100 whitespace-nowrap"></td>
+                                        <td className="px-6 py-4 text-sm text-gray-100 whitespace-nowrap"></td>
+                                        <td className="px-6 py-4 text-sm text-gray-100 whitespace-nowrap">
                                             <b>
                                                 {formatNumber(totales.km, "km")}
                                             </b>

@@ -10,6 +10,7 @@ import { RiPoliceCarLine } from "react-icons/ri";
 import { BsFuelPump, BsTools } from "react-icons/bs";
 import { BiLogOut, BiSolidCarMechanic } from "react-icons/bi";
 import { RxDashboard } from "react-icons/rx";
+import { Typography } from "@/Components/Typography";
 
 export default function Authenticated({
     user,
@@ -165,17 +166,19 @@ export default function Authenticated({
         },
     ];
     return (
-        <div className="min-h-screen bg-gray-100">
+        <div className="min-h-screen bg-slate-600">
             <main className="relative">
                 <aside
                     id="app-sidebar"
                     className="fixed top-0 left-0 z-40 h-screen transition-transform -translate-x-full w-52 sm:translate-x-0 position"
                     aria-label="Sidebar"
                 >
-                    <div className="h-full px-3 py-4 overflow-y-auto bg-gray-50 ">
-                        <Link href="/">
-                            <ApplicationLogo className="w-[180px] text-gray-500 fill-current pb-8" />
-                        </Link>
+                    <div className="h-full px-3 py-4 overflow-y-auto bg-[#141E30] ">
+                        <div className="mb-8 ">
+                            <Link href="/">
+                                <ApplicationLogo className="w-[180px] text-gray-500 fill-current" />
+                            </Link>
+                        </div>
                         <ul className="space-y-2 font-medium">
                             {navItems.map((item, index) =>
                                 item.hide ? null : item.items ? (
@@ -189,14 +192,14 @@ export default function Authenticated({
                                                     onClick={onClick}
                                                     className="pl-1 cursor-pointer"
                                                 >
-                                                    <div className="flex items-center gap-2">
+                                                    <Typography.Title className="flex items-center gap-2">
                                                         <span className="flex items-center h-8">
                                                             {item.icon}
                                                         </span>
-                                                        <span className="text-[14px]">
+                                                        <span className="text-sm">
                                                             {item.label}
                                                         </span>
-                                                    </div>
+                                                    </Typography.Title>
                                                 </div>
                                             )}
                                         </NestedDropdown>
@@ -208,14 +211,14 @@ export default function Authenticated({
                                             active={route().current(item.href)}
                                             className="w-[100px]"
                                         >
-                                            <div className="flex items-center gap-2 text-black">
+                                            <Typography.Title className="flex items-center gap-2 text-sm">
                                                 <span className="flex items-center h-8">
                                                     {item.icon}
                                                 </span>
                                                 <span className="text-md">
                                                     {item.label}
                                                 </span>
-                                            </div>
+                                            </Typography.Title>
                                         </NavLink>
                                     </li>
                                 )
@@ -227,14 +230,14 @@ export default function Authenticated({
                                     active={false}
                                     method="post"
                                 >
-                                    <div className="flex items-center gap-2 text-black">
+                                    <Typography.Title className="flex items-center gap-2 text-sm">
                                         <span className="flex items-center h-8">
                                             <BiLogOut className="w-5 h-5" />
                                         </span>
-                                        <span className="text-md">
+                                        <span className="text-md ">
                                             Cerrar sesión
                                         </span>
-                                    </div>
+                                    </Typography.Title>
                                 </NavLink>
                             </li>
                         </ul>
@@ -243,9 +246,11 @@ export default function Authenticated({
 
                 <div className="flex-1 sm:ml-52">
                     {header && (
-                        <header className="bg-white shadow">
-                            <div className="flex gap-8 px-4 py-6 mx-auto max-w-7xl sm:px-6 lg:px-8">
-                                <div className="flex-1">{header}</div>
+                        <header className="bg-[#141E30] shadow">
+                            <div className="flex gap-8 px-4 py-6 mx-auto text-white max-w-7xl sm:px-6 lg:px-8">
+                                <div className="flex-1 text-white">
+                                    {header}
+                                </div>
                                 <div>{user.username}</div>
                             </div>
                         </header>

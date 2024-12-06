@@ -1,5 +1,6 @@
 import BackButton from "@/Components/BackButton";
 import Button from "@/Components/Button";
+import { Typography } from "@/Components/Typography";
 import { Vehiculo } from "@/types/Vehiculo";
 import { AiOutlineDownload } from "react-icons/ai";
 
@@ -16,10 +17,12 @@ interface DetallesProps {
 const Field = ({ label, value }: { label: string; value: string }) => {
     return (
         <div className="flex gap-2">
-            <label className="block text-sm font-medium text-gray-700 min-w-[130px]">
+            <Typography.Label className="block text-sm font-medium min-w-[130px]">
                 {label}
-            </label>
-            <p className="text-sm text-gray-500">{value ?? "-"}</p>
+            </Typography.Label>
+            <Typography.Paragraph className="text-sm ">
+                {value ?? "-"}
+            </Typography.Paragraph>
         </div>
     );
 };
@@ -34,14 +37,11 @@ const Detalles = ({
     readonly = false,
 }: DetallesProps) => {
     return (
-        <div className="bg-white shadow-sm sm:rounded-lg sm:px-4 lg:px-6">
+        <div className="bg-[#141E30] shadow-sm sm:rounded-lg sm:px-4 lg:px-6">
             <div className="flex justify-between pt-4 mt-4">
-                <label
-                    htmlFor="historial"
-                    className="block mb-3 text-xl font-medium text-gray-700"
-                >
-                    <b>Detalles del vehículo</b>
-                </label>
+                <Typography.Title className="block mb-3 text-xl font-medium ">
+                    Detalles del vehículo
+                </Typography.Title>
                 {!readonly && (
                     <div className="flex gap-1">
                         <BackButton />
@@ -61,7 +61,7 @@ const Detalles = ({
                                 )
                             }
                             className="flex items-center gap-2"
-                            style="dark"
+                            style="main"
                         >
                             Generar PDF
                             <AiOutlineDownload />

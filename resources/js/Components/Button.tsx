@@ -9,7 +9,8 @@ interface ButtonProps {
         | "green"
         | "red"
         | "yellow"
-        | "purple";
+        | "purple"
+        | "main";
     children: React.ReactNode;
     type?: "button" | "submit" | "reset";
     disabled?: boolean;
@@ -41,7 +42,7 @@ const Button = ({
             case "yellow":
                 return "focus:outline-none text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2";
             default:
-                return "text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2";
+                return "text-white bg-[#9C2349] hover:bg-[#882041] focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2";
         }
     }, [type]);
 

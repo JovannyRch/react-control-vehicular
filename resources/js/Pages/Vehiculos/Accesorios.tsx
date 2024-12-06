@@ -7,6 +7,8 @@ import { FiPlus } from "react-icons/fi";
 import { useForm } from "@inertiajs/react";
 import { FaDeleteLeft, FaTrashCan } from "react-icons/fa6";
 import { FaPen } from "react-icons/fa";
+import { Typography } from "@/Components/Typography";
+import RoundedIconButton from "@/Components/RoundedIconButton";
 
 interface AccesoriosProps {
     accesorios: Accesorio[];
@@ -40,23 +42,17 @@ const Accesorios = ({ accesorios: lista, vehiculoId }: AccesoriosProps) => {
     return (
         <>
             <div
-                className="p-6 mt-6 mb-8 bg-white shadow-sm sm:rounded-lg sm:mx-8"
+                className="p-6 mt-6 mb-8 bg-[#141E30] shadow-sm sm:rounded-lg "
                 id="cargas_combustibles"
             >
-                <label
-                    htmlFor="historial"
-                    className="block mb-3 text-xl font-medium text-gray-700"
-                >
-                    <b>Accesorios</b>
-                </label>
+                <Typography.Title className="block mb-3 text-xl font-medium ">
+                    Accesorios
+                </Typography.Title>
                 <div className="flex items-center justify-end gap-4">
                     <div>
-                        <Button
-                            style="green"
-                            onClick={() => setIsModalOpen(true)}
-                        >
-                            <FiPlus className="w-6 h-6" />
+                        <Button onClick={() => setIsModalOpen(true)}>
                             Agregar accesorio
+                            <FiPlus />
                         </Button>
                     </div>
                 </div>
@@ -70,15 +66,15 @@ const Accesorios = ({ accesorios: lista, vehiculoId }: AccesoriosProps) => {
                         </div>
                     ) : (
                         <div className="col-span-12">
-                            <div className="overflow-hidden border border-gray-200 rounded-md">
-                                <table className="min-w-full divide-y divide-gray-200">
-                                    <thead className="bg-gray-50">
+                            <div className="overflow-hidden border border-gray-500 rounded-md">
+                                <table className="min-w-full divide-y divide-gray-300">
+                                    <thead className="bg-[#141E30]">
                                         {
                                             <tr>
                                                 {headers.map((header) => (
                                                     <th
                                                         key={header}
-                                                        className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase"
+                                                        className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-400 uppercase"
                                                     >
                                                         {header}
                                                     </th>
@@ -86,51 +82,54 @@ const Accesorios = ({ accesorios: lista, vehiculoId }: AccesoriosProps) => {
                                             </tr>
                                         }
                                     </thead>
-                                    <tbody className="bg-white divide-y divide-gray-200">
+                                    <tbody className="bg-[#141E30] divide-y divide-gray-400">
                                         {lista.map((accesorio) => (
                                             <tr key={accesorio.id}>
-                                                <td className="px-6 py-4 text-sm text-gray-900 whitespace-nowrap">
+                                                <td className="px-6 py-4 text-sm text-gray-300 whitespace-nowrap">
                                                     {formatOnlyDateValue(
                                                         accesorio.fecha
                                                     )}
                                                 </td>
-                                                <td className="px-6 py-4 text-sm text-gray-900 whitespace-nowrap">
+                                                <td className="px-6 py-4 text-sm text-gray-300 whitespace-nowrap">
                                                     {accesorio.folio || "-"}
                                                 </td>
-                                                <td className="px-6 py-4 text-sm text-gray-900 whitespace-nowrap">
+                                                <td className="px-6 py-4 text-sm text-gray-300 whitespace-nowrap">
                                                     {accesorio.detalle || "-"}
                                                 </td>
-                                                <td className="px-6 py-4 text-sm text-gray-900 whitespace-nowrap">
+                                                <td className="px-6 py-4 text-sm text-gray-300 whitespace-nowrap">
                                                     {accesorio.persona_encargada ||
                                                         "-"}
                                                 </td>
-                                                <td className="px-6 py-4 text-sm text-gray-900 whitespace-nowrap">
+                                                <td className="px-6 py-4 text-sm text-gray-300 whitespace-nowrap">
                                                     {accesorio.persona_entregada ||
                                                         "-"}
                                                 </td>
-                                                <td className="px-6 py-4 text-sm text-gray-900 whitespace-nowrap">
-                                                    <Button
-                                                        style="red"
-                                                        onClick={() =>
-                                                            handleDelete(
-                                                                accesorio
-                                                            )
-                                                        }
-                                                    >
-                                                        <FaTrashCan />
-                                                    </Button>
-                                                    <Button
-                                                        onClick={() => {
-                                                            setSelectedAccesorio(
-                                                                accesorio
-                                                            );
-                                                            setIsModalOpen(
-                                                                true
-                                                            );
-                                                        }}
-                                                    >
-                                                        <FaPen />
-                                                    </Button>
+                                                <td className="px-6 py-4 text-sm text-gray-300 whitespace-nowrap">
+                                                    <div className="flex gap-2">
+                                                        <RoundedIconButton
+                                                            type="red"
+                                                            onClick={() =>
+                                                                handleDelete(
+                                                                    accesorio
+                                                                )
+                                                            }
+                                                        >
+                                                            <FaTrashCan />
+                                                        </RoundedIconButton>
+                                                        <RoundedIconButton
+                                                            type="yellow"
+                                                            onClick={() => {
+                                                                setSelectedAccesorio(
+                                                                    accesorio
+                                                                );
+                                                                setIsModalOpen(
+                                                                    true
+                                                                );
+                                                            }}
+                                                        >
+                                                            <FaPen />
+                                                        </RoundedIconButton>
+                                                    </div>
                                                 </td>
                                             </tr>
                                         ))}

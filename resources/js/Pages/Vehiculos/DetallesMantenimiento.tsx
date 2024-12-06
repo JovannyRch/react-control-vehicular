@@ -6,6 +6,12 @@ import { useForm } from "@inertiajs/react";
 import { useState } from "react";
 import MantenimientoFormModal from "./MantenimientoFormModal";
 import { formatCurrency, formatDate } from "@/utils";
+import { Typography } from "@/Components/Typography";
+import RoundedIconButton from "@/Components/RoundedIconButton";
+import { BiEdit } from "react-icons/bi";
+import { FiDelete } from "react-icons/fi";
+import { FaTrashCan } from "react-icons/fa6";
+import { FaEdit } from "react-icons/fa";
 
 interface DetallesProps {
     vehiculo: Vehiculo;
@@ -15,10 +21,10 @@ interface DetallesProps {
 const Field = ({ label, value }: { label: string; value: string }) => {
     return (
         <div className="flex gap-2">
-            <label className="block text-sm font-medium text-gray-700 min-w-[130px]">
-                {label}
-            </label>
-            <p className="text-sm text-gray-500">{value ?? "-"}</p>
+            <Typography.Label className="text-sm">{label}:</Typography.Label>
+            <Typography.Paragraph className="text-sm ">
+                {value ?? "-"}
+            </Typography.Paragraph>
         </div>
     );
 };
@@ -123,24 +129,22 @@ const DetallesMantenimiento = ({ vehiculo, mantenimiento }: DetallesProps) => {
     ];
 
     return (
-        <div className="mx-8 bg-white shadow-sm sm:rounded-lg sm:px-6 lg:px-8">
+        <div className=" bg-[#141E30] shadow-sm sm:rounded-lg sm:px-6 lg:px-8">
             <div className="flex justify-end pt-4 mt-4">
                 <div className="flex gap-1">
                     <BackButton />
-                    <Button style="red" onClick={handleDelete}>
-                        Eliminar
-                    </Button>
-                    <Button onClick={() => setIsEditModalOpen(true)}>
-                        Editar
-                    </Button>
+                    <RoundedIconButton onClick={handleDelete}>
+                        <FaTrashCan />
+                    </RoundedIconButton>
+                    <RoundedIconButton onClick={() => setIsEditModalOpen(true)}>
+                        <FaEdit />
+                    </RoundedIconButton>
                 </div>
             </div>
 
             <div className="w-full px-6 py-4 mt-6 overflow-hidden sm:rounded-lg">
-                <h2>
-                    <b>Vehículo</b>
-                </h2>
-                <div className="grid grid-cols-3 gap-4">
+                <Typography.Title>Vehículo</Typography.Title>
+                <div className="grid grid-cols-3 gap-4 mt-2">
                     {vehiculoFields.map((field, index) => (
                         <Field
                             key={index}
@@ -153,11 +157,9 @@ const DetallesMantenimiento = ({ vehiculo, mantenimiento }: DetallesProps) => {
             <hr className="my-4 border-gray-200" />
 
             <div className="w-full px-6 py-4 mt-6 overflow-hidden sm:rounded-lg">
-                <h2 className="mb-4">
-                    <b>Mantenimiento</b>
-                </h2>
-                <br />
-                <div className="grid grid-cols-3 gap-4">
+                <Typography.Title>Mantenimiento</Typography.Title>
+
+                <div className="grid grid-cols-3 gap-4 mt-2">
                     {fields.map((field, index) => (
                         <Field
                             key={index}

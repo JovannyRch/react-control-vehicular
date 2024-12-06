@@ -6,7 +6,7 @@ const BackButton = () => {
         <Button
             onClick={() => window.history.back()}
             className="flex items-center gap-2"
-            style="dark"
+            style="main"
         >
             Regresar
             <IoMdArrowBack />

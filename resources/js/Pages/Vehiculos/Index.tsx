@@ -9,6 +9,9 @@ import { AiFillEye, AiOutlineDownload } from "react-icons/ai";
 import { MdEditNote } from "react-icons/md";
 import { BiPlus, BiSearch, BiSolidCarMechanic } from "react-icons/bi";
 import { FaEdit, FaTools } from "react-icons/fa";
+import MainColorContainer from "@/Components/MainColorContainer";
+import { Typography } from "@/Components/Typography";
+import RoundedIconButton from "@/Components/RoundedIconButton";
 
 interface VehiculosProps extends PageProps {
     vehiculos: Vehiculo[];
@@ -107,7 +110,7 @@ export default function Vehiculos({
                             <li className="inline-flex items-center">
                                 <a
                                     href={route("vehiculos.index")}
-                                    className="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600 "
+                                    className="inline-flex items-center text-sm font-medium text-gray-200 hover:text-blue-600 "
                                 >
                                     Vehículos
                                 </a>
@@ -132,7 +135,7 @@ export default function Vehiculos({
                                         </svg>
                                         <a
                                             href="#"
-                                            className="text-sm font-medium text-gray-700 ms-1 hover:text-blue-600 md:ms-2 "
+                                            className="text-sm font-medium text-gray-200 ms-1 hover:text-blue-600 md:ms-2 "
                                         >
                                             {plantilla}
                                         </a>
@@ -172,123 +175,133 @@ export default function Vehiculos({
 
             <div className="py-12">
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
-                    <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg">
+                    <MainColorContainer className="overflow-hidden shadow-sm sm:rounded-lg">
                         <div className="p-4">
-                            <div className="text-2xl font-semibold text-gray-800">
+                            <Typography.Title className="text-2xl font-semibold ">
                                 Lista de vehículos
                                 {maintenance && " | Mantenimiento"}
-                            </div>
+                            </Typography.Title>
 
                             {plantilla && (
-                                <div className="mt-3 text-sm text-gray-600">
+                                <Typography.Subtitle className="mt-3 ">
                                     <span className="font-semibold">
                                         Plantilla:
                                     </span>{" "}
                                     {plantilla}
-                                </div>
+                                </Typography.Subtitle>
                             )}
                             {plantilla === "propia" && (
-                                <div className="mt-3 text-sm text-gray-600">
+                                <Typography.Subtitle className="mt-3 ">
                                     <span className="font-semibold">
                                         Estado:
                                     </span>{" "}
                                     {estado}
-                                </div>
+                                </Typography.Subtitle>
                             )}
 
-                            <form
-                                className="max-w-md mx-auto mb-8"
-                                onSubmit={handleSearch}
-                            >
-                                <div className="relative">
-                                    <div className="absolute inset-y-0 flex items-center pointer-events-none start-0 ps-3">
-                                        <svg
-                                            className="w-4 h-4 text-gray-500 dark:text-gray-400"
-                                            aria-hidden="true"
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            fill="none"
-                                            viewBox="0 0 20 20"
-                                        >
-                                            <path
-                                                stroke="currentColor"
-                                                stroke-linecap="round"
-                                                stroke-linejoin="round"
-                                                stroke-width="2"
-                                                d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
+                            <div className="flex items-center justify-between mt-8">
+                                <div className="flex-1">
+                                    <form
+                                        className="flex-1 max-w-md mb-8"
+                                        onSubmit={handleSearch}
+                                    >
+                                        <div className="relative">
+                                            <div className="absolute inset-y-0 flex items-center pointer-events-none start-0 ps-3">
+                                                <svg
+                                                    className="w-4 h-4 text-gray-500 dark:text-gray-400"
+                                                    aria-hidden="true"
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    fill="none"
+                                                    viewBox="0 0 20 20"
+                                                >
+                                                    <path
+                                                        stroke="currentColor"
+                                                        stroke-linecap="round"
+                                                        stroke-linejoin="round"
+                                                        stroke-width="2"
+                                                        d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
+                                                    />
+                                                </svg>
+                                            </div>
+                                            <input
+                                                type="search"
+                                                id="default-search"
+                                                className="block w-full p-4 text-sm text-gray-900 bg-gray-100 border border-gray-300 rounded-lg ps-10 focus:ring-blue-500 focus:border-blue-500 "
+                                                placeholder="Buscar vehículo..."
+                                                onChange={(e) =>
+                                                    form.setData(
+                                                        "search",
+                                                        e.target.value
+                                                    )
+                                                }
+                                                value={form.data.search}
                                             />
-                                        </svg>
-                                    </div>
-                                    <input
-                                        type="search"
-                                        id="default-search"
-                                        className="block w-full p-4 text-sm text-gray-900 border border-gray-300 rounded-lg ps-10 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 "
-                                        placeholder="Buscar vehículo..."
-                                        onChange={(e) =>
-                                            form.setData(
-                                                "search",
-                                                e.target.value
-                                            )
-                                        }
-                                        value={form.data.search}
-                                    />
-                                    <Button
-                                        type="submit"
-                                        style="dark"
-                                        className="absolute end-2.5 bottom-0"
-                                    >
-                                        Buscar
-                                        <BiSearch />
-                                    </Button>
+                                            <Button
+                                                type="submit"
+                                                style="main"
+                                                className="absolute end-2.5 bottom-0"
+                                            >
+                                                Buscar
+                                                <BiSearch />
+                                            </Button>
+                                        </div>
+                                    </form>
                                 </div>
-                            </form>
+                                <div>
+                                    {!loadFuel && !maintenance && !tools && (
+                                        <div className="flex justify-end gap-4 mb-4">
+                                            <Button
+                                                onClick={() =>
+                                                    router.visit(
+                                                        route(
+                                                            "vehiculos.create",
+                                                            {
+                                                                plantilla,
+                                                            }
+                                                        )
+                                                    )
+                                                }
+                                                style="main"
+                                            >
+                                                Agregar vehículo
+                                                <BiPlus />
+                                            </Button>
 
-                            {!loadFuel && !maintenance && !tools && (
-                                <div className="flex justify-end gap-4 mb-4">
-                                    <Button
-                                        onClick={() =>
-                                            router.visit(
-                                                route("vehiculos.create", {
-                                                    plantilla,
-                                                })
-                                            )
-                                        }
-                                        style="alternative"
-                                    >
-                                        Agregar vehículo
-                                        <BiPlus />
-                                    </Button>
-
-                                    <Button
-                                        type="button"
-                                        onClick={() =>
-                                            window.open(
-                                                route("vehiculos.pdf", {
-                                                    plantilla,
-                                                    estado,
-                                                    ...(Boolean(search) && {
-                                                        search,
-                                                    }),
-                                                }),
-                                                "_blank"
-                                            )
-                                        }
-                                        style="alternative"
-                                    >
-                                        Generar PDF
-                                        <AiOutlineDownload />
-                                    </Button>
+                                            <Button
+                                                type="button"
+                                                onClick={() =>
+                                                    window.open(
+                                                        route("vehiculos.pdf", {
+                                                            plantilla,
+                                                            estado,
+                                                            ...(Boolean(
+                                                                search
+                                                            ) && {
+                                                                search,
+                                                            }),
+                                                        }),
+                                                        "_blank"
+                                                    )
+                                                }
+                                                style="main"
+                                            >
+                                                Generar PDF
+                                                <AiOutlineDownload />
+                                            </Button>
+                                        </div>
+                                    )}
                                 </div>
-                            )}
+                            </div>
 
                             <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
                                 <table className="w-full text-sm text-left text-gray-500 rtl:text-right ">
-                                    <thead className="text-xs text-gray-700 uppercase bg-gray-50 ">
+                                    <thead className="text-xs text-gray-700 uppercase bg-[#141E30] ">
                                         <tr>
                                             {tableHeaders.map(
                                                 (header, index) => (
                                                     <th
                                                         key={index}
-                                                        className="px-6 py-4 font-semibold text-gray-900"
+                                                        className="px-6 py-4 font-semibold text-gray-400"
                                                     >
                                                         {header.label}
                                                     </th>
@@ -307,9 +320,9 @@ export default function Vehiculos({
                                             return (
                                                 <tr
                                                     key={index}
-                                                    className="border-b border-gray-200 hover:bg-gray-100"
+                                                    className="border-b border-gray-200 hover:bg-[#475569] text-gray-200"
                                                 >
-                                                    <td className="px-6 py-4">
+                                                    <td className="px-6 py-4 font-bold text-white text-md">
                                                         {vehiculo.civ ?? "-"}
                                                     </td>
                                                     <td className="px-6 py-4">
@@ -336,8 +349,7 @@ export default function Vehiculos({
                                                     <td className="px-6 py-4">
                                                         <div className="flex items-center space-x-2">
                                                             {!tools && (
-                                                                <Button
-                                                                    style="alternative"
+                                                                <RoundedIconButton
                                                                     onClick={() =>
                                                                         router.visit(
                                                                             route(
@@ -359,6 +371,7 @@ export default function Vehiculos({
                                                                         )
                                                                     }
                                                                     className="flex items-center gap-2"
+                                                                    type="green"
                                                                 >
                                                                     {canLoadFuel(
                                                                         vehiculo
@@ -369,11 +382,11 @@ export default function Vehiculos({
                                                                     ) : (
                                                                         <AiFillEye />
                                                                     )}
-                                                                </Button>
+                                                                </RoundedIconButton>
                                                             )}
                                                             {tools && (
-                                                                <Button
-                                                                    style="alternative"
+                                                                <RoundedIconButton
+                                                                    type="green"
                                                                     onClick={() =>
                                                                         router.visit(
                                                                             route(
@@ -388,7 +401,7 @@ export default function Vehiculos({
                                                                     }
                                                                 >
                                                                     <FaTools />
-                                                                </Button>
+                                                                </RoundedIconButton>
                                                             )}
                                                             {!(
                                                                 loadFuel ||
@@ -396,8 +409,7 @@ export default function Vehiculos({
                                                                 tools
                                                             ) && (
                                                                 <>
-                                                                    <Button
-                                                                        style="alternative"
+                                                                    <RoundedIconButton
                                                                         onClick={() =>
                                                                             router.visit(
                                                                                 route(
@@ -409,9 +421,11 @@ export default function Vehiculos({
                                                                                 )
                                                                             )
                                                                         }
+                                                                        type="yellow"
+                                                                        className="flex items-center gap-2 "
                                                                     >
                                                                         <FaEdit />
-                                                                    </Button>
+                                                                    </RoundedIconButton>
                                                                 </>
                                                             )}
                                                         </div>
@@ -423,7 +437,7 @@ export default function Vehiculos({
                                 </table>
                             </div>
                         </div>
-                    </div>
+                    </MainColorContainer>
                 </div>
             </div>
         </AuthenticatedLayout>

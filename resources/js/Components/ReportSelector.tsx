@@ -38,7 +38,7 @@ const ReportSelector = ({ fetchData }: ReportSelectorProps) => {
 
     if (!isOpen) {
         return (
-            <Button style="green" onClick={() => setIsOpen(true)}>
+            <Button style="main" onClick={() => setIsOpen(true)}>
                 Buscar
                 <BiSearch />
             </Button>

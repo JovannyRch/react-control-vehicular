@@ -3,11 +3,13 @@ import InputError from "@/Components/InputError";
 import InputLabel from "@/Components/InputLabel";
 import Modal from "@/Components/Modal";
 import TextInput from "@/Components/TextInput";
+import { Typography } from "@/Components/Typography";
 import { Accesorio } from "@/types/Accesorio";
 import { Mantenimiento, mantenimientoStatus } from "@/types/Mantenimiento";
 import { generateDate, getCurrentDateOfMexico } from "@/utils";
 import { useForm } from "@inertiajs/react";
 import { useEffect } from "react";
+import { BiSave } from "react-icons/bi";
 
 interface MantenimientoFormModalProps {
     isOpen: boolean;
@@ -65,15 +67,10 @@ const AddAccesorioModal = ({
 
     return (
         <Modal show={isOpen} onClose={onClose}>
-            <div className="p-4 bg-white">
-                <label
-                    htmlFor="detalle"
-                    className="block mb-3 text-xl font-medium text-gray-700"
-                >
-                    <b>
-                        {isEditMode ? "Editar accesorio" : "Agregar accesorio"}
-                    </b>
-                </label>
+            <div className="p-4 bg-[#141E30]">
+                <Typography.Title className="block mb-3 text-xl font-medium ">
+                    {isEditMode ? "Editar accesorio" : "Agregar accesorio"}
+                </Typography.Title>
 
                 <form
                     className="col-span-4"
@@ -198,14 +195,11 @@ const AddAccesorioModal = ({
                         </div>
 
                         <div className="flex justify-center col-span-2 pt-4">
-                            <Button
-                                disabled={form.processing}
-                                style="green"
-                                type="submit"
-                            >
+                            <Button disabled={form.processing} type="submit">
                                 {isEditMode
                                     ? "Guardar cambios"
                                     : "Guardar accesorio"}
+                                <BiSave />
                             </Button>
                         </div>
                     </div>

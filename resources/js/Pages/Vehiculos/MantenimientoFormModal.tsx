@@ -3,6 +3,7 @@ import InputError from "@/Components/InputError";
 import InputLabel from "@/Components/InputLabel";
 import Modal from "@/Components/Modal";
 import TextInput from "@/Components/TextInput";
+import { Typography } from "@/Components/Typography";
 import { Mantenimiento, mantenimientoStatus } from "@/types/Mantenimiento";
 import {
     formatOnlyDateValue,
@@ -10,6 +11,7 @@ import {
     getCurrentDateOfMexico,
 } from "@/utils";
 import { useForm } from "@inertiajs/react";
+import { BiSave } from "react-icons/bi";
 
 interface MantenimientoFormModalProps {
     isOpen: boolean;
@@ -70,17 +72,12 @@ const MantenimientoFormModal = ({
 
     return (
         <Modal show={isOpen} onClose={onClose}>
-            <div className="p-4 bg-white">
-                <label
-                    htmlFor="detalle"
-                    className="block mb-3 text-xl font-medium text-gray-700"
-                >
-                    <b>
-                        {isEditMode
-                            ? "Editar mantenimiento"
-                            : "Agregar mantenimiento"}
-                    </b>
-                </label>
+            <div className="p-4 bg-[#141E30]">
+                <Typography.Title className="block mb-3 text-xl font-medium text-gray-700">
+                    {isEditMode
+                        ? "Editar mantenimiento"
+                        : "Agregar mantenimiento"}
+                </Typography.Title>
 
                 <form
                     className="col-span-4"
@@ -352,14 +349,11 @@ const MantenimientoFormModal = ({
                         </div>
 
                         <div className="flex justify-center col-span-2 pt-4">
-                            <Button
-                                disabled={form.processing}
-                                style="green"
-                                type="submit"
-                            >
+                            <Button disabled={form.processing} type="submit">
                                 {isEditMode
                                     ? "Guardar cambios"
                                     : "Agregar mantenimiento"}
+                                <BiSave />
                             </Button>
                         </div>
                     </div>

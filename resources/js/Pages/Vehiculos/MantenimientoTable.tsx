@@ -7,6 +7,7 @@ import { Link, router } from "@inertiajs/react";
 import { useState } from "react";
 import { FiPlus } from "react-icons/fi";
 import MantenimientoFormModal from "./MantenimientoFormModal";
+import { Typography } from "@/Components/Typography";
 
 interface MantenimientoTableProps {
     registros: Mantenimiento[];
@@ -46,11 +47,8 @@ const MantenimientoTable = ({
     };
 
     return (
-        <div className="p-4 mt-6 bg-white shadow-sm sm:rounded-lg sm:mx-8">
-            <label
-                htmlFor="historial"
-                className="block mb-3 text-xl font-medium text-gray-700"
-            >
+        <div className="p-4 mt-6 bg-[#141E30] shadow-sm sm:rounded-lg ">
+            <Typography.Title className="block mb-3 text-xl font-medium text-gray-700">
                 <b>
                     Mantenimientos
                     {month && year && (
@@ -60,16 +58,16 @@ const MantenimientoTable = ({
                         </span>
                     )}
                 </b>
-            </label>
+            </Typography.Title>
 
             <div className="flex items-center justify-end gap-4">
                 <div>
                     <ReportSelector fetchData={handleGetReport} />
                 </div>
                 <div>
-                    <Button style="green" onClick={() => setOpenModal(true)}>
-                        <FiPlus className="w-6 h-6" />
+                    <Button style="main" onClick={() => setOpenModal(true)}>
                         Agregar mantenimiento
+                        <FiPlus />
                     </Button>
                 </div>
             </div>
@@ -83,46 +81,46 @@ const MantenimientoTable = ({
                     </div>
                 ) : (
                     <div className="col-span-12">
-                        <div className="border border-gray-200 rounded-md ">
+                        <div className="border border-gray-500 rounded-md ">
                             <table className="w-full min-w-full divide-y divide-gray-200 table-auto">
-                                <thead className="bg-gray-50">
+                                <thead className="bg-[#141E30]">
                                     <tr>
                                         {tableHeaders.map((header) => (
                                             <th
                                                 key={header}
                                                 scope="col"
-                                                className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase"
+                                                className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-400 uppercase"
                                             >
                                                 {header}
                                             </th>
                                         ))}
                                     </tr>
                                 </thead>
-                                <tbody className="bg-white divide-y divide-gray-200">
+                                <tbody className="bg-[#141E30] divide-y divide-gray-200">
                                     {registros.map((item) => (
                                         <tr key={item.id}>
-                                            <td className="px-6 py-4 text-sm text-gray-900 whitespace-nowrap">
+                                            <td className="px-6 py-4 text-sm text-gray-200 whitespace-nowrap">
                                                 {formatDate(
                                                     item.fecha_elaboracion
                                                 )}
                                             </td>
-                                            <td className="px-6 py-4 text-sm text-gray-900 whitespace-nowrap">
+                                            <td className="px-6 py-4 text-sm text-gray-200 whitespace-nowrap">
                                                 {item.folio}
                                             </td>
-                                            <td className="px-6 py-4 text-sm text-gray-900 whitespace-nowrap">
+                                            <td className="px-6 py-4 text-sm text-gray-200 whitespace-nowrap">
                                                 {formatDate(item.fecha_ingreso)}
                                             </td>
-                                            <td className="px-6 py-4 text-sm text-gray-900 whitespace-nowrap">
+                                            <td className="px-6 py-4 text-sm text-gray-200 whitespace-nowrap">
                                                 {formatDate(item.fecha_salida)}
                                             </td>
-                                            <td className="px-6 py-4 text-sm text-gray-900 whitespace-nowrap">
+                                            <td className="px-6 py-4 text-sm text-gray-200 whitespace-nowrap">
                                                 {item.taller_asignacion}
                                             </td>
-                                            <td className="px-6 py-4 text-sm text-gray-900 whitespace-nowrap">
+                                            <td className="px-6 py-4 text-sm text-gray-200 whitespace-nowrap">
                                                 {item.servicio_solicitado}
                                             </td>
 
-                                            <td className="px-6 py-4 text-sm text-gray-900 whitespace-nowrap">
+                                            <td className="px-6 py-4 text-sm text-gray-200 whitespace-nowrap">
                                                 <Link
                                                     href={route(
                                                         "mantenimiento.show",
@@ -131,7 +129,7 @@ const MantenimientoTable = ({
                                                                 item.id,
                                                         }
                                                     )}
-                                                    className="text-blue-600 hover:text-blue-900"
+                                                    className="font-bold text-blue-600 hover:text-blue-900"
                                                 >
                                                     Ver
                                                 </Link>

@@ -110,10 +110,10 @@ export default function Create({
         >
             <Head title="Vehículos" />
 
-            <div className="py-12">
+            <div className="py-6">
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
-                    <div className="flex justify-center overflow-hidden bg-white shadow-sm sm:rounded-lg">
-                        <div className="justify-center w-full px-6 py-4 mt-6 overflow-hidden bg-white sm:rounded-lg md:max-w-[900px]">
+                    <div className="flex justify-center overflow-hidden bg-[#141E30] shadow-sm sm:rounded-lg">
+                        <div className="justify-center w-full px-6 py-4 mt-6 overflow-hidden bg-[#141E30] sm:rounded-lg md:max-w-[900px]">
                             <form
                                 onSubmit={submit}
                                 className="grid gap-4 md:grid-cols-2 sm:grid-cols-1"
