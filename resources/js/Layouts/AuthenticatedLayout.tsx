@@ -170,16 +170,18 @@ export default function Authenticated({
             <main className="relative">
                 <aside
                     id="app-sidebar"
-                    className="fixed top-0 left-0 z-40 h-screen transition-transform -translate-x-full w-52 sm:translate-x-0 position"
+                    className="absolute top-0 left-0 z-40 h-screen transition-transform -translate-x-full w-52 sm:translate-x-0 position bg-[#141E30]"
                     aria-label="Sidebar"
                 >
-                    <div className="h-full px-3 py-4 overflow-y-auto bg-[#141E30] ">
-                        <div className="mb-8 ">
-                            <Link href="/">
-                                <ApplicationLogo className="w-[180px] text-gray-500 fill-current" />
-                            </Link>
+                    <div className="w-[300px] bg-transparent">
+                        <div className="h-full px-3 py-4 overflow-y-auto bg-[#141E30] w-52 ">
+                            <div className="mb-8 ">
+                                <Link href="/">
+                                    <ApplicationLogo className="w-[180px] text-gray-500 fill-current" />
+                                </Link>
+                            </div>
                         </div>
-                        <ul className="space-y-2 font-medium">
+                        <ul className="pl-2 space-y-2 font-medium">
                             {navItems.map((item, index) =>
                                 item.hide ? null : item.items ? (
                                     <li key={index}>
@@ -190,7 +192,7 @@ export default function Authenticated({
                                             {({ onClick }) => (
                                                 <div
                                                     onClick={onClick}
-                                                    className="pl-1 cursor-pointer"
+                                                    className="pl-1 cursor-pointer "
                                                 >
                                                     <Typography.Title className="flex items-center gap-2">
                                                         <span className="flex items-center h-8">
@@ -223,7 +225,9 @@ export default function Authenticated({
                                     </li>
                                 )
                             )}
-                            <li className="border-t border-gray-200"></li>
+                            <li className="flex justify-center w-48">
+                                <div className="border-t border-gray-200 w-44"></div>
+                            </li>
                             <li>
                                 <NavLink
                                     href={route("logout")}
@@ -244,7 +248,12 @@ export default function Authenticated({
                     </div>
                 </aside>
 
-                <div className="flex-1 sm:ml-52">
+                <div
+                    className="absolute flex-1 z-0  left-[210px]  "
+                    style={{
+                        width: "calc(100vw - 210px)",
+                    }}
+                >
                     {header && (
                         <header className="bg-[#141E30] shadow">
                             <div className="flex gap-8 px-4 py-6 mx-auto text-white max-w-7xl sm:px-6 lg:px-8">
@@ -255,7 +264,12 @@ export default function Authenticated({
                             </div>
                         </header>
                     )}
-                    <div>{children}</div>
+                    <div
+                        className="overflow-y-auto"
+                        style={{ height: "calc(100vh - 100px)" }}
+                    >
+                        {children}
+                    </div>
                 </div>
             </main>
         </div>
