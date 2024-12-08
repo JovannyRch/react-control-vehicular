@@ -96,7 +96,7 @@ export default function Dashboard({ auth }: PageProps) {
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
                     <div className="overflow-hidden bg-[#141E30] shadow-sm sm:rounded-lg min-h-[80vh]">
                         <div className="flex justify-center ">
-                            <div className="mt-2 mb-8 bg-gray-100">
+                            <div className="mt-2 mb-8 ">
                                 <ApplicationLogo className="text-gray-500 fill-current " />
                             </div>
                         </div>
