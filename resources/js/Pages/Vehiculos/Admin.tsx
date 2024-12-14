@@ -264,7 +264,10 @@ export default function Vehiculos({ auth, pagination }: VehiculosProps) {
                                     </thead>
                                     <tbody>
                                         {pagination.data.map(
-                                            (vehiculo, index) => {
+                                            (
+                                                vehiculo: Vehiculo,
+                                                index: number
+                                            ) => {
                                                 return (
                                                     <tr
                                                         key={index}
