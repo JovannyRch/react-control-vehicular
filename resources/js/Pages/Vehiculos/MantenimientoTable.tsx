@@ -76,7 +76,9 @@ const MantenimientoTable = ({
                 {registros.length === 0 ? (
                     <div className="col-span-12">
                         <p className="pt-6 text-center">
-                            No hay registros de mantenimiento
+                            <Typography.Paragraph>
+                                No hay registros para mostrar
+                            </Typography.Paragraph>
                         </p>
                     </div>
                 ) : (

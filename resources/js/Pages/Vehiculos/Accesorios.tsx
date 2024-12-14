@@ -60,7 +60,9 @@ const Accesorios = ({ accesorios: lista, vehiculoId }: AccesoriosProps) => {
                     {lista.length === 0 ? (
                         <div className="col-span-12 text-center">
                             <p className="text-center">
-                                No hay registros para mostrar
+                                <Typography.Paragraph>
+                                    No hay registros para mostrar
+                                </Typography.Paragraph>
                                 <br />
                             </p>
                         </div>

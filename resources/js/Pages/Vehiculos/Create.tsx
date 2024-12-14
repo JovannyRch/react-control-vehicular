@@ -7,6 +7,7 @@ import TextInput from "@/Components/TextInput";
 import InputError from "@/Components/InputError";
 import PrimaryButton from "@/Components/PrimaryButton";
 import { Vehiculo } from "@/types/Vehiculo";
+import { Estados, Plantillas } from "@/types/const";
 
 interface VehiculosProps extends PageProps {
     vehiculos: Vehiculo[];
@@ -15,48 +16,6 @@ interface VehiculosProps extends PageProps {
     vehiculo: Vehiculo;
     mode: "create" | "edit";
 }
-
-const Estados = [
-    {
-        label: "Vigente",
-        value: "vigente",
-    },
-    {
-        label: "Baja",
-        value: "baja",
-    },
-    {
-        label: "Trámite de baja",
-        value: "tramite_de_baja",
-    },
-    {
-        label: "Problemas legales",
-        value: "problemas_legales",
-    },
-    {
-        label: "Comodato",
-        value: "comodato",
-    },
-];
-
-const Plantillas = [
-    {
-        label: "2019",
-        value: "2019",
-    },
-    {
-        label: "2023",
-        value: "2023",
-    },
-    {
-        label: "Propia",
-        value: "propia",
-    },
-    {
-        label: "2024",
-        value: "2024",
-    },
-];
 
 export default function Create({
     auth,
@@ -144,7 +103,7 @@ export default function Create({
                                     </select>
                                 </div>
                                 {data.plantilla === "propia" && (
-                                    <div className="mt-4">
+                                    <div>
                                         <InputLabel
                                             htmlFor="estado"
                                             value="Estado"

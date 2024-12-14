@@ -26,6 +26,12 @@ Route::get('/vehiculo/pega_ticket/{factura}', [VehiculoController::class, 'pegaT
 Route::get('/mantenimiento/{mantenimiento}', [MantenimientosController::class, 'show'])->middleware('auth', 'verified')->name('mantenimiento.show');
 Route::get('/vehiculo/pdf/{vehiculo}', [VehiculoController::class, 'detailPdf'])->middleware('auth', 'verified')->name('vehiculo.pdf');
 Route::resource('vehiculos', VehiculoController::class)->middleware('auth', 'verified');
+
+//Delete single vehicle
+Route::delete('/vehicles/destroy-all', [VehiculoController::class, 'destroyAll'])->middleware('auth', 'verified')->name('vehiculos.destroyAll');
+Route::delete('/vehicles/{vehiculo}', [VehiculoController::class, 'destroy'])->middleware('auth', 'verified')->name('vehiculos.destroy');
+
+Route::get('/admin/vehiculos', [VehiculoController::class, 'adminVehiculos'])->middleware('auth', 'verified')->name('admin.vehiculos');
 Route::resource('historial', HistorialController::class)->middleware('auth', 'verified');
 Route::resource('mantenimiento', MantenimientosController::class)->middleware('auth', 'verified');
 Route::resource('accesorio', AccesoriosController::class)->middleware('auth', 'verified');
@@ -38,6 +44,7 @@ Route::post('/files/upload/package', [FileController::class, 'uploadPackagedCSV'
 Route::post('/files/upload', [FileController::class, 'uploadCSV'])->middleware('auth', 'verified')->name('files.upload');
 
 Route::post('/upload-csv', [FileController::class, 'uploadSingleCSV'])->name('upload.csv');
+Route::post('/upload-vehicles', [FileController::class, 'uploadVehicles'])->name('upload.vehicles');
 Route::get('/download-pdf/{groupKey}', [FileController::class, 'downloadPDF'])->name('download.pdf');
 Route::get('/download-package/{cacheKey}/{packageId}', [FileController::class, 'downloadPackage'])->name('download.package');
 

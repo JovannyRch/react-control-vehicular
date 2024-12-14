@@ -1,6 +1,7 @@
 import { getMonthName } from "@/utils";
 import Modal from "./Modal";
 import { Factura } from "@/types/Factura";
+import { Typography } from "./Typography";
 
 interface InvoicesSelectorModalProps {
     open: boolean;
@@ -19,21 +20,16 @@ const InvoicesSelectorModal = ({
 }: InvoicesSelectorModalProps) => {
     return (
         <Modal show={open} onClose={onClose}>
-            <div className="p-4 bg-white">
-                <label
-                    htmlFor="detalle"
-                    className="block mb-3 text-xl font-medium text-gray-700"
-                >
-                    <b>
-                        Facturas de {getMonthName(month)} {year}
-                    </b>
-                </label>
+            <div className="p-4 bg-[#141E30]">
+                <Typography.Title className="mb-4">
+                    Facturas de {getMonthName(month)} {year}
+                </Typography.Title>
 
                 {facturas.length > 0 && (
                     <>
                         <div className="relative overflow-y-auto shadow-md sm:rounded-lg max-h-[350px] ">
                             <table className="w-full text-sm text-left text-gray-500 rtl:text-right dark:text-gray-400">
-                                <thead className="text-xs text-gray-700 uppercase bg-gray-50 ">
+                                <thead className="text-xs text-gray-700 uppercase bg-gray-300 ">
                                     <tr>
                                         <th scope="col" className="px-6 py-3">
                                             Folio
@@ -50,7 +46,7 @@ const InvoicesSelectorModal = ({
                                     {facturas.map((factura) => (
                                         <tr
                                             key={factura.id}
-                                            className="bg-white hover:bg-gray-50"
+                                            className="bg-gray-200 hover:bg-gray-100"
                                         >
                                             <th
                                                 scope="row"

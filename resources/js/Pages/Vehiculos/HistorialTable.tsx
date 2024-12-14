@@ -43,7 +43,9 @@ const HistorialTable = ({ historial, vehiculo, loadFuel }: HistorialProps) => {
                 {historial.length === 0 ? (
                     <div className="col-span-12">
                         <p className="pt-6 text-center">
-                            No hay historial de sucesos
+                            <Typography.Title>
+                                No hay historial de sucesos
+                            </Typography.Title>
                         </p>
                     </div>
                 ) : (

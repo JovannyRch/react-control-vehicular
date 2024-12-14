@@ -170,7 +170,7 @@ export default function Authenticated({
             <main className="relative">
                 <aside
                     id="app-sidebar"
-                    className="absolute top-0 left-0 z-40 h-screen transition-transform -translate-x-full w-52 sm:translate-x-0 position bg-[#141E30]"
+                    className="fixed top-0 left-0 z-40 h-screen transition-transform -translate-x-full w-52 sm:translate-x-0 position bg-[#141E30]"
                     aria-label="Sidebar"
                 >
                     <div className="w-[300px] bg-transparent">
@@ -264,12 +264,7 @@ export default function Authenticated({
                             </div>
                         </header>
                     )}
-                    <div
-                        className="overflow-y-auto"
-                        style={{ height: "calc(100vh - 100px)" }}
-                    >
-                        {children}
-                    </div>
+                    <div>{children}</div>
                 </div>
             </main>
         </div>

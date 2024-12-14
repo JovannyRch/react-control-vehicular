@@ -8,6 +8,7 @@ import Button from "./Button";
 import axios from "axios";
 import { CargaCombustible } from "@/types/CargaCombustible";
 import { formatCurrency, formatDate } from "@/utils";
+import { Typography } from "./Typography";
 
 interface AddInvoiceModalProps {
     open: boolean;
@@ -29,13 +30,10 @@ const AddInvoiceModal = ({
 
     return (
         <Modal show={open} onClose={onClose}>
-            <div className="p-4 bg-white">
-                <label
-                    htmlFor="detalle"
-                    className="block mb-3 text-xl font-medium text-gray-700"
-                >
-                    <b>Agregar factura</b>
-                </label>
+            <div className="p-4 bg-[#141E30]">
+                <Typography.Title className="mb-4">
+                    Agregar factura
+                </Typography.Title>
 
                 <form
                     className="col-span-4"
@@ -86,7 +84,7 @@ const AddInvoiceModal = ({
 
                             <div className="relative overflow-x-auto shadow-md sm:rounded-lg max-h-[350px] overflow-y-auto">
                                 <table className="w-full text-sm text-left text-gray-500 rtl:text-right dark:text-gray-400">
-                                    <thead className="text-xs text-gray-700 uppercase bg-gray-50 ">
+                                    <thead className="text-xs text-gray-100 uppercase bg-[#141E30]">
                                         <tr>
                                             <th
                                                 scope="col"

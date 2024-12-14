@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Vehiculo;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use PDF;
@@ -44,37 +45,6 @@ class FileController extends Controller
 
     public function uploadCSV(Request $request)
     {
-        /* // Validar el archivo
-        $request->validate([
-            'csv_file' => 'required|file|mimes:csv,txt'
-        ]);
-
-        // Procesar el archivo CSV
-        $file = $request->file('csv_file');
-        $data = $this->readCSV($file);
-
-        $firstGroupKey = array_key_first($data);
-        $cargas = $data[$firstGroupKey];
-
-        $total_pages = ceil(count($cargas) / 3);
-        $cargas_per_page = $this->chunkArray($cargas, 3);
-
-        $vehiculo = $cargas[0];
-        $factura = $cargas[0];
-
-
-        // Generar PDF con los datos
-        $pdf = PDF::loadView('pdf_calculo', [
-            'data' => $cargas,
-            'factura' => $factura,
-            'vehiculo' => $vehiculo,
-            'total_pages' => $total_pages,
-            'cargas_per_page' => $cargas_per_page
-        ]);
-
-
-
-        return $pdf->stream('calculo.pdf'); */
 
         $request->validate([
             'csv_file' => 'required|file|mimes:csv,txt'
@@ -155,6 +125,60 @@ class FileController extends Controller
         // Enviar el archivo ZIP para descarga y eliminarlo después
         return response()->download($tempZipPath, $zipFileName)->deleteFileAfterSend(true);
     }
+
+    public function getArrayDataFromFile($file)
+    {
+
+        if (($handle = fopen($file->getRealPath(), 'r')) !== false) {
+            $headers = fgetcsv($handle, 1000, ',');
+            $headers = array_map('trim', $headers);
+            $data = [];
+            while (($row = fgetcsv($handle, 1000, ',')) !== false) {
+                $rowData = array_combine($headers, $row);
+                $data[] = $rowData;
+            }
+            fclose($handle);
+        }
+
+        return $data;
+    }
+
+    public function uploadVehicles(Request $request)
+    {
+        // Validar el archivo
+        $request->validate([
+            'csv_file' => 'required|file|mimes:csv,txt',
+            'plantilla' => 'required|string',
+            'estado' => 'required|string',
+        ]);
+
+        try {
+            $data = $this->getArrayDataFromFile($request->file('csv_file'));
+
+            foreach ($data as $row) {
+                $vehiculo = new Vehiculo();
+                $vehiculo->numero_economico = $row['NÚMERO ECONÓMICO'] ?? '';
+                $vehiculo->marca = $row['MARCA'] ?? '';
+                $vehiculo->tipo = $row['TIPO'] ?? '';
+                $vehiculo->modelo = $row['MODELO'] ?? '';
+                $vehiculo->placa = $row['PLACA'] ?? '';
+                $vehiculo->no_serie = $row['SERIE'] ?? '';
+                $vehiculo->no_motor = $row['NÚMERO DE MOTOR'] ?? '';
+                $vehiculo->area_asignacion = $row['AREA DE ASIGNACION'] ?? '';
+                $vehiculo->resguardante = $row['RESGUARDANTE'] ?? '';
+                $vehiculo->plantilla = $request->input('plantilla');
+                $vehiculo->estado = $request->input('estado');
+                $vehiculo->detalle = $row['DETALLE'] ?? '';
+                $vehiculo->civ = $row['CIV'] ?? '';
+                $vehiculo->save();
+            }
+
+            return response()->json(['data' => $data]);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
+
 
     public function index()
     {

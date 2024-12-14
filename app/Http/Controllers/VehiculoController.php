@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\CargaCombustible;
 use App\Models\Factura;
+use App\Models\Historial;
 use App\Models\Mantenimiento;
 use App\Models\Vehiculo;
 use Illuminate\Http\Request;
@@ -207,7 +208,9 @@ class VehiculoController extends Controller
      */
     public function destroy(Vehiculo $vehiculo)
     {
-        //
+        $vehiculo->delete();
+
+        return response()->json(['message' => 'Vehiculo eliminado']);
     }
 
 
@@ -328,5 +331,54 @@ class VehiculoController extends Controller
 
 
         return $pdf->stream('pega_ticket');
+    }
+
+    public function adminVehiculos(Request $request)
+    {
+
+        if ($request->has('search')) {
+            $search = $request->input('search');
+            $pagination = Vehiculo::where('numero_economico', 'like', '%' . $search . '%')
+                ->orWhere('marca', 'like', '%' . $search . '%')
+                ->orWhere('civ', 'like', '%' . $search . '%')
+                ->orWhere('tipo', 'like', '%' . $search . '%')
+                ->orWhere('modelo', 'like', '%' . $search . '%')
+                ->orWhere('placa', 'like', '%' . $search . '%')
+                ->orWhere('no_serie', 'like', '%' . $search . '%')
+                ->orWhere('no_motor', 'like', '%' . $search . '%')
+                ->orWhere('area_asignacion', 'like', '%' . $search . '%')
+                ->orWhere('resguardante', 'like', '%' . $search . '%')
+                ->orWhere('estado', 'like', '%' . $search . '%')
+                ->orWhere('detalle', 'like', '%' . $search . '%')
+                ->orWhere('detalle', 'like', '%' . $search . '%')
+                ->orWhere('plantilla', 'like', '%' . $search . '%')
+                ->orWhere('estado', 'like', '%' . $search . '%')
+                ->paginate(25);
+
+            //add search to pagination links
+            $pagination->appends(['search' => $search]);
+
+
+            return Inertia::render('Vehiculos/Admin', [
+                'pagination' => $pagination
+            ]);
+        }
+
+        $pagination = Vehiculo::paginate(50);
+
+        return Inertia::render('Vehiculos/Admin', [
+            'pagination' => $pagination
+        ]);
+    }
+
+    public function destroyAll(Request $request)
+    {
+        try {
+            $ids = Vehiculo::all()->pluck('id');
+            Vehiculo::destroy($ids);
+            return response()->json(['message' => 'Vehiculos eliminados']);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
     }
 }

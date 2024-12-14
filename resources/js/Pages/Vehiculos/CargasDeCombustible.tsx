@@ -352,13 +352,10 @@ const CargasDeCombustible = ({
                 )}
             </div>
             <Modal show={isModalOpen} onClose={() => setIsModalOpen(false)}>
-                <div className="p-4 bg-white">
-                    <label
-                        htmlFor="detalle"
-                        className="block mb-3 text-xl font-medium text-gray-700"
-                    >
-                        <b>Agregar carga de combustible</b>
-                    </label>
+                <div className="p-4 bg-[#141E30]">
+                    <Typography.Title className="mb-4">
+                        Agregar carga de combustible
+                    </Typography.Title>
 
                     <form
                         className="col-span-4"
@@ -474,12 +471,8 @@ const CargasDeCombustible = ({
                                 />
                             </div>
                         </div>
-                        <div className="mt-5 text-center">
-                            <Button
-                                disabled={form.processing}
-                                style="green"
-                                type="submit"
-                            >
+                        <div className="justify-end mt-5 display w-100 ">
+                            <Button disabled={form.processing} type="submit">
                                 Agregar
                             </Button>
                         </div>
