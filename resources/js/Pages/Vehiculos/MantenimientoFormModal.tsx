@@ -237,7 +237,7 @@ const MantenimientoFormModal = ({
                         <div className="w-full">
                             <InputLabel
                                 htmlFor="servicio_realizado"
-                                value="Servicio realidado"
+                                value="Servicio realizado"
                             />
                             <TextInput
                                 id="servicio_realizado"

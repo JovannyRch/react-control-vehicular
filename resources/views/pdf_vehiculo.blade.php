@@ -152,7 +152,18 @@ function formatCurrency($number)
     </div>
     <main>
         <img src="img/logo.png" style="width: 200px;">
-        <h2 style="text-align: center;">Detalles del vehículo</h2>
+        <h2 style="text-align: center;">Reporte de vehiculo
+            @if ($loadFuel)
+                de cargas de combustible
+            @endif
+            @if ($maintenance)
+                de mantenimientos
+            @endif
+            @if ($tools)
+                de accesorios
+            @endif
+
+        </h2>
         <table class="details">
             <tr>
                 <td class="value"><strong># Económico</strong></td>
@@ -199,7 +210,12 @@ function formatCurrency($number)
                 @if ($vehiculo->plantilla === 'propia')
                     <td class="value"><strong>Estado</strong></td>
                     <td class="value">{{ $vehiculo->estado }}</td>
+                @else
+                    <td class="value"></td>
+                    <td class="value"></td>
                 @endif
+
+
             </tr>
 
 
