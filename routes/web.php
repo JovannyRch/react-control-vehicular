@@ -29,6 +29,9 @@ Route::get('/vehiculo/pdf/{vehiculo}', [VehiculoController::class, 'detailPdf'])
 Route::resource('vehiculos', VehiculoController::class)->middleware('auth', 'verified');
 
 Route::get('/reportes', [ReportesController::class, 'index'])->middleware('auth', 'verified')->name('reportes.index');
+Route::get('/reportes/vehiculos-por-marca', [ReportesController::class, 'vehiculosPorMarca'])->middleware('auth', 'verified')->name('reportes.vehiculosPorMarca');
+Route::get('/reportes/gastos-combustibles', [ReportesController::class, 'gastosCombustible'])->middleware('auth', 'verified')->name('reportes.gastosCombustible');
+Route::get('/reportes/mantenimientos-por-anio', [ReportesController::class, 'mantenimientos'])->middleware('auth', 'verified')->name('reportes.mantenimientosPorAnio');
 
 
 //Delete single vehicle

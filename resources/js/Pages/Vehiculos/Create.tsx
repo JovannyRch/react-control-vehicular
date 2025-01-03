@@ -224,19 +224,24 @@ export default function Create({
                                         className="mt-2"
                                     />
                                     <datalist id="marcas">
-                                        <option>Volkswagen</option>
-                                        <option>Chevrolet</option>
-                                        <option>Toyota</option>
-                                        <option>Nissan</option>
-                                        <option>Kia</option>
-                                        <option>Renault</option>
-                                        <option>Hyundai</option>
-                                        <option>Honda</option>
-                                        <option>Ford</option>
-                                        <option>Porsche</option>
-                                        <option>Audi</option>
+                                        <option>CHEVROLET</option>
+                                        <option>KTM</option>
+                                        <option>YAMAHA</option>
+                                        <option>DODGE</option>
+                                        <option>JET BIKE</option>
+                                        <option>TOYOTA</option>
+                                        <option>NISSAN</option>
+                                        <option>KIA</option>
+                                        <option>YAMAHA</option>
+                                        <option>SUZUKI</option>
+                                        <option>RENAULT</option>
+                                        <option>HYUNDAI</option>
+                                        <option>HONDA</option>
+                                        <option>FORD</option>
+                                        <option>RAM</option>
+                                        <option>AUDI</option>
                                         <option>BMW</option>
-                                        <option>Tesla</option>
+                                        <option>VOLKSWAGEN</option>
                                     </datalist>
                                 </div>
 

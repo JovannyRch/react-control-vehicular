@@ -26,39 +26,41 @@ export default function Index({ auth }: PageProps) {
         >
             <Head title="Reportes" />
 
-            {/* Add grid for reports */}
-            <div>
+            <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
                 <MainColorContainer className="p-6 mt-6 mb-8 bg-[#141E30] shadow-sm sm:rounded-lg ">
                     <Typography.Title className="block mb-3 text-xl font-medium ">
                         Reportes
                     </Typography.Title>
-                    <div className="grid grid-cols-12 gap-6">
-                        <div className=" sm:col-span-6 md:col-span-6">
-                            <Button
-                                /* onClick={() => router.push("/reportes/mantenimientos-por-ano")} */
-                                className="w-full"
+                    <div className="grid grid-cols-2 gap-4">
+                        <div>
+                            <a
+                                href={route("reportes.mantenimientosPorAnio")}
+                                target="_blank"
+                                className=" p-4 text-center  text-white rounded-lg flex gap-4 items-center bg-[#1E293B] hover:bg-[#2C3E50]"
                             >
                                 Mantenimientos por año
                                 <FaTools />
-                            </Button>
+                            </a>
                         </div>
-                        <div className="col-span-12 sm:col-span-6 md:col-span-4">
-                            <Button
-                                /*   onClick={() => router.push("/reportes/gastos-mas-elevados-combustible")} */
-                                className="w-full"
+                        <div>
+                            <a
+                                href={route("reportes.gastosCombustible")}
+                                target="_blank"
+                                className=" p-4 text-center  text-white rounded-lg flex gap-4 items-center bg-[#1E293B] hover:bg-[#2C3E50]"
                             >
                                 Gastos más elevados de combustible
                                 <BsFillFuelPumpDieselFill />
-                            </Button>
+                            </a>
                         </div>
-                        <div className="col-span-12 sm:col-span-6 md:col-span-4">
-                            <Button
-                                /*   onClick={() => router.push("/reportes/cuantos-vehiculos-por-marca")} */
-                                className="w-full"
+                        <div>
+                            <a
+                                href={route("reportes.vehiculosPorMarca")}
+                                target="_blank"
+                                className=" p-4 text-center  text-white rounded-lg flex gap-4 items-center bg-[#1E293B] hover:bg-[#2C3E50]"
                             >
-                                Vehículos hay por marca
+                                Vehículos por marca
                                 <BiSolidCarMechanic />
-                            </Button>
+                            </a>
                         </div>
                     </div>
                 </MainColorContainer>

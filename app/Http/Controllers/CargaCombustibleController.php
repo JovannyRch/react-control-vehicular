@@ -6,6 +6,9 @@ use App\Models\CargaCombustible;
 use App\Models\Factura;
 use App\Models\Vehiculo;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+
+use function PHPUnit\Framework\isNull;
 
 class CargaCombustibleController extends Controller
 {
@@ -31,16 +34,23 @@ class CargaCombustibleController extends Controller
     public function store(Request $request)
     {
 
-        $odometroInicial = CargaCombustible::where('vehiculo_id', $request->vehiculo_id)
+        $lastItem = CargaCombustible::where('vehiculo_id', $request->vehiculo_id)
             ->orderBy('id', 'desc')
             ->first();
 
+
+        //Check if lastItem was not found
+        if (isset($lastItem)) {
+            $odometroInicial = $lastItem->odometro_final;
+        } else {
+            $odometroInicial = 0;
+        }
 
         $request->validate([
             'fecha' => 'required | date',
             'importe' => 'required | numeric',
             'litros' => 'required | numeric',
-            'odometro' => "required | numeric | gt:{$odometroInicial->odometro_final}",
+            'odometro' => "required | numeric | gt:{$odometroInicial}",
             'vehiculo_id' => 'required',
             'folio' => 'required'
         ]);
@@ -48,13 +58,9 @@ class CargaCombustibleController extends Controller
 
 
 
-        if ($odometroInicial) {
-            $request->merge(['odometro_inicial' => $odometroInicial->odometro_final]);
-        } else {
-            $request->merge(['odometro_inicial' => 0]);
-        }
 
         $request->merge(['odometro_final' => $request->odometro]);
+        $request->merge(['odometro_inicial' => $odometroInicial]);
         $request->offsetUnset('odometro');
 
         CargaCombustible::create($request->all());
