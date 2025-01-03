@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Accesorio;
+use App\Models\Mantenimiento;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -53,7 +55,7 @@ class ReportesController extends Controller
         $pdf = Pdf::loadView('reportes.vehiculos-por-marca', ['image' => $image,]);
 
         $current_date = date('d-m-Y_H-i-s');
-        return $pdf->stream("vehiculos_por_marca_$current_date.pdf");
+        return $pdf->stream("reporte_vehiculos_por_marca_$current_date.pdf");
     }
 
 
@@ -94,11 +96,37 @@ class ReportesController extends Controller
         $pdf = Pdf::loadView('reportes.gastos-combustible', ['image' => $image,]);
 
         $current_date = date('d-m-Y_H-i-s');
-        return $pdf->stream("gastos_combustible_$current_date.pdf");
+        return $pdf->stream("reporte_gastos_combustible_$current_date.pdf");
     }
 
     public function mantenimientos()
     {
-        //
+        $anio = date('Y');
+
+        $mantenimientos = Mantenimiento::with('vehiculo')
+            ->whereYear('fecha_ingreso', $anio)
+            ->get();
+
+        Log::info($mantenimientos);
+
+        $pdf = Pdf::loadView('reportes.mantenimientos-por-anio', ['mantenimientos' => $mantenimientos])->setPaper('a4', 'landscape');
+
+        $current_date = date('d-m-Y_H-i-s');
+
+        return $pdf->stream("reporte_mantenimientos_por_anio_$current_date.pdf");
+    }
+
+    public function accesorios()
+    {
+        $date = date('Y');
+
+        $accesorios = Accesorio::with('vehiculo')
+            ->whereYear('fecha', $date)
+            ->get();
+
+        $pdf = Pdf::loadView('reportes.accesorios-por-anio', ['accesorios' => $accesorios])->setPaper('a4', 'landscape');
+
+        $current_date = date('d-m-Y_H-i-s');
+        return $pdf->stream("reporte_accesorios_$current_date.pdf");
     }
 }

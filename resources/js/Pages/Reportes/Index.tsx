@@ -7,7 +7,7 @@ import Button from "@/Components/Button";
 import { BsFillFuelPumpDieselFill } from "react-icons/bs";
 import { AiFillEye, AiOutlineDownload } from "react-icons/ai";
 import { BiPlus, BiSearch, BiSolidCarMechanic } from "react-icons/bi";
-import { FaEdit, FaTools } from "react-icons/fa";
+import { FaEdit, FaToolbox, FaTools } from "react-icons/fa";
 import MainColorContainer from "@/Components/MainColorContainer";
 import { Typography } from "@/Components/Typography";
 import RoundedIconButton from "@/Components/RoundedIconButton";
@@ -40,6 +40,16 @@ export default function Index({ auth }: PageProps) {
                             >
                                 Mantenimientos por año
                                 <FaTools />
+                            </a>
+                        </div>
+                        <div>
+                            <a
+                                href={route("reportes.accesoriosPorAnio")}
+                                target="_blank"
+                                className=" p-4 text-center  text-white rounded-lg flex gap-4 items-center bg-[#1E293B] hover:bg-[#2C3E50]"
+                            >
+                                Accesorios
+                                <FaToolbox />
                             </a>
                         </div>
                         <div>

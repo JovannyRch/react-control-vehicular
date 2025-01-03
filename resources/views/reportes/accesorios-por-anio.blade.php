@@ -52,7 +52,7 @@ function formatCurrency($number)
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Mantenimientos por año</title>
+    <title>Accesorios por año</title>
 
 
     <style>
@@ -141,58 +141,33 @@ function formatCurrency($number)
     <main>
         <img src="img/logo.png" style="width: 200px;">
         <h2>
-            Reporte de mantenimientos - {{ date('Y') }}
+            Reporte de accesorios - {{ date('Y') }}
         </h2>
 
         <table>
             <tr>
                 <th>Placa</th>
                 <th>CIV</th>
-                <th>Fecha elaboración</th>
+                <th>Fecha</th>
                 <th>Folio</th>
-                <th>Fecha ingreso</th>
-                <th>Fecha salida</th>
-                <th>Taller asignación</th>
-                <th>Servicio solicitado</th>
-                <th>Servicio realizado</th>
-                <th>Importe</th>
-                <th>Folio fiscal</th>
-                <th>Folio afectación</th>
-                <th>Estado</th>
+                <th>Persona que entrega</th>
+                <th>Persona que recibe</th>
+                <th>Accesorios entregados</th>
 
             </tr>
-            @foreach ($mantenimientos as $mantenimiento)
+            @foreach ($accesorios as $accesorio)
                 <tr>
                     <td>
-                        {{ $mantenimiento->vehiculo->placa }}
+                        {{ $accesorio->vehiculo->placa }}
                     </td>
                     <td>
-                        {{ $mantenimiento->vehiculo->civ }}
+                        {{ $accesorio->vehiculo->civ }}
                     </td>
-                    <td>{{ $mantenimiento->folio }}</td>
-                    <td>{{ formatDate($mantenimiento->fecha_elaboracion) }}</td>
-                    <td>{{ formatDate($mantenimiento->fecha_ingreso) }}</td>
-                    <td>{{ formatDate($mantenimiento->fecha_salida) }}</td>
-                    <td>{{ $mantenimiento->taller_asignacion }}</td>
-                    <td>{{ $mantenimiento->servicio_solicitado }}</td>
-                    <td>{{ $mantenimiento->servicio_realizado }}</td>
-                    <td>${{ formatCurrency($mantenimiento->importe) }}</td>
-                    <td>
-                        @if ($mantenimiento->folio_fiscal)
-                            {{ $mantenimiento->folio_fiscal }}
-                        @else
-                            Sin folio fiscal
-                        @endif
-                    </td>
-                    <td>
-                        @if ($mantenimiento->folio_afectacion)
-                            {{ $mantenimiento->folio_afectacion }}
-                        @else
-                            Sin folio afectación
-                        @endif
-                    </td>
-                    <td>{{ $mantenimiento->estado }}</td>
-
+                    <td>{{ formatDate($accesorio->fecha) }}</td>
+                    <td>{{ $accesorio->folio }}</td>
+                    <td>{{ $accesorio->persona_encargada }}</td>
+                    <td>{{ $accesorio->persona_entregada }}</td>
+                    <td>{{ $accesorio->detalle }}</td>
                 </tr>
             @endforeach
         </table>

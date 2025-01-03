@@ -32,6 +32,7 @@ Route::get('/reportes', [ReportesController::class, 'index'])->middleware('auth'
 Route::get('/reportes/vehiculos-por-marca', [ReportesController::class, 'vehiculosPorMarca'])->middleware('auth', 'verified')->name('reportes.vehiculosPorMarca');
 Route::get('/reportes/gastos-combustibles', [ReportesController::class, 'gastosCombustible'])->middleware('auth', 'verified')->name('reportes.gastosCombustible');
 Route::get('/reportes/mantenimientos-por-anio', [ReportesController::class, 'mantenimientos'])->middleware('auth', 'verified')->name('reportes.mantenimientosPorAnio');
+Route::get('/reportes/accesorios-por-anio', [ReportesController::class, 'accesorios'])->middleware('auth', 'verified')->name('reportes.accesoriosPorAnio');
 
 
 //Delete single vehicle
