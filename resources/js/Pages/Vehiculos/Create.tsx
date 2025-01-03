@@ -1,13 +1,15 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, router, useForm } from "@inertiajs/react";
 import { PageProps } from "@/types";
-import { FormEventHandler } from "react";
+import { FormEventHandler, useState } from "react";
 import InputLabel from "@/Components/InputLabel";
 import TextInput from "@/Components/TextInput";
 import InputError from "@/Components/InputError";
 import PrimaryButton from "@/Components/PrimaryButton";
 import { Vehiculo } from "@/types/Vehiculo";
 import { Estados, Plantillas } from "@/types/const";
+import { Typography } from "@/Components/Typography";
+import { useUpdateEffect } from "@/hooks/useUpdateEffect";
 
 interface VehiculosProps extends PageProps {
     vehiculos: Vehiculo[];
@@ -39,19 +41,34 @@ export default function Create({
         civ: mode === "edit" ? vehiculo.civ : "",
     });
 
+    const [success, setSuccess] = useState("");
+
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
 
         if (mode === "create") {
             post(route("vehiculos.store"), {
-                onFinish: () => reset(),
+                onSuccess: () => {
+                    reset();
+                    setSuccess("Vehículo creado exitosamente");
+                },
             });
         } else {
             put(route("vehiculos.update", vehiculo.id), {
-                onFinish: () => reset(),
+                onSuccess: () => {
+                    setSuccess("Vehículo actualizado exitosamente");
+                },
             });
         }
     };
+
+    useUpdateEffect(() => {
+        if (success) {
+            setTimeout(() => {
+                setSuccess("");
+            }, 3000);
+        }
+    }, [success]);
 
     return (
         <AuthenticatedLayout
@@ -69,6 +86,14 @@ export default function Create({
         >
             <Head title="Vehículos" />
 
+            {success && (
+                <div className="fixed inset-x-0 top-0 z-50 flex items-center justify-center h-16 bg-green-500">
+                    <Typography.Paragraph className="text-white">
+                        {success}
+                    </Typography.Paragraph>
+                </div>
+            )}
+
             <div className="py-6">
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
                     <div className="flex justify-center overflow-hidden bg-[#141E30] shadow-sm sm:rounded-lg">
@@ -83,7 +108,7 @@ export default function Create({
                                         value="Plantilla"
                                     />
                                     <select
-                                        className="block w-full mt-4 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                                        className="block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                                         onChange={(e) =>
                                             setData("plantilla", e.target.value)
                                         }
@@ -109,7 +134,7 @@ export default function Create({
                                             value="Estado"
                                         />
                                         <select
-                                            className="block w-full mt-4 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                                            className="block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                                             onChange={(e) =>
                                                 setData(
                                                     "estado",
@@ -133,7 +158,7 @@ export default function Create({
                                     </div>
                                 )}
 
-                                <div className="mt-4">
+                                <div className="">
                                     <InputLabel htmlFor="civ" value="CIV" />
                                     <TextInput
                                         id="civ"
@@ -143,7 +168,10 @@ export default function Create({
                                         className="block w-full mt-1"
                                         autoComplete="civ"
                                         onChange={(e) =>
-                                            setData("civ", e.target.value)
+                                            setData(
+                                                "civ",
+                                                e.target.value.toUpperCase()
+                                            )
                                         }
                                     />
                                     <InputError
@@ -152,7 +180,7 @@ export default function Create({
                                     />
                                 </div>
 
-                                <div className="mt-4">
+                                <div className="">
                                     <InputLabel
                                         htmlFor="numero_economico"
                                         value="Número económico"
@@ -167,7 +195,7 @@ export default function Create({
                                         onChange={(e) =>
                                             setData(
                                                 "numero_economico",
-                                                e.target.value
+                                                e.target.value.toUpperCase()
                                             )
                                         }
                                     />
@@ -177,7 +205,7 @@ export default function Create({
                                     />
                                 </div>
 
-                                <div className="mt-4">
+                                <div className="">
                                     <InputLabel htmlFor="marca" value="Marca" />
                                     <TextInput
                                         id="marca"
@@ -186,6 +214,7 @@ export default function Create({
                                         value={data.marca}
                                         className="block w-full mt-1"
                                         autoComplete="marca"
+                                        list="marcas"
                                         onChange={(e) =>
                                             setData("marca", e.target.value)
                                         }
@@ -194,9 +223,24 @@ export default function Create({
                                         message={errors.marca}
                                         className="mt-2"
                                     />
+                                    <datalist id="marcas">
+                                        <option>Volkswagen</option>
+                                        <option>Chevrolet</option>
+                                        <option>Toyota</option>
+                                        <option>Nissan</option>
+                                        <option>Kia</option>
+                                        <option>Renault</option>
+                                        <option>Hyundai</option>
+                                        <option>Honda</option>
+                                        <option>Ford</option>
+                                        <option>Porsche</option>
+                                        <option>Audi</option>
+                                        <option>BMW</option>
+                                        <option>Tesla</option>
+                                    </datalist>
                                 </div>
 
-                                <div className="mt-4">
+                                <div className="">
                                     <InputLabel htmlFor="tipo" value="Tipo" />
                                     <TextInput
                                         id="tipo"
@@ -215,7 +259,7 @@ export default function Create({
                                     />
                                 </div>
 
-                                <div className="mt-4">
+                                <div className="">
                                     <InputLabel
                                         htmlFor="modelo"
                                         value="Modelo"
@@ -237,7 +281,7 @@ export default function Create({
                                     />
                                 </div>
 
-                                <div className="mt-4">
+                                <div className="">
                                     <InputLabel htmlFor="placa" value="Placa" />
                                     <TextInput
                                         id="placa"
@@ -247,7 +291,10 @@ export default function Create({
                                         className="block w-full mt-1"
                                         autoComplete="placa"
                                         onChange={(e) =>
-                                            setData("placa", e.target.value)
+                                            setData(
+                                                "placa",
+                                                e.target.value.toUpperCase()
+                                            )
                                         }
                                     />
                                     <InputError
@@ -256,7 +303,7 @@ export default function Create({
                                     />
                                 </div>
 
-                                <div className="mt-4">
+                                <div className="">
                                     <InputLabel
                                         htmlFor="no_serie"
                                         value="No. Serie"
@@ -269,7 +316,10 @@ export default function Create({
                                         className="block w-full mt-1"
                                         autoComplete="no_serie"
                                         onChange={(e) =>
-                                            setData("no_serie", e.target.value)
+                                            setData(
+                                                "no_serie",
+                                                e.target.value.toUpperCase()
+                                            )
                                         }
                                     />
                                     <InputError
@@ -278,7 +328,7 @@ export default function Create({
                                     />
                                 </div>
 
-                                <div className="mt-4">
+                                <div className="">
                                     <InputLabel
                                         htmlFor="no_motor"
                                         value="No. Motor"
@@ -300,7 +350,7 @@ export default function Create({
                                     />
                                 </div>
 
-                                <div className="mt-4">
+                                <div className="">
                                     <InputLabel
                                         htmlFor="area_asignacion"
                                         value="Área de asignación"
@@ -325,7 +375,7 @@ export default function Create({
                                     />
                                 </div>
 
-                                <div className="mt-4">
+                                <div className="">
                                     <InputLabel
                                         htmlFor="resguardante"
                                         value="Resguardante"
@@ -351,7 +401,7 @@ export default function Create({
                                 </div>
 
                                 {/* Detalle text area */}
-                                <div className="mt-4">
+                                <div className="">
                                     <InputLabel
                                         htmlFor="detalle"
                                         value="Detalle"
@@ -372,7 +422,7 @@ export default function Create({
                                     />
                                 </div>
 
-                                <div className="flex items-center justify-center col-span-2 mt-4">
+                                <div className="flex items-center justify-center col-span-2 ">
                                     <PrimaryButton
                                         className="ms-4"
                                         disabled={processing}

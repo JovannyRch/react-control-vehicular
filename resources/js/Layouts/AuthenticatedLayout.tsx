@@ -11,6 +11,8 @@ import { BsFuelPump, BsTools } from "react-icons/bs";
 import { BiLogOut, BiSolidCarMechanic } from "react-icons/bi";
 import { RxDashboard } from "react-icons/rx";
 import { Typography } from "@/Components/Typography";
+import { GoReport } from "react-icons/go";
+import { FaChartBar } from "react-icons/fa";
 
 export default function Authenticated({
     user,
@@ -163,6 +165,13 @@ export default function Authenticated({
             label: "Accesorios",
             href: route("vehiculos.index", { tools: "true" }),
             hide: user.role !== "ADMIN" && user.role !== "MAINT",
+        },
+        //Add reportes
+        {
+            icon: <FaChartBar className="w-5 h-5" />,
+            label: "Reportes",
+            href: route("reportes.index"),
+            hide: user.role !== "ADMIN" && user.role !== "REPORT",
         },
     ];
     return (

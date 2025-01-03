@@ -7,6 +7,7 @@ use App\Http\Controllers\FileController;
 use App\Http\Controllers\HistorialController;
 use App\Http\Controllers\MantenimientosController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ReportesController;
 use App\Http\Controllers\VehiculoController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -26,6 +27,9 @@ Route::get('/vehiculo/pega_ticket/{factura}', [VehiculoController::class, 'pegaT
 Route::get('/mantenimiento/{mantenimiento}', [MantenimientosController::class, 'show'])->middleware('auth', 'verified')->name('mantenimiento.show');
 Route::get('/vehiculo/pdf/{vehiculo}', [VehiculoController::class, 'detailPdf'])->middleware('auth', 'verified')->name('vehiculo.pdf');
 Route::resource('vehiculos', VehiculoController::class)->middleware('auth', 'verified');
+
+Route::get('/reportes', [ReportesController::class, 'index'])->middleware('auth', 'verified')->name('reportes.index');
+
 
 //Delete single vehicle
 Route::delete('/vehicles/destroy-all', [VehiculoController::class, 'destroyAll'])->middleware('auth', 'verified')->name('vehiculos.destroyAll');

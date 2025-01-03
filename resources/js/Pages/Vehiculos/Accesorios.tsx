@@ -27,9 +27,9 @@ const Accesorios = ({ accesorios: lista, vehiculoId }: AccesoriosProps) => {
     const headers = [
         "Fecha",
         "Folio",
-        "Detalle",
-        "Persona encargada",
-        "Persona entregada",
+        "Persona que entrega",
+        "Persona que recibe",
+        "Accesorios entregados",
         "Acciones",
     ];
 

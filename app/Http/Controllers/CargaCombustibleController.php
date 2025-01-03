@@ -30,19 +30,23 @@ class CargaCombustibleController extends Controller
      */
     public function store(Request $request)
     {
+
+        $odometroInicial = CargaCombustible::where('vehiculo_id', $request->vehiculo_id)
+            ->orderBy('id', 'desc')
+            ->first();
+
+
         $request->validate([
             'fecha' => 'required | date',
             'importe' => 'required | numeric',
             'litros' => 'required | numeric',
+            'odometro' => "required | numeric | gt:{$odometroInicial->odometro_final}",
             'vehiculo_id' => 'required',
             'folio' => 'required'
         ]);
 
 
-        //Odometro final del ultimo registro sera el odometro inicial de este registro
-        $odometroInicial = CargaCombustible::where('vehiculo_id', $request->vehiculo_id)
-            ->orderBy('id', 'desc')
-            ->first();
+
 
         if ($odometroInicial) {
             $request->merge(['odometro_inicial' => $odometroInicial->odometro_final]);

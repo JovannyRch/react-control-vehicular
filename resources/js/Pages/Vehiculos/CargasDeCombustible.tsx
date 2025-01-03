@@ -363,7 +363,7 @@ const CargasDeCombustible = ({
                             e.preventDefault();
 
                             form.post(route("carga_combustible.store"), {
-                                onFinish: () => {
+                                onSuccess: () => {
                                     form.reset(
                                         "litros",
                                         "importe",
@@ -372,6 +372,9 @@ const CargasDeCombustible = ({
                                         "folio"
                                     );
                                     setIsModalOpen(false);
+                                },
+                                onError: (error) => {
+                                    console.log("error", error);
                                 },
                             });
                         }}
@@ -447,8 +450,15 @@ const CargasDeCombustible = ({
                                         form.setData("odometro", e.target.value)
                                     }
                                 />
+
+                                <span className="text-xs text-gray-400">
+                                    El valor debe ser mayor al último registrado
+                                </span>
                                 <InputError
-                                    message={form.errors.odometro}
+                                    message={form.errors.odometro?.replace(
+                                        "The odometro field must be greater than",
+                                        "El campo odometro debe ser mayor a"
+                                    )}
                                     className="mt-2"
                                 />
                             </div>

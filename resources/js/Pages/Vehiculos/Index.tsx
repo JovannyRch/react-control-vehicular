@@ -1,17 +1,18 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, router, useForm } from "@inertiajs/react";
 import { PageProps } from "@/types";
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { Vehiculo } from "@/types/Vehiculo";
 import Button from "@/Components/Button";
 import { BsFillFuelPumpDieselFill } from "react-icons/bs";
 import { AiFillEye, AiOutlineDownload } from "react-icons/ai";
-import { MdEditNote } from "react-icons/md";
 import { BiPlus, BiSearch, BiSolidCarMechanic } from "react-icons/bi";
 import { FaEdit, FaTools } from "react-icons/fa";
 import MainColorContainer from "@/Components/MainColorContainer";
 import { Typography } from "@/Components/Typography";
 import RoundedIconButton from "@/Components/RoundedIconButton";
+import useDebounce from "@/hooks/useDebounce";
+import { useUpdateEffect } from "@/hooks/useUpdateEffect";
 
 interface VehiculosProps extends PageProps {
     vehiculos: Vehiculo[];
@@ -37,12 +38,22 @@ export default function Vehiculos({
         search,
     });
 
-    const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
+    useEffect(() => {
+        if (search) {
+            document.getElementById("default-search")?.focus();
+        }
+    }, [search]);
 
+    const debouncedSearch = useDebounce(form.data.search, 500);
+
+    useUpdateEffect(() => {
+        handleSearch(debouncedSearch);
+    }, [debouncedSearch]);
+
+    const handleSearch = (value: string) => {
         router.visit(
             route("vehiculos.index", {
-                search: form.data.search,
+                search: value,
                 plantilla,
                 ...(Boolean(estado) && { estado }),
                 ...(loadFuel && { loadFuel: "true" }),
@@ -201,10 +212,7 @@ export default function Vehiculos({
 
                             <div className="flex items-center justify-between mt-8">
                                 <div className="flex-1">
-                                    <form
-                                        className="flex-1 max-w-md mb-8"
-                                        onSubmit={handleSearch}
-                                    >
+                                    <div className="flex-1 max-w-md mb-8">
                                         <div className="relative">
                                             <div className="absolute inset-y-0 flex items-center pointer-events-none start-0 ps-3">
                                                 <svg
@@ -236,16 +244,8 @@ export default function Vehiculos({
                                                 }
                                                 value={form.data.search}
                                             />
-                                            <Button
-                                                type="submit"
-                                                style="main"
-                                                className="absolute end-2.5 bottom-0"
-                                            >
-                                                Buscar
-                                                <BiSearch />
-                                            </Button>
                                         </div>
-                                    </form>
+                                    </div>
                                 </div>
                                 <div>
                                     {!loadFuel && !maintenance && !tools && (

@@ -71,10 +71,27 @@
 
             z-index: -1000;
         }
+
+        @page {
+            margin: 0;
+        }
+
+        .footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            text-align: center;
+            font-size: 10px;
+            color: #000000;
+        }
     </style>
 </head>
 
 <body>
+    <div class="footer">
+    </div>
+
     <div id="watermark">
         <img src="img/marca_horizontal.png" height="100%" width="100%" />
     </div>
@@ -128,6 +145,23 @@
         </table>
 
     </main>
+    <script type="text/php">
+        if (isset($pdf)) {
+
+            $font = $fontMetrics->get_font('Arial, sans-serif', 'normal');
+            $size = 10;                       // Tamaño de la letra
+            $color = array(0, 0, 0);          // Negro (RGB)
+
+
+            $x = 350;
+            $y = 575;
+
+
+            $text = "SIC-".date('d/m/Y-H:i') . " - Página {PAGE_NUM} de {PAGE_COUNT}";
+
+            $pdf->page_text($x, $y, $text, $font, $size, $color);
+        }
+    </script>
 </body>
 
 </html>

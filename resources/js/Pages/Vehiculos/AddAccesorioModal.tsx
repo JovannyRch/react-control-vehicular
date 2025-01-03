@@ -135,7 +135,7 @@ const AddAccesorioModal = ({
                         <div className="w-full">
                             <InputLabel
                                 htmlFor="persona_encargada"
-                                value="Persona encargada"
+                                value="Persona que entrega"
                             />
                             <TextInput
                                 id="persona_encargada"
@@ -157,7 +157,7 @@ const AddAccesorioModal = ({
                         <div className="w-full">
                             <InputLabel
                                 htmlFor="persona_entregada"
-                                value="Persona entregada"
+                                value="Persona que recibe"
                             />
                             <TextInput
                                 id="persona_entregada"
@@ -176,7 +176,10 @@ const AddAccesorioModal = ({
                             />
                         </div>
                         <div className="w-full col-span-2">
-                            <InputLabel htmlFor="detalle" value="Detalle" />
+                            <InputLabel
+                                htmlFor="detalle"
+                                value="Accesorios entregados"
+                            />
                             <TextInput
                                 id="detalle"
                                 type="text"

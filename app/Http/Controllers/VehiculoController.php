@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreProductoRequest;
+use App\Http\Requests\StoreVehiculoRequest;
+use App\Http\Requests\UpdateVehiculoRequest;
 use App\Models\CargaCombustible;
 use App\Models\Factura;
-use App\Models\Historial;
-use App\Models\Mantenimiento;
 use App\Models\Vehiculo;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -98,16 +99,13 @@ class VehiculoController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreVehiculoRequest $request)
     {
         $request->validate([
-            'numero_economico' => 'required',
+
             'marca' => 'required',
             'tipo' => 'required',
             'modelo' => 'required',
-            'placa' => 'required',
-            'no_serie' => 'required',
-            'no_motor' => 'required',
             'area_asignacion' => 'required',
             'resguardante' => 'required',
             'plantilla' => 'required',
@@ -117,7 +115,7 @@ class VehiculoController extends Controller
 
         Vehiculo::create($request->all());
 
-        return redirect()->route('vehiculos.index', ['plantilla' => $request->input('plantilla'), 'estado' => $request->input('estado')]);
+        return redirect()->back()->with('message', 'Vehiculo creado');
     }
 
     /**
@@ -181,14 +179,14 @@ class VehiculoController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Vehiculo $vehiculo)
+    public function update(UpdateVehiculoRequest $request, Vehiculo $vehiculo)
     {
         $request->validate([
-            'numero_economico' => 'required',
+
             'marca' => 'required',
             'tipo' => 'required',
             'modelo' => 'required',
-            'placa' => 'required',
+
             'no_serie' => 'required',
             'no_motor' => 'required',
             'area_asignacion' => 'required',
@@ -200,7 +198,7 @@ class VehiculoController extends Controller
 
         $vehiculo->update($request->all());
 
-        return redirect()->route('vehiculos.index', ['plantilla' => $request->input('plantilla'), 'estado' => $request->input('estado')]);
+        return redirect()->back()->with('message', 'Vehiculo actualizado');
     }
 
     /**
@@ -220,6 +218,8 @@ class VehiculoController extends Controller
         $search = $request->input('search');
 
         $vehiculos = [];
+
+
 
         if ($plantilla === 'propia') {
             $estado = $request->input('estado');
@@ -298,8 +298,6 @@ class VehiculoController extends Controller
             'mantenimientos' => $mantenimientos,
             'accesorios' => $accesorios
         ])->setPaper('a4', 'landscape');
-
-
 
 
         return $pdf->stream('pdf_vehiculo');
