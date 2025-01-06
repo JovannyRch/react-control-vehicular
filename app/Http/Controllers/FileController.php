@@ -8,7 +8,7 @@ use Inertia\Inertia;
 use PDF;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Cache;
-
+use Illuminate\Support\Facades\Log;
 
 class FileController extends Controller
 {
@@ -20,7 +20,7 @@ class FileController extends Controller
             // Obtener los encabezados
 
             $headers = fgetcsv($handle, 1000, ',');
-
+            Log::info($headers);
             while (($row = fgetcsv($handle, 1000, ',')) !== false) {
                 $rowData = array_combine($headers, $row);
                 $groupKey = $rowData[$headers[0]]; // Usar el valor de la primera columna como clave
@@ -132,7 +132,11 @@ class FileController extends Controller
         if (($handle = fopen($file->getRealPath(), 'r')) !== false) {
             $headers = fgetcsv($handle, 1000, ',');
             $headers = array_map('trim', $headers);
+            $headers = array_map(function ($header) {
+                return preg_replace('/[^\p{L}\p{N}\s]+/u', '', $header);
+            }, $headers);
             $data = [];
+            Log::info(print_r($headers, true));
             while (($row = fgetcsv($handle, 1000, ',')) !== false) {
                 $rowData = array_combine($headers, $row);
                 $data[] = $rowData;
@@ -151,7 +155,7 @@ class FileController extends Controller
             'plantilla' => 'required|string',
             'estado' => 'required|string',
         ]);
-
+        Log::info("uploadVehicles");
         try {
             $data = $this->getArrayDataFromFile($request->file('csv_file'));
 

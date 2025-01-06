@@ -210,9 +210,9 @@ export default function Vehiculos({
                                 </Typography.Subtitle>
                             )}
 
-                            <div className="flex items-center justify-between mt-8">
-                                <div className="flex-1">
-                                    <div className="flex-1 max-w-md mb-8">
+                            <div>
+                                <div className="flex items-center justify-end gap-4">
+                                    <div>
                                         <div className="relative">
                                             <div className="absolute inset-y-0 flex items-center pointer-events-none start-0 ps-3">
                                                 <svg
@@ -246,10 +246,8 @@ export default function Vehiculos({
                                             />
                                         </div>
                                     </div>
-                                </div>
-                                <div>
                                     {!loadFuel && !maintenance && !tools && (
-                                        <div className="flex justify-end gap-4 mb-4">
+                                        <div className="flex items-center justify-end gap-4 mb-4">
                                             <Button
                                                 onClick={() =>
                                                     router.visit(
