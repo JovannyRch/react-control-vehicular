@@ -13,6 +13,7 @@ import { Typography } from "@/Components/Typography";
 import RoundedIconButton from "@/Components/RoundedIconButton";
 import useDebounce from "@/hooks/useDebounce";
 import { useUpdateEffect } from "@/hooks/useUpdateEffect";
+import BreadcrumbItem from "@/Components/BreadcrumbItem";
 
 interface VehiculosProps extends PageProps {
     vehiculos: Vehiculo[];
@@ -115,71 +116,38 @@ export default function Vehiculos({
         <AuthenticatedLayout
             user={auth.user}
             header={
-                <h2 className="text-xl font-semibold leading-tight text-white">
-                    <nav className="flex" aria-label="Breadcrumb">
-                        <ol className="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
-                            <li className="inline-flex items-center">
-                                <a
-                                    href={route("vehiculos.index")}
-                                    className="inline-flex items-center text-sm font-medium text-gray-200 hover:text-blue-600 "
-                                >
-                                    Vehículos
-                                </a>
-                            </li>
-                            {plantilla && (
-                                <li>
-                                    <div className="flex items-center">
-                                        <svg
-                                            className="w-3 h-3 mx-1 text-gray-400 rtl:rotate-180"
-                                            aria-hidden="true"
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            fill="none"
-                                            viewBox="0 0 6 10"
-                                        >
-                                            <path
-                                                stroke="currentColor"
-                                                stroke-linecap="round"
-                                                stroke-linejoin="round"
-                                                stroke-width="2"
-                                                d="m1 9 4-4-4-4"
-                                            />
-                                        </svg>
-                                        <a
-                                            href="#"
-                                            className="text-sm font-medium text-gray-200 ms-1 hover:text-blue-600 md:ms-2 "
-                                        >
-                                            {plantilla}
-                                        </a>
-                                    </div>
-                                </li>
-                            )}
-                            {plantilla === "propia" && (
-                                <li aria-current="page">
-                                    <div className="flex items-center">
-                                        <svg
-                                            className="w-3 h-3 mx-1 text-gray-400 rtl:rotate-180"
-                                            aria-hidden="true"
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            fill="none"
-                                            viewBox="0 0 6 10"
-                                        >
-                                            <path
-                                                stroke="currentColor"
-                                                stroke-linecap="round"
-                                                stroke-linejoin="round"
-                                                stroke-width="2"
-                                                d="m1 9 4-4-4-4"
-                                            />
-                                        </svg>
-                                        <span className="text-sm font-medium text-gray-500 ms-1 md:ms-2 ">
-                                            {estado}
-                                        </span>
-                                    </div>
-                                </li>
-                            )}
-                        </ol>
-                    </nav>
-                </h2>
+                <nav className="flex" aria-label="Breadcrumb">
+                    <ol className="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
+                        <BreadcrumbItem displayArrow={false}>
+                            <>Vehículos</>
+                        </BreadcrumbItem>
+                        {plantilla && (
+                            <BreadcrumbItem>
+                                <div className="capitalize">{plantilla}</div>
+                            </BreadcrumbItem>
+                        )}
+                        {plantilla === "propia" && (
+                            <BreadcrumbItem>
+                                <div className="capitalize">{estado}</div>
+                            </BreadcrumbItem>
+                        )}
+                        {loadFuel && (
+                            <BreadcrumbItem>
+                                <>Cargas de combustible</>
+                            </BreadcrumbItem>
+                        )}
+                        {maintenance && (
+                            <BreadcrumbItem>
+                                <>Mantenimiento</>
+                            </BreadcrumbItem>
+                        )}
+                        {tools && (
+                            <BreadcrumbItem>
+                                <>Accesorios</>
+                            </BreadcrumbItem>
+                        )}
+                    </ol>
+                </nav>
             }
         >
             <Head title="Vehículos" />
@@ -188,66 +156,34 @@ export default function Vehiculos({
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
                     <MainColorContainer className="overflow-hidden shadow-sm sm:rounded-lg">
                         <div className="p-4">
-                            <Typography.Title className="text-2xl font-semibold ">
-                                Lista de vehículos
-                                {maintenance && " | Mantenimiento"}
-                            </Typography.Title>
+                            <div className="mb-3">
+                                <Typography.Title className="text-2xl font-semibold ">
+                                    Lista de vehículos
+                                    {maintenance && " | Mantenimiento"}
+                                </Typography.Title>
 
-                            {plantilla && (
-                                <Typography.Subtitle className="mt-3 ">
-                                    <span className="font-semibold">
-                                        Plantilla:
-                                    </span>{" "}
-                                    {plantilla}
-                                </Typography.Subtitle>
-                            )}
-                            {plantilla === "propia" && (
-                                <Typography.Subtitle className="mt-3 ">
-                                    <span className="font-semibold">
-                                        Estado:
-                                    </span>{" "}
-                                    {estado}
-                                </Typography.Subtitle>
-                            )}
+                                {plantilla && (
+                                    <Typography.Subtitle className="mt-3 ">
+                                        <span className="font-semibold">
+                                            Plantilla:
+                                        </span>{" "}
+                                        {plantilla}
+                                    </Typography.Subtitle>
+                                )}
+                                {plantilla === "propia" && (
+                                    <Typography.Subtitle className="mt-3 ">
+                                        <span className="font-semibold">
+                                            Estado:
+                                        </span>{" "}
+                                        {estado}
+                                    </Typography.Subtitle>
+                                )}
+                            </div>
 
                             <div>
-                                <div className="flex items-center justify-end gap-4">
-                                    <div>
-                                        <div className="relative">
-                                            <div className="absolute inset-y-0 flex items-center pointer-events-none start-0 ps-3">
-                                                <svg
-                                                    className="w-4 h-4 text-gray-500 dark:text-gray-400"
-                                                    aria-hidden="true"
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                    fill="none"
-                                                    viewBox="0 0 20 20"
-                                                >
-                                                    <path
-                                                        stroke="currentColor"
-                                                        stroke-linecap="round"
-                                                        stroke-linejoin="round"
-                                                        stroke-width="2"
-                                                        d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
-                                                    />
-                                                </svg>
-                                            </div>
-                                            <input
-                                                type="search"
-                                                id="default-search"
-                                                className="block w-full p-4 text-sm text-gray-900 bg-gray-100 border border-gray-300 rounded-lg ps-10 focus:ring-blue-500 focus:border-blue-500 "
-                                                placeholder="Buscar vehículo..."
-                                                onChange={(e) =>
-                                                    form.setData(
-                                                        "search",
-                                                        e.target.value
-                                                    )
-                                                }
-                                                value={form.data.search}
-                                            />
-                                        </div>
-                                    </div>
+                                <div className="flex items-center justify-between gap-4">
                                     {!loadFuel && !maintenance && !tools && (
-                                        <div className="flex items-center justify-end gap-4 mb-4">
+                                        <div className="flex items-center justify-end gap-4 mt-4">
                                             <Button
                                                 onClick={() =>
                                                     router.visit(
@@ -288,6 +224,40 @@ export default function Vehiculos({
                                             </Button>
                                         </div>
                                     )}
+                                    <div className="w-1/2">
+                                        <div className="relative">
+                                            <div className="absolute inset-y-0 flex items-center pointer-events-none start-0 ps-3">
+                                                <svg
+                                                    className="w-4 h-4 text-gray-500 dark:text-gray-400"
+                                                    aria-hidden="true"
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    fill="none"
+                                                    viewBox="0 0 20 20"
+                                                >
+                                                    <path
+                                                        stroke="currentColor"
+                                                        stroke-linecap="round"
+                                                        stroke-linejoin="round"
+                                                        stroke-width="2"
+                                                        d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
+                                                    />
+                                                </svg>
+                                            </div>
+                                            <input
+                                                type="search"
+                                                id="default-search"
+                                                className="block w-full p-4 text-sm text-gray-900 bg-gray-100 border border-gray-300 rounded-lg ps-10 focus:ring-blue-500 focus:border-blue-500 "
+                                                placeholder="Buscar vehículo..."
+                                                onChange={(e) =>
+                                                    form.setData(
+                                                        "search",
+                                                        e.target.value
+                                                    )
+                                                }
+                                                value={form.data.search}
+                                            />
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
 

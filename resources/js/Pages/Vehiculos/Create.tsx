@@ -10,6 +10,7 @@ import { Vehiculo } from "@/types/Vehiculo";
 import { Estados, Plantillas } from "@/types/const";
 import { Typography } from "@/Components/Typography";
 import { useUpdateEffect } from "@/hooks/useUpdateEffect";
+import BreadcrumbItem from "@/Components/BreadcrumbItem";
 
 interface VehiculosProps extends PageProps {
     vehiculos: Vehiculo[];
@@ -75,12 +76,34 @@ export default function Create({
             user={auth.user}
             header={
                 <h2 className="text-xl font-semibold leading-tight text-white">
-                    {
-                        {
-                            create: "Crear vehículo",
-                            edit: "Editar vehículo",
-                        }[mode]
-                    }
+                    <nav className="flex" aria-label="Breadcrumb">
+                        <ol className="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
+                            <BreadcrumbItem displayArrow={false}>
+                                <a
+                                    href={route("vehiculos.index")}
+                                    className="inline-flex items-center text-sm font-medium text-gray-200 hover:text-blue-600 "
+                                >
+                                    Vehículos
+                                </a>
+                            </BreadcrumbItem>
+                            <BreadcrumbItem>
+                                <>{plantilla}</>
+                            </BreadcrumbItem>
+
+                            <BreadcrumbItem>
+                                <>
+                                    {
+                                        {
+                                            create: "Nuevo ",
+                                            edit: "Editar ",
+                                        }[mode]
+                                    }
+                                    vehículo
+                                    {plantilla && ` ${plantilla}`}
+                                </>
+                            </BreadcrumbItem>
+                        </ol>
+                    </nav>
                 </h2>
             }
         >
@@ -216,7 +239,10 @@ export default function Create({
                                         autoComplete="marca"
                                         list="marcas"
                                         onChange={(e) =>
-                                            setData("marca", e.target.value)
+                                            setData(
+                                                "marca",
+                                                e.target.value.toUpperCase()
+                                            )
                                         }
                                     />
                                     <InputError
@@ -255,7 +281,10 @@ export default function Create({
                                         className="block w-full mt-1"
                                         autoComplete="tipo"
                                         onChange={(e) =>
-                                            setData("tipo", e.target.value)
+                                            setData(
+                                                "tipo",
+                                                e.target.value.toUpperCase()
+                                            )
                                         }
                                     />
                                     <InputError
@@ -277,7 +306,10 @@ export default function Create({
                                         className="block w-full mt-1"
                                         autoComplete="modelo"
                                         onChange={(e) =>
-                                            setData("modelo", e.target.value)
+                                            setData(
+                                                "modelo",
+                                                e.target.value.toUpperCase()
+                                            )
                                         }
                                     />
                                     <InputError
@@ -346,7 +378,10 @@ export default function Create({
                                         className="block w-full mt-1"
                                         autoComplete="no_motor"
                                         onChange={(e) =>
-                                            setData("no_motor", e.target.value)
+                                            setData(
+                                                "no_motor",
+                                                e.target.value.toUpperCase()
+                                            )
                                         }
                                     />
                                     <InputError
@@ -370,7 +405,7 @@ export default function Create({
                                         onChange={(e) =>
                                             setData(
                                                 "area_asignacion",
-                                                e.target.value
+                                                e.target.value.toUpperCase()
                                             )
                                         }
                                     />
@@ -395,7 +430,7 @@ export default function Create({
                                         onChange={(e) =>
                                             setData(
                                                 "resguardante",
-                                                e.target.value
+                                                e.target.value.toUpperCase()
                                             )
                                         }
                                     />
@@ -417,7 +452,10 @@ export default function Create({
                                         value={data.detalle}
                                         className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                                         onChange={(e) =>
-                                            setData("detalle", e.target.value)
+                                            setData(
+                                                "detalle",
+                                                e.target.value.toUpperCase()
+                                            )
                                         }
                                         rows={5}
                                     />

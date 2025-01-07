@@ -44,7 +44,18 @@ class ReportesController extends Controller
                     'data' => $data,
                     'backgroundColor' => '#882041'
                 ]]
-            ]
+            ],
+            'options' => [
+                'plugins' => [
+                    'datalabels' => [
+                        'display' => true,
+                        'color' => '#000',  // color de la etiqueta
+                        'anchor' => 'end',  // anclado al final de la barra
+                        'align'  => 'right',  // alineado en la parte superior de la barra
+                        // 'formatter' => ... // si quisieras formatear el valor
+                    ],
+                ],
+            ],
         ];
 
         $quickChartUrl = 'https://quickchart.io/chart?c=' . urlencode(json_encode($chartConfig)) . '&width=600&height=400';
@@ -87,7 +98,18 @@ class ReportesController extends Controller
                     'data' => $data,
                     'backgroundColor' => '#882041'
                 ]]
-            ]
+            ],
+            'options' => [
+                'plugins' => [
+                    'datalabels' => [
+                        'display' => true,
+                        'color' => '#000',  // color de la etiqueta
+                        'anchor' => 'end',  // anclado al final de la barra
+                        'align'  => 'right',  // alineado en la parte superior de la barra
+                        // 'formatter' => ... // si quisieras formatear el valor
+                    ],
+                ],
+            ],
         ];
 
         $quickChartUrl = 'https://quickchart.io/chart?c=' . urlencode(json_encode($chartConfig)) . '&width=600&height=400';

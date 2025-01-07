@@ -13,15 +13,20 @@ import { Typography } from "@/Components/Typography";
 import RoundedIconButton from "@/Components/RoundedIconButton";
 import useDebounce from "@/hooks/useDebounce";
 import { useUpdateEffect } from "@/hooks/useUpdateEffect";
+import BreadcrumbItem from "@/Components/BreadcrumbItem";
 
 export default function Index({ auth }: PageProps) {
     return (
         <AuthenticatedLayout
             user={auth.user}
             header={
-                <h2 className="text-xl font-semibold leading-tight text-white">
-                    Reportes
-                </h2>
+                <nav className="flex" aria-label="Breadcrumb">
+                    <ol className="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
+                        <BreadcrumbItem displayArrow={false}>
+                            <>Reportes</>
+                        </BreadcrumbItem>
+                    </ol>
+                </nav>
             }
         >
             <Head title="Reportes" />

@@ -10,6 +10,7 @@ import { BsChevronRight } from "react-icons/bs";
 import { FaTools } from "react-icons/fa";
 import ApplicationLogo from "@/Components/ApplicationLogo";
 import { Typography } from "@/Components/Typography";
+import BreadcrumbItem from "@/Components/BreadcrumbItem";
 
 const CardButton = ({ title, onClick, icon }: any) => (
     <button
@@ -85,9 +86,13 @@ export default function Dashboard({ auth }: PageProps) {
         <AuthenticatedLayout
             user={auth.user}
             header={
-                <Typography.Title className="text-xl font-semibold leading-tight ">
-                    Inicio
-                </Typography.Title>
+                <nav className="flex" aria-label="Breadcrumb">
+                    <ol className="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
+                        <BreadcrumbItem displayArrow={false}>
+                            <>Inicio</>
+                        </BreadcrumbItem>
+                    </ol>
+                </nav>
             }
         >
             <Head title="Inicio" />
