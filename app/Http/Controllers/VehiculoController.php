@@ -113,9 +113,12 @@ class VehiculoController extends Controller
 
         ]);
 
-        Vehiculo::create($request->all());
+        $newItem = Vehiculo::create($request->all());
 
-        return redirect()->back()->with('message', 'Vehiculo creado');
+
+        session()->flash('message', 'Vehiculo registrado exitosamente');
+
+        return redirect()->route('vehiculos.show', $newItem);
     }
 
     /**
@@ -160,7 +163,8 @@ class VehiculoController extends Controller
             'mantenimientos' => $mantenimientos,
             'cargasDisponibles' => $cargasDisponibles,
             'facturas' => $facturas,
-            'accesorios' => $accesorios
+            'accesorios' => $accesorios,
+            'message' => session('message')
         ]);
     }
 
@@ -186,7 +190,6 @@ class VehiculoController extends Controller
             'marca' => 'required',
             'tipo' => 'required',
             'modelo' => 'required',
-
             'no_serie' => 'required',
             'no_motor' => 'required',
             'area_asignacion' => 'required',
@@ -198,7 +201,11 @@ class VehiculoController extends Controller
 
         $vehiculo->update($request->all());
 
-        return redirect()->back()->with('message', 'Vehiculo actualizado');
+
+
+        session()->flash('message', 'Vehiculo actualizado exitosamente');
+
+        return redirect()->route('vehiculos.show', $vehiculo);
     }
 
     /**

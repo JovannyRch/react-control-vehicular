@@ -1,5 +1,5 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { Head, useForm } from "@inertiajs/react";
+import { Head, useForm, usePage } from "@inertiajs/react";
 import { PageProps } from "@/types";
 import { Vehiculo } from "@/types/Vehiculo";
 import { Historial } from "@/types/Historial";
@@ -45,6 +45,9 @@ export default function Show({
     facturas,
     accesorios,
 }: VehiculosProps) {
+    const { props } = usePage();
+    const { message } = props;
+
     useEffect(() => {
         if (loadFuel) {
             setTimeout(() => {
@@ -59,11 +62,22 @@ export default function Show({
             user={auth.user}
             header={
                 <h2 className="text-xl font-semibold leading-tight text-white">
-                    Vehículo #{vehiculo.id}
+                    Vehículo
                 </h2>
             }
         >
             <Head title="Vehículos" />
+
+            {(message as String) && (
+                <div
+                    className="relative px-4 py-3 text-center text-green-700 bg-green-100 border border-green-400 rounded"
+                    role="alert"
+                >
+                    <span className="block text-center sm:inline w-100">
+                        {message as String}
+                    </span>
+                </div>
+            )}
 
             <div className="flex justify-center">
                 <div className="max-w-[1200px]">
@@ -92,7 +106,7 @@ export default function Show({
                     {maintenance && (
                         <MantenimientoTable
                             vehiculo={vehiculo}
-                            registros={mantenimientos}
+                            istros={mantenimientos}
                             month={month}
                             year={year}
                         />

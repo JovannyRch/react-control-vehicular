@@ -30,8 +30,8 @@ class UpdateVehiculoRequest extends FormRequest
             'placa' => [
                 'required',
                 function ($attribute, $value, $fail) {
-                    // Si el valor NO es SN o S/N, validamos unicidad
-                    if (! in_array($value, ['SN', 'S/N'])) {
+
+                    if (! in_array($value, ['SN', 'S/N', 'S/N', 'SP'])) {
                         $existe = DB::table('vehiculos')
                             ->where('placa', $value)
                             ->where('id', '!=', $this->vehiculo->id)
