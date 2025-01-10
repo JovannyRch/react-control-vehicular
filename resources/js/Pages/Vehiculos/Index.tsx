@@ -1,5 +1,5 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { Head, router, useForm } from "@inertiajs/react";
+import { Head, router, useForm, usePage } from "@inertiajs/react";
 import { PageProps } from "@/types";
 import { useEffect, useMemo } from "react";
 import { Vehiculo } from "@/types/Vehiculo";
@@ -38,6 +38,9 @@ export default function Vehiculos({
     const form = useForm({
         search,
     });
+
+    const { props } = usePage();
+    const { message } = props;
 
     useEffect(() => {
         if (search) {
@@ -151,6 +154,16 @@ export default function Vehiculos({
             }
         >
             <Head title="Vehículos" />
+            {(message as String) && (
+                <div
+                    className="relative px-4 py-3 text-center text-green-700 bg-green-100 border border-green-400 rounded"
+                    role="alert"
+                >
+                    <span className="block text-center sm:inline w-100">
+                        {message as String}
+                    </span>
+                </div>
+            )}
 
             <div className="py-12">
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">

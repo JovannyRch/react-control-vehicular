@@ -29,7 +29,7 @@ class StoreVehiculoRequest extends FormRequest
             'placa' => [
                 'required',
                 function ($attribute, $value, $fail) {
-                    if (! in_array($value, ['SN', 'S/N'])) {
+                    if (! in_array($value, ['SN', 'S/N', 'S/P', 'SP'])) {
                         $existe = DB::table('vehiculos')
                             ->where('placa', $value)
                             ->exists();

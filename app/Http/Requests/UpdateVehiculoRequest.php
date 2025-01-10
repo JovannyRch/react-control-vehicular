@@ -31,7 +31,7 @@ class UpdateVehiculoRequest extends FormRequest
                 'required',
                 function ($attribute, $value, $fail) {
 
-                    if (! in_array($value, ['SN', 'S/N', 'S/N', 'SP'])) {
+                    if (! in_array($value, ['SN', 'S/N', 'S/P', 'SP'])) {
                         $existe = DB::table('vehiculos')
                             ->where('placa', $value)
                             ->where('id', '!=', $this->vehiculo->id)

@@ -78,7 +78,8 @@ class VehiculoController extends Controller
             'estado' => $estado ?? null,
             'search' => $search ?? '',
             'loadFuel' => $loadFuel ?? false,
-            'maintenance' => $maintenance ?? false
+            'maintenance' => $maintenance ?? false,
+            'message' => session('message')
         ]);
     }
 
@@ -205,7 +206,7 @@ class VehiculoController extends Controller
 
         session()->flash('message', 'Vehiculo actualizado exitosamente');
 
-        return redirect()->route('vehiculos.show', $vehiculo);
+        return redirect()->route('vehiculos.index');
     }
 
     /**
