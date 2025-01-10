@@ -106,7 +106,7 @@ export default function Show({
                     {maintenance && (
                         <MantenimientoTable
                             vehiculo={vehiculo}
-                            istros={mantenimientos}
+                            registros={mantenimientos}
                             month={month}
                             year={year}
                         />
