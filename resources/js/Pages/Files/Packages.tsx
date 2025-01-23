@@ -1,4 +1,4 @@
-import { useForm } from "@inertiajs/react";
+import { Head, useForm } from "@inertiajs/react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { PageProps } from "@/types";
 import axios from "axios";
@@ -78,6 +78,7 @@ const Files = ({ auth }: PageProps) => {
                 </h2>
             }
         >
+            <Head title="Packages" />
             <div className="max-w-2xl p-6 mx-auto my-8 bg-white rounded-md shadow-md">
                 <h1 className="mb-4 text-2xl font-semibold text-center text-gray-700">
                     Subir Archivo CSV
@@ -165,8 +166,11 @@ const Files = ({ auth }: PageProps) => {
                                         >
                                             {currentPackageLoadingId ===
                                             packageId ? (
-                                                <div className="animate-spin">
-                                                    <AiOutlineLoading3Quarters />
+                                                <div className="flex gap-1 ">
+                                                    <span>Descargando...</span>
+                                                    <div className="flex items-center justify-center animate-spin">
+                                                        <AiOutlineLoading3Quarters />
+                                                    </div>
                                                 </div>
                                             ) : (
                                                 "Descargar ZIP"
