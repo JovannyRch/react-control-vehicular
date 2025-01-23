@@ -3,12 +3,16 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { PageProps } from "@/types";
 import axios from "axios";
 import { useState } from "react";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
 const Files = ({ auth }: PageProps) => {
     const [csvFile, setCsvFile] = useState<File | null>(null);
     const [packageSize, setPackageSize] = useState(20);
     const [packages, setPackages] = useState([]);
     const [cacheKey, setCacheKey] = useState("");
+    const [currentPackageLoadingId, setCurrentPackageLoadingId] = useState<
+        null | string
+    >(null);
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
@@ -34,6 +38,7 @@ const Files = ({ auth }: PageProps) => {
     };
 
     const handleDownloadPackage = (packageId: string) => {
+        setCurrentPackageLoadingId(packageId);
         axios
             .get(`/download-package/${cacheKey}/${packageId}`, {
                 responseType: "blob",
@@ -58,6 +63,9 @@ const Files = ({ auth }: PageProps) => {
             })
             .catch((error) => {
                 console.error("Error al descargar el paquete:", error);
+            })
+            .finally(() => {
+                setCurrentPackageLoadingId(null);
             });
     };
 
@@ -149,9 +157,20 @@ const Files = ({ auth }: PageProps) => {
                                             onClick={() =>
                                                 handleDownloadPackage(packageId)
                                             }
+                                            disabled={
+                                                currentPackageLoadingId ===
+                                                packageId
+                                            }
                                             className="px-3 py-1 text-sm font-medium text-white transition duration-300 ease-in-out bg-green-500 rounded-md hover:bg-green-600"
                                         >
-                                            Descargar ZIP
+                                            {currentPackageLoadingId ===
+                                            packageId ? (
+                                                <div className="animate-spin">
+                                                    <AiOutlineLoading3Quarters />
+                                                </div>
+                                            ) : (
+                                                "Descargar ZIP"
+                                            )}
                                         </button>
                                     </li>
                                 ))}
