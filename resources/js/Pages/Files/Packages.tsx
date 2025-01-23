@@ -7,7 +7,7 @@ import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
 const Files = ({ auth }: PageProps) => {
     const [csvFile, setCsvFile] = useState<File | null>(null);
-    const [packageSize, setPackageSize] = useState(20);
+    const [packageSize, setPackageSize] = useState<string>("20");
     const [packages, setPackages] = useState([]);
     const [cacheKey, setCacheKey] = useState("");
     const [currentPackageLoadingId, setCurrentPackageLoadingId] = useState<
@@ -123,7 +123,7 @@ const Files = ({ auth }: PageProps) => {
                                     min="1"
                                     value={packageSize}
                                     onChange={(e) =>
-                                        setPackageSize(Number(e.target.value))
+                                        setPackageSize(e.target.value)
                                     }
                                     className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                                     required
