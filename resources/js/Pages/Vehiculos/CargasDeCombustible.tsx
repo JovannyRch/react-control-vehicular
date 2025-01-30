@@ -16,6 +16,7 @@ import {
     formatOnlyDateValue,
     getMonthName,
 } from "@/utils";
+import { getKm, getRendimiento, safeReduceSum } from "@/utils/index";
 import { router, useForm } from "@inertiajs/react";
 import { useEffect, useMemo, useState } from "react";
 import { GrAdd } from "react-icons/gr";
@@ -29,48 +30,6 @@ interface CargasProps {
     cargasDisponibles: CargaCombustible[];
     facturas: Factura[];
 }
-
-const getKm = (carga: CargaCombustible) => {
-    if (carga.odometro_final === null || isNaN(carga.odometro_final)) {
-        return "-";
-    }
-
-    if (carga.odometro_inicial === null || isNaN(carga.odometro_inicial)) {
-        return "-";
-    }
-
-    return `${Number(carga.odometro_final - carga.odometro_inicial)} km`;
-};
-
-const getRendimiento = (carga: CargaCombustible) => {
-    if (carga.odometro_final === null || isNaN(carga.odometro_final)) {
-        return "";
-    }
-
-    if (carga.odometro_inicial === null || isNaN(carga.odometro_inicial)) {
-        return "";
-    }
-
-    if (carga.litros === null || isNaN(carga.litros)) {
-        return "";
-    }
-
-    if (carga.litros === 0) {
-        return "";
-    }
-
-    return `${(
-        Number(carga.odometro_final - carga.odometro_inicial) / carga.litros
-    ).toFixed(2)} km/l`;
-};
-
-const safeReduceSum = (a: number, b: string | number) => {
-    if (isNaN(Number(b))) {
-        return a;
-    }
-
-    return a + Number(b);
-};
 
 const CargasDeCombustible = ({
     cargas,

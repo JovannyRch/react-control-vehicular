@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CargaCombustible;
 use App\Models\Vehiculo;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -155,7 +156,6 @@ class FileController extends Controller
             'plantilla' => 'required|string',
             'estado' => 'required|string',
         ]);
-        Log::info("uploadVehicles");
         try {
             $data = $this->getArrayDataFromFile($request->file('csv_file'));
 
@@ -179,6 +179,69 @@ class FileController extends Controller
 
             return response()->json(['data' => $data]);
         } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
+
+    //String -> DD/MM/YYYY
+    private function formatDateString($date)
+    {
+        if (empty($date)) {
+            return null;
+        }
+
+        $date = str_replace('/', '-', $date);
+        return date('Y-m-d', strtotime($date));
+    }
+
+    public function uploadCargas(Request $request)
+    {
+        // Validar el archivo
+        $request->validate([
+            'csv_file' => 'required|file|mimes:csv,txt',
+
+        ]);
+        $counter = 0;
+        try {
+            $data = $this->getArrayDataFromFile($request->file('csv_file'));
+
+            foreach ($data as $row) {
+                $civ = $row['CIV'] ?? '';
+
+
+
+                $vehiculo = Vehiculo::where('civ', $civ)->first();
+
+                if (!$vehiculo) {
+                    continue;
+                }
+                Log::info('Vehiculo encontrado ' . $vehiculo->id);
+                $carga = new CargaCombustible();
+
+                $carga->fecha = $this->formatDateString($row['Fecha'] ?? '');
+                $carga->importe = $row['CARGO'] ?? '';
+                $carga->litros = $row['Litros'] ?? '';
+                $carga->odometro_inicial = $row['Km INI'] ?? '';
+
+                //Validate if the odometro final is empty or is less than the initial odometro
+                if (empty($row['Km FIN']) || doubleval($row['Km FIN']) < doubleval($row['Km INI'])) {
+                    $carga->odometro_final = $row['Km INI'];
+                } else {
+                    $carga->odometro_final = $row['Km FIN'];
+                }
+
+                $carga->folio = $row['FOLIO'] ?? '';
+                $carga->conductor = $row['NOMBRE'] ?? '';
+                $carga->vehiculo_id = $vehiculo->id;
+
+                $carga->save();
+                $counter++;
+            }
+
+            return response()->json(['data' => $data, 'message' => "Se agregaron " . $counter . " cargas de combustible"]);
+        } catch (\Exception $e) {
+
+            Log::error($e->getMessage());
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }

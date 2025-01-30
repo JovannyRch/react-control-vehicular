@@ -14,6 +14,8 @@ import axios from "axios";
 import { BiEdit, BiSearch, BiShow, BiTrash } from "react-icons/bi";
 import Pagination from "@/Components/Pagination";
 import RoundedIconButton from "@/Components/RoundedIconButton";
+import { BsFuelPump } from "react-icons/bs";
+import { addElipsis } from "@/utils";
 
 interface VehiculosProps extends PageProps {
     pagination: any;
@@ -115,10 +117,6 @@ export default function Vehiculos({ auth, pagination }: VehiculosProps) {
             key: "action",
         },
     ];
-
-    const addElipsis = (text: string, length: number) => {
-        return text.length > length ? text.substring(0, length) + "..." : text;
-    };
 
     const handleSearch: FormEventHandler = (e) => {
         e.preventDefault();

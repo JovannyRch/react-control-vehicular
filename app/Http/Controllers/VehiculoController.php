@@ -377,6 +377,19 @@ class VehiculoController extends Controller
         ]);
     }
 
+    public function adminVehiculosCargas()
+    {
+        $pagination = CargaCombustible::orderBy('fecha', 'desc')->paginate(50);
+
+
+
+
+        return Inertia::render('Vehiculos/AdminCargas', [
+            'pagination' => $pagination
+        ]);
+    }
+
+
     public function destroyAll(Request $request)
     {
         try {

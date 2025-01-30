@@ -39,7 +39,10 @@ Route::get('/reportes/accesorios-por-anio', [ReportesController::class, 'accesor
 Route::delete('/vehicles/destroy-all', [VehiculoController::class, 'destroyAll'])->middleware('auth', 'verified')->name('vehiculos.destroyAll');
 Route::delete('/vehicles/{vehiculo}', [VehiculoController::class, 'destroy'])->middleware('auth', 'verified')->name('vehiculos.destroy');
 
-Route::get('/admin/vehiculos', [VehiculoController::class, 'adminVehiculos'])->middleware('auth', 'verified')->name('admin.vehiculos');
+Route::delete('/cargas/destroy-all', [CargaCombustibleController::class, 'destroyAll'])->middleware('auth', 'verified')->name('cargas.destroyAll');
+Route::delete('/cargas/{carga}', [CargaCombustibleController::class, 'destroy'])->middleware('auth', 'verified')->name('cargas.destroy');
+
+
 Route::resource('historial', HistorialController::class)->middleware('auth', 'verified');
 Route::resource('mantenimiento', MantenimientosController::class)->middleware('auth', 'verified');
 Route::resource('accesorio', AccesoriosController::class)->middleware('auth', 'verified');
@@ -53,8 +56,13 @@ Route::post('/files/upload', [FileController::class, 'uploadCSV'])->middleware('
 
 Route::post('/upload-csv', [FileController::class, 'uploadSingleCSV'])->name('upload.csv');
 Route::post('/upload-vehicles', [FileController::class, 'uploadVehicles'])->name('upload.vehicles');
+Route::post('/upload-cargas', [FileController::class, 'uploadCargas'])->name('upload.cargas');
 Route::get('/download-pdf/{groupKey}', [FileController::class, 'downloadPDF'])->name('download.pdf');
 Route::get('/download-package/{cacheKey}/{packageId}', [FileController::class, 'downloadPackage'])->name('download.package');
+
+
+Route::get('/admin/cargas', [VehiculoController::class, 'adminVehiculosCargas'])->middleware('auth', 'verified')->name('admin.vehiculos.cargas');
+Route::get('/admin/vehiculos', [VehiculoController::class, 'adminVehiculos'])->middleware('auth', 'verified')->name('admin.vehiculos');
 
 
 Route::middleware('auth')->group(function () {

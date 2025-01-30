@@ -1,3 +1,5 @@
+import { Vehiculo } from "./Vehiculo";
+
 export interface CargaCombustible {
     id: number;
     vehiculo_id: number;
@@ -10,4 +12,5 @@ export interface CargaCombustible {
     odometro_final: number | null;
     folio: string | null;
     conductor: string | null;
+    vehiculo: Vehiculo;
 }

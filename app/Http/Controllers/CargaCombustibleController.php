@@ -6,9 +6,6 @@ use App\Models\CargaCombustible;
 use App\Models\Factura;
 use App\Models\Vehiculo;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
-
-use function PHPUnit\Framework\isNull;
 
 class CargaCombustibleController extends Controller
 {
@@ -52,11 +49,9 @@ class CargaCombustibleController extends Controller
             'litros' => 'required | numeric',
             'odometro' => "required | numeric | gt:{$odometroInicial}",
             'vehiculo_id' => 'required',
-            'folio' => 'required'
+            'folio' => 'required',
+            'conductor' => 'required'
         ]);
-
-
-
 
 
         $request->merge(['odometro_final' => $request->odometro]);
@@ -97,9 +92,25 @@ class CargaCombustibleController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(CargaCombustible $cargaCombustible)
+    public function destroy(CargaCombustible $carga)
     {
-        //
+        $carga->delete();
+
+        return response()->json([
+            'message' => 'Carga de combustible eliminada correctamente.'
+        ]);
+    }
+
+    public function destroyAll()
+    {
+
+        try {
+            $ids = CargaCombustible::all()->pluck('id');
+            CargaCombustible::destroy($ids);
+            return response()->json(['message' => 'Cargas de combustible eliminadas']);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
     }
 
 

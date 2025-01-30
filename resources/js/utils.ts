@@ -59,3 +59,7 @@ export const getCurrentDateOfMexico = (): string => {
     date.setHours(date.getHours() - 6);
     return date.toISOString().split("T")[0];
 };
+
+export const addElipsis = (text: string, length: number) => {
+    return text.length > length ? text.substring(0, length) + "..." : text;
+};

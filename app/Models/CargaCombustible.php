@@ -23,6 +23,12 @@ class CargaCombustible extends Model
         'conductor',
     ];
 
+    //vehiculo
+    public function vehiculo()
+    {
+        return $this->belongsTo(Vehiculo::class);
+    }
+
     public function factura()
     {
         return $this->hasOne(Factura::class);
