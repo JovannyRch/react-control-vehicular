@@ -92,6 +92,7 @@ const CargasDeCombustible = ({
         vehiculo_id: vehiculo.id,
         odometro: "",
         folio: "",
+        conductor: "",
     });
 
     const handleGetReport = ({
@@ -266,6 +267,12 @@ const CargasDeCombustible = ({
                                         >
                                             Rendimiento
                                         </th>
+                                        <th
+                                            scope="col"
+                                            className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-400 uppercase"
+                                        >
+                                            Conductor
+                                        </th>
                                     </tr>
                                 </thead>
                                 <tbody className="bg-[#141E30] divide-y divide-gray-200">
@@ -307,6 +314,9 @@ const CargasDeCombustible = ({
                                             </td>
                                             <td className="px-6 py-4 text-sm text-gray-300 whitespace-nowrap">
                                                 {getRendimiento(carga)}
+                                            </td>
+                                            <td className="px-6 py-4 text-sm text-gray-300 whitespace-nowrap">
+                                                {carga.conductor ?? "-"}
                                             </td>
                                         </tr>
                                     ))}
@@ -392,6 +402,9 @@ const CargasDeCombustible = ({
                                         form.setData("litros", e.target.value)
                                     }
                                 />
+                                <span className="text-xs text-gray-400">
+                                    &nbsp;
+                                </span>
                                 <InputError
                                     message={form.errors.litros}
                                     className="mt-2"
@@ -410,6 +423,9 @@ const CargasDeCombustible = ({
                                         form.setData("importe", e.target.value)
                                     }
                                 />
+                                <span className="text-xs text-gray-400">
+                                    &nbsp;
+                                </span>
                                 <InputError
                                     message={form.errors.importe}
                                     className="mt-2"
@@ -428,6 +444,9 @@ const CargasDeCombustible = ({
                                         form.setData("fecha", e.target.value)
                                     }
                                 />
+                                <span className="text-xs text-gray-400">
+                                    &nbsp;
+                                </span>
                                 <InputError
                                     message={form.errors.fecha}
                                     className="mt-2"
@@ -475,8 +494,37 @@ const CargasDeCombustible = ({
                                         form.setData("folio", e.target.value)
                                     }
                                 />
+                                <span className="text-xs text-gray-400">
+                                    &nbsp;
+                                </span>
                                 <InputError
                                     message={form.errors.folio}
+                                    className="mt-2"
+                                />
+                            </div>
+                            <div>
+                                <InputLabel
+                                    htmlFor="conductor"
+                                    value="Conductor"
+                                />
+                                <TextInput
+                                    id="conductor"
+                                    type="text"
+                                    name="conductor"
+                                    value={form.data.conductor}
+                                    className="block w-full mt-1"
+                                    onChange={(e) =>
+                                        form.setData(
+                                            "conductor",
+                                            e.target.value
+                                        )
+                                    }
+                                />
+                                <span className="text-xs text-gray-400">
+                                    &nbsp;
+                                </span>
+                                <InputError
+                                    message={form.errors.conductor}
                                     className="mt-2"
                                 />
                             </div>

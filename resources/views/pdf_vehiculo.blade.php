@@ -274,6 +274,7 @@ function formatCurrency($number)
                             <th>Odom Fin</th>
                             <th>Km recorridos</th>
                             <th>Rendimiento</th>
+                            <th>Conductor</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -286,6 +287,7 @@ function formatCurrency($number)
                                 <td>{{ $carga->odometro_final }}</td>
                                 <td>{{ $carga->kilometrosRecorridos() }}</td>
                                 <td>{{ $carga->getRendimiento() }}</td>
+                                <td>{{ $carga->conductor ?? '-' }}</td>
                             </tr>
                         @endforeach
                     </tbody>

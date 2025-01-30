@@ -9,4 +9,5 @@ export interface CargaCombustible {
     odometro_inicial: number | null;
     odometro_final: number | null;
     folio: string | null;
+    conductor: string | null;
 }

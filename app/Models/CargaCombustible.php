@@ -19,7 +19,8 @@ class CargaCombustible extends Model
         'odometro_inicial',
         'odometro_final',
         'folio',
-        'factura_id'
+        'factura_id',
+        'conductor',
     ];
 
     public function factura()
