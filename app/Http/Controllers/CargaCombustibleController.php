@@ -6,6 +6,7 @@ use App\Models\CargaCombustible;
 use App\Models\Factura;
 use App\Models\Vehiculo;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class CargaCombustibleController extends Controller
 {
@@ -76,9 +77,22 @@ class CargaCombustibleController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(CargaCombustible $cargaCombustible)
+    public function edit(Request $request, CargaCombustible $carga)
     {
-        //
+        try {
+
+
+            $carga->update($request->all());
+
+            return response()->json([
+                'message' => 'Carga de combustible actualizada correctamente.'
+            ]);
+        } catch (\Throwable $th) {
+            Log::error($th->getMessage());
+            return response()->json([
+                'error' => $th->getMessage()
+            ], 500);
+        }
     }
 
     /**

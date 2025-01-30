@@ -379,10 +379,9 @@ class VehiculoController extends Controller
 
     public function adminVehiculosCargas()
     {
-        $pagination = CargaCombustible::orderBy('fecha', 'desc')->paginate(50);
-
-
-
+        $pagination = CargaCombustible::with(['vehiculo' => function ($query) {
+            $query->orderBy('civ', 'asc');
+        }])->orderBy('fecha', 'desc')->paginate(20);
 
         return Inertia::render('Vehiculos/AdminCargas', [
             'pagination' => $pagination

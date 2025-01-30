@@ -41,6 +41,7 @@ Route::delete('/vehicles/{vehiculo}', [VehiculoController::class, 'destroy'])->m
 
 Route::delete('/cargas/destroy-all', [CargaCombustibleController::class, 'destroyAll'])->middleware('auth', 'verified')->name('cargas.destroyAll');
 Route::delete('/cargas/{carga}', [CargaCombustibleController::class, 'destroy'])->middleware('auth', 'verified')->name('cargas.destroy');
+Route::post('/cargas/edit/{carga}', [CargaCombustibleController::class, 'edit'])->middleware('auth', 'verified')->name('cargas.edit');
 
 
 Route::resource('historial', HistorialController::class)->middleware('auth', 'verified');

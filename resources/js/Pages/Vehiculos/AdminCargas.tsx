@@ -15,6 +15,11 @@ import RoundedIconButton from "@/Components/RoundedIconButton";
 import { CargaCombustible } from "@/types/CargaCombustible";
 import { getKm, getRendimiento } from "@/utils/index";
 import { formatCurrency, formatNumber } from "@/utils";
+import InputLabel from "@/Components/InputLabel";
+import TextInput from "@/Components/TextInput";
+import InputError from "@/Components/InputError";
+import StatusAlert, { StatusAlertService } from "react-status-alert";
+import "react-status-alert/dist/status-alert.css";
 
 interface VehiculosProps extends PageProps {
     pagination: any;
@@ -22,19 +27,28 @@ interface VehiculosProps extends PageProps {
 
 export default function VehiculosCargas({ auth, pagination }: VehiculosProps) {
     const [isUploadModalOpen, setIsUploadModalOpen] = useState(false);
+    const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
     useEffect(() => {
         if (auth.user.role !== "ADMIN") {
             router.replace(route("vehiculos.index"));
         }
-
-        form.setData("search", document.location.search.split("=")[1]);
     }, []);
 
     const [csvFile, setCsvFile] = useState<File | null>(null);
 
+    console.log("pagination.data", pagination.data);
+
     const form = useForm({
-        search: "",
+        id: "",
+        fecha: "",
+        importe: "",
+        litros: "",
+        vehiculo_id: "",
+        odometro_inicial: "",
+        odometro_final: "",
+        folio: "",
+        conductor: "",
     });
 
     const handleSubmit = (e: React.FormEvent) => {
@@ -51,13 +65,35 @@ export default function VehiculosCargas({ auth, pagination }: VehiculosProps) {
             })
             .then((response) => {
                 const { data } = response;
-                alert(data.message);
+
                 router.reload();
                 setIsUploadModalOpen(false);
             })
             .catch((error) => {
-                console.error("Error al procesar el archivo:", error);
                 alert("Error al procesar el archivo");
+            });
+    };
+
+    const handleEditSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        const { data } = form;
+        axios
+            .post(`/cargas/edit/${data.id}`, data, {
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                },
+            })
+            .then((response) => {
+                const { data } = response;
+
+                StatusAlertService.showSuccess(data.message);
+                router.reload();
+                setIsEditModalOpen(false);
+            })
+            .catch((error) => {
+                StatusAlertService.showError(
+                    "Error al intentar editar la carga"
+                );
             });
     };
 
@@ -106,7 +142,7 @@ export default function VehiculosCargas({ auth, pagination }: VehiculosProps) {
             key: "conductor",
         },
         {
-            label: "Vehículo",
+            label: "Vehículo (CIV)",
             key: "vehiculo",
         },
     ];
@@ -132,6 +168,7 @@ export default function VehiculosCargas({ auth, pagination }: VehiculosProps) {
             }
         >
             <Head title="Vehículos" />
+            <StatusAlert />
 
             <div className="py-12">
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
@@ -248,11 +285,68 @@ export default function VehiculosCargas({ auth, pagination }: VehiculosProps) {
                                                             <Link
                                                                 href={`/vehiculos/${carga.vehiculo_id}?loadFuel=true`}
                                                             >
-                                                                Ir al vehículo
+                                                                {
+                                                                    carga
+                                                                        .vehiculo
+                                                                        .civ
+                                                                }
                                                             </Link>
                                                         </td>
                                                         <td>
                                                             <div className="flex justify-center gap-2">
+                                                                <RoundedIconButton
+                                                                    className="bg-blue-600"
+                                                                    onClick={() => {
+                                                                        console.log(
+                                                                            "carga",
+                                                                            carga
+                                                                        );
+                                                                        form.setData(
+                                                                            {
+                                                                                id: String(
+                                                                                    carga.id
+                                                                                ),
+                                                                                litros: String(
+                                                                                    carga.litros ??
+                                                                                        ""
+                                                                                ),
+                                                                                importe:
+                                                                                    String(
+                                                                                        carga.importe ??
+                                                                                            ""
+                                                                                    ),
+                                                                                fecha: carga.fecha,
+                                                                                odometro_inicial:
+                                                                                    String(
+                                                                                        carga.odometro_inicial ??
+                                                                                            ""
+                                                                                    ),
+                                                                                odometro_final:
+                                                                                    String(
+                                                                                        carga.odometro_final ??
+                                                                                            ""
+                                                                                    ),
+                                                                                folio:
+                                                                                    carga.folio ??
+                                                                                    "",
+                                                                                conductor:
+                                                                                    carga.conductor ??
+                                                                                    "",
+                                                                                vehiculo_id:
+                                                                                    String(
+                                                                                        carga.vehiculo_id
+                                                                                    ),
+                                                                            }
+                                                                        );
+
+                                                                        setIsEditModalOpen(
+                                                                            true
+                                                                        );
+                                                                    }}
+                                                                >
+                                                                    <BiEdit />
+                                                                </RoundedIconButton>
+
                                                                 <RoundedIconButton
                                                                     className="bg-red-600"
                                                                     onClick={() => {
@@ -321,6 +415,199 @@ export default function VehiculosCargas({ auth, pagination }: VehiculosProps) {
                                     Procesar Archivo
                                 </Button>
                             </div>
+                        </div>
+                    </form>
+                </div>
+            </Modal>
+            <Modal
+                show={isEditModalOpen}
+                onClose={() => setIsEditModalOpen(false)}
+            >
+                <div className="p-4 bg-[#141E30]">
+                    <Typography.Title className="mb-4">
+                        Editar carga de combustible
+                    </Typography.Title>
+
+                    <form className="col-span-4" onSubmit={handleEditSubmit}>
+                        <div className="flex items-center justify-between gap-2">
+                            <div className="flex-1">
+                                <InputLabel htmlFor="litros" value="Litros" />
+                                <TextInput
+                                    id="litros"
+                                    min={0}
+                                    name="litros"
+                                    value={form.data.litros}
+                                    className="block w-full mt-1"
+                                    onChange={(e) =>
+                                        form.setData("litros", e.target.value)
+                                    }
+                                />
+                                <span className="text-xs text-gray-400">
+                                    &nbsp;
+                                </span>
+                                <InputError
+                                    message={form.errors.litros}
+                                    className="mt-2"
+                                />
+                            </div>
+
+                            <div className="flex-1">
+                                <InputLabel htmlFor="importe" value="Importe" />
+                                <TextInput
+                                    id="importe"
+                                    name="importe"
+                                    min={0}
+                                    value={form.data.importe}
+                                    className="block w-full mt-1"
+                                    onChange={(e) =>
+                                        form.setData("importe", e.target.value)
+                                    }
+                                />
+                                <span className="text-xs text-gray-400">
+                                    &nbsp;
+                                </span>
+                                <InputError
+                                    message={form.errors.importe}
+                                    className="mt-2"
+                                />
+                            </div>
+
+                            <div className="flex-1">
+                                <InputLabel htmlFor="fecha" value="Fecha" />
+                                <TextInput
+                                    id="importe"
+                                    type="date"
+                                    name="importe"
+                                    value={form.data.fecha}
+                                    className="block w-full mt-1"
+                                    onChange={(e) =>
+                                        form.setData("fecha", e.target.value)
+                                    }
+                                />
+                                <span className="text-xs text-gray-400">
+                                    &nbsp;
+                                </span>
+                                <InputError
+                                    message={form.errors.fecha}
+                                    className="mt-2"
+                                />
+                            </div>
+                        </div>
+                        <div className="flex justify-between gap-2 mt-4">
+                            <div className="flex-1">
+                                <InputLabel
+                                    htmlFor="odometro_inicial"
+                                    value="Odometro inicial"
+                                />
+                                <TextInput
+                                    id="odometro_inicial"
+                                    type="text"
+                                    name="odometro_inicial"
+                                    value={form.data.odometro_inicial}
+                                    className="block w-full mt-1"
+                                    onChange={(e) =>
+                                        form.setData(
+                                            "odometro_inicial",
+                                            e.target.value
+                                        )
+                                    }
+                                />
+
+                                <span className="text-xs text-gray-400">
+                                    &nbsp;
+                                </span>
+                                <InputError
+                                    message={form.errors.odometro_inicial?.replace(
+                                        "The odometro field must be greater than",
+                                        "El campo odometro debe ser mayor a"
+                                    )}
+                                    className="mt-2"
+                                />
+                            </div>
+
+                            <div className="flex-1">
+                                <InputLabel
+                                    htmlFor="odometro_final"
+                                    value="Odometro final"
+                                />
+                                <TextInput
+                                    id="odometro_final"
+                                    type="text"
+                                    name="odometro_final"
+                                    value={form.data.odometro_final}
+                                    className="block w-full mt-1"
+                                    onChange={(e) =>
+                                        form.setData(
+                                            "odometro_final",
+                                            e.target.value
+                                        )
+                                    }
+                                />
+
+                                <span className="text-xs text-gray-400">
+                                    &nbsp;
+                                </span>
+                                <InputError
+                                    message={form.errors.odometro_inicial?.replace(
+                                        "The odometro field must be greater than",
+                                        "El campo odometro debe ser mayor a"
+                                    )}
+                                    className="mt-2"
+                                />
+                            </div>
+                        </div>
+                        <div className="flex items-center justify-between gap-2 mt-4">
+                            <div className="flex-1">
+                                <InputLabel htmlFor="folio" value="Folio" />
+                                <TextInput
+                                    id="folio"
+                                    type="text"
+                                    name="folio"
+                                    value={form.data.folio}
+                                    className="block w-full mt-1"
+                                    onChange={(e) =>
+                                        form.setData("folio", e.target.value)
+                                    }
+                                />
+                                <span className="text-xs text-gray-400">
+                                    &nbsp;
+                                </span>
+                                <InputError
+                                    message={form.errors.folio}
+                                    className="mt-2"
+                                />
+                            </div>
+                            <div className="flex-1">
+                                <InputLabel
+                                    htmlFor="conductor"
+                                    value="Conductor"
+                                />
+                                <TextInput
+                                    id="conductor"
+                                    type="text"
+                                    name="conductor"
+                                    value={form.data.conductor}
+                                    className="block w-full mt-1"
+                                    onChange={(e) =>
+                                        form.setData(
+                                            "conductor",
+                                            e.target.value
+                                        )
+                                    }
+                                />
+                                <span className="text-xs text-gray-400">
+                                    &nbsp;
+                                </span>
+                                <InputError
+                                    message={form.errors.conductor}
+                                    className="mt-2"
+                                />
+                            </div>
+                        </div>
+                        <div className="justify-end mt-5 display w-100 ">
+                            <Button disabled={form.processing} type="submit">
+                                Guardar cambios
+                            </Button>
                         </div>
                     </form>
                 </div>
