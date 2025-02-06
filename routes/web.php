@@ -63,6 +63,7 @@ Route::get('/download-package/{cacheKey}/{packageId}', [FileController::class, '
 
 
 Route::get('/admin/cargas', [VehiculoController::class, 'adminVehiculosCargas'])->middleware('auth', 'verified')->name('admin.vehiculos.cargas');
+
 Route::get('/admin/vehiculos', [VehiculoController::class, 'adminVehiculos'])->middleware('auth', 'verified')->name('admin.vehiculos');
 
 

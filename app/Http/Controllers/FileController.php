@@ -21,7 +21,6 @@ class FileController extends Controller
             // Obtener los encabezados
 
             $headers = fgetcsv($handle, 1000, ',');
-            Log::info($headers);
             while (($row = fgetcsv($handle, 1000, ',')) !== false) {
                 $rowData = array_combine($headers, $row);
                 $groupKey = $rowData[$headers[0]]; // Usar el valor de la primera columna como clave
@@ -137,7 +136,6 @@ class FileController extends Controller
                 return preg_replace('/[^\p{L}\p{N}\s]+/u', '', $header);
             }, $headers);
             $data = [];
-            Log::info(print_r($headers, true));
             while (($row = fgetcsv($handle, 1000, ',')) !== false) {
                 $rowData = array_combine($headers, $row);
                 $data[] = $rowData;
@@ -396,6 +394,9 @@ class FileController extends Controller
 
         $cargas = $groupedData[$groupKey];
 
+        //log cargas
+        Log::info('Cargas: ' . $groupKey);
+
 
         $total_pages = ceil(count($cargas) / 3);
         $cargas_per_page = $this->chunkArray($cargas, 3);
@@ -404,13 +405,15 @@ class FileController extends Controller
         $factura = $cargas[0];
 
 
+
         // Generar PDF con los datos
         $pdf = PDF::loadView('pdf_calculo', [
             'data' => $cargas,
             'factura' => $factura,
             'vehiculo' => $vehiculo,
             'total_pages' => $total_pages,
-            'cargas_per_page' => $cargas_per_page
+            'cargas_per_page' => $cargas_per_page,
+            'index' => $groupKey
         ]);
 
 

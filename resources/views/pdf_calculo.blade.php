@@ -60,7 +60,7 @@
         }
 
         .boxes td {
-            height: 120px;
+            height: 110px;
             border: 1px solid #aaa;
             text-align: left;
             min-width: calc(100%/3);
@@ -86,6 +86,12 @@
             width: 21.8cm;
             height: 29.7cm;
             z-index: -1000;
+        }
+
+        .index {
+            height: 10px;
+            text-align: right;
+            font-weight: bold;
         }
     </style>
 
@@ -162,6 +168,11 @@
                     </tr>
                 </tbody>
             </table>
+            @if (isset($index))
+                <div class="index">
+                    {{ $index }}
+                </div>
+            @endif
         @endfor
     </main>
 </body>
