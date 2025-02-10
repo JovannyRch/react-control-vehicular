@@ -48,7 +48,7 @@ const AddUserModal = ({ isOpen, onClose, user }: Props) => {
                 setData({
                     name: user.name,
                     email: user.email,
-                    password: user.passsword_copy,
+                    password: user.passsword_copy ?? "",
                     role: user.role,
                 });
             } else {
