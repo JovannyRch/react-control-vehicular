@@ -7,7 +7,7 @@ import { Dropdown as NestedDropdown } from "react-nested-dropdown";
 import "react-nested-dropdown/dist/styles.css";
 
 import { RiPoliceCarLine } from "react-icons/ri";
-import { BsFuelPump, BsTools } from "react-icons/bs";
+import { BsFuelPump, BsPeople, BsTools } from "react-icons/bs";
 import { BiLogOut, BiSolidCarMechanic } from "react-icons/bi";
 import { RxDashboard } from "react-icons/rx";
 import { Typography } from "@/Components/Typography";
@@ -166,12 +166,19 @@ export default function Authenticated({
             href: route("vehiculos.index", { tools: "true" }),
             hide: user.role !== "ADMIN" && user.role !== "MAINT",
         },
-        //Add reportes
         {
             icon: <FaChartBar className="w-5 h-5" />,
             label: "Reportes",
             href: route("reportes.index"),
             hide: user.role !== "ADMIN" && user.role !== "REPORT",
+        },
+
+        //users
+        {
+            icon: <BsPeople className="w-5 h-5" />,
+            label: "Usuarios",
+            href: route("admin.users"),
+            hide: user.role !== "ADMIN",
         },
     ];
     return (

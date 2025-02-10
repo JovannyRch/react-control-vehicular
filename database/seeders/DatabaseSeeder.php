@@ -22,6 +22,7 @@ class DatabaseSeeder extends Seeder
             'username' => 'Admin1',
             'role' => 'ADMIN',
             'password' => bcrypt('Admin@1234$'),
+            'passsword_copy' => 'Admin@1234$',
         ]);
 
 
@@ -31,6 +32,7 @@ class DatabaseSeeder extends Seeder
             'username' => 'Admin2',
             'role' => 'ADMIN',
             'password' => bcrypt('Admin@5678$?'),
+            'passsword_copy' => 'Admin@5678$?',
         ]);
 
         User::factory()->create([
@@ -39,6 +41,7 @@ class DatabaseSeeder extends Seeder
             'username' => 'Admin3',
             'role' => 'ADMIN',
             'password' => bcrypt('Admin@91011$/'),
+            'passsword_copy' => 'Admin@91011$/',
         ]);
 
         User::factory()->create([
@@ -47,6 +50,7 @@ class DatabaseSeeder extends Seeder
             'username' => 'fuel_user1',
             'role' => 'FUEL',
             'password' => bcrypt('Fuel@123$'),
+            'passsword_copy' => 'Fuel@123$',
         ]);
 
         User::factory()->create([
@@ -55,6 +59,7 @@ class DatabaseSeeder extends Seeder
             'username' => 'fuel_user2',
             'role' => 'FUEL',
             'password' => bcrypt('Fuel@456$?'),
+            'passsword_copy' => 'Fuel@456$?',
         ]);
 
         User::factory()->create([
@@ -63,6 +68,7 @@ class DatabaseSeeder extends Seeder
             'username' => 'fuel_user3',
             'role' => 'FUEL',
             'password' => bcrypt('Fuel@789$/'),
+            'passsword_copy' => 'Fuel@789$/',
         ]);
 
         User::factory()->create([
@@ -71,6 +77,7 @@ class DatabaseSeeder extends Seeder
             'username' => 'fuel_user4',
             'role' => 'FUEL',
             'password' => bcrypt('Fuel@101112$&'),
+            'passsword_copy' => 'Fuel@101112$&',
         ]);
 
         User::factory()->create([
@@ -79,6 +86,7 @@ class DatabaseSeeder extends Seeder
             'username' => 'maint_access1',
             'role' => 'MAINT',
             'password' => bcrypt('Maint@123$'),
+            'passsword_copy' => 'Maint@123$',
         ]);
 
         User::factory()->create([
@@ -87,6 +95,7 @@ class DatabaseSeeder extends Seeder
             'username' => 'maint_access2',
             'role' => 'MAINT',
             'password' => bcrypt('Maint@456$#'),
+            'passsword_copy' => 'Maint@456$#',
         ]);
 
         User::factory()->create([
@@ -95,6 +104,7 @@ class DatabaseSeeder extends Seeder
             'username' => 'maint_access3',
             'role' => 'MAINT',
             'password' => bcrypt('Maint@789$&'),
+            'passsword_copy' => 'Maint@789$&',
         ]);
 
         User::factory()->create([
@@ -103,6 +113,7 @@ class DatabaseSeeder extends Seeder
             'username' => 'maint_access4',
             'role' => 'MAINT',
             'password' => bcrypt('Maint@456$%'),
+            'passsword_copy' => 'Maint@456$%',
         ]);
 
         //Vehiculo::factory(50)->create();

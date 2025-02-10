@@ -360,7 +360,8 @@ class FileController extends Controller
                     'factura' => $factura,
                     'vehiculo' => $vehiculo,
                     'total_pages' => $total_pages,
-                    'cargas_per_page' => $cargas_per_page
+                    'cargas_per_page' => $cargas_per_page,
+                    'index' => $groupKey
                 ]);
 
 

@@ -121,6 +121,7 @@ export default function Show({
 
                     {!loadFuel && !maintenance && !tools && (
                         <HistorialTable
+                            user={auth.user}
                             vehiculo={vehiculo}
                             historial={historial}
                             loadFuel={loadFuel}

@@ -39,3 +39,11 @@ export const Estados = [
         value: "comodato",
     },
 ];
+
+export const UserRoles: Map<string, string> = new Map([
+    ["ADMIN", "Administrador"],
+    ["FUEL", "Combustible"],
+    ["MAINT", "Mantenimiento"],
+    ["ACCESORIOS", "Accesorios"],
+    ["PLANTILLA", "Plantilla"],
+]);

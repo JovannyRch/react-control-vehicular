@@ -8,6 +8,7 @@ use App\Http\Controllers\HistorialController;
 use App\Http\Controllers\MantenimientosController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReportesController;
+use App\Http\Controllers\UsersController;
 use App\Http\Controllers\VehiculoController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -65,6 +66,13 @@ Route::get('/download-package/{cacheKey}/{packageId}', [FileController::class, '
 Route::get('/admin/cargas', [VehiculoController::class, 'adminVehiculosCargas'])->middleware('auth', 'verified')->name('admin.vehiculos.cargas');
 
 Route::get('/admin/vehiculos', [VehiculoController::class, 'adminVehiculos'])->middleware('auth', 'verified')->name('admin.vehiculos');
+
+
+Route::post('/admin/users', [UsersController::class, 'store'])->middleware('auth', 'verified')->name('admin.users.store');
+Route::put('/admin/users/{user}', [UsersController::class, 'update'])->middleware('auth', 'verified')->name('admin.users.update');
+Route::get('/admin/users', [UsersController::class, 'admin'])->middleware('auth', 'verified')->name('admin.users');
+
+Route::delete('/admin/users/{user}', [UsersController::class, 'destroy'])->middleware('auth', 'verified')->name('admin.users.destroy');
 
 
 Route::middleware('auth')->group(function () {

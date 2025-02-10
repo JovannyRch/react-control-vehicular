@@ -7,6 +7,7 @@ use App\Http\Requests\StoreVehiculoRequest;
 use App\Http\Requests\UpdateVehiculoRequest;
 use App\Models\CargaCombustible;
 use App\Models\Factura;
+use App\Models\User;
 use App\Models\Vehiculo;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -376,6 +377,8 @@ class VehiculoController extends Controller
             'pagination' => $pagination
         ]);
     }
+
+
 
     public function adminVehiculosCargas()
     {

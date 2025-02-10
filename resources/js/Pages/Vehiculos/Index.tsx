@@ -39,6 +39,8 @@ export default function Vehiculos({
         search,
     });
 
+    const { user } = auth;
+
     const { props } = usePage();
     const { message } = props;
 
@@ -114,6 +116,22 @@ export default function Vehiculos({
             (vehiculo.plantilla === "propia" && vehiculo.estado === "vigente")
         );
     };
+
+    const canEdit = useMemo(() => {
+        if (user.role === "PLANTILLA") {
+            return false;
+        }
+
+        return !(loadFuel || maintenance || tools);
+    }, [loadFuel, maintenance, tools]);
+
+    const canAdd = useMemo(() => {
+        if (user.role === "PLANTILLA") {
+            return false;
+        }
+
+        return !loadFuel && !maintenance && !tools;
+    }, [loadFuel, maintenance, tools]);
 
     return (
         <AuthenticatedLayout
@@ -195,7 +213,7 @@ export default function Vehiculos({
 
                             <div>
                                 <div className="flex items-center justify-between gap-4">
-                                    {!loadFuel && !maintenance && !tools && (
+                                    {canAdd && (
                                         <div className="flex items-center justify-end gap-4 mt-4">
                                             <Button
                                                 onClick={() =>
@@ -384,11 +402,7 @@ export default function Vehiculos({
                                                                     <FaTools />
                                                                 </RoundedIconButton>
                                                             )}
-                                                            {!(
-                                                                loadFuel ||
-                                                                maintenance ||
-                                                                tools
-                                                            ) && (
+                                                            {canEdit && (
                                                                 <>
                                                                     <RoundedIconButton
                                                                         onClick={() =>

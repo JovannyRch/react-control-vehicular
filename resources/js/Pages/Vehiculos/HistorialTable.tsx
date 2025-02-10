@@ -3,20 +3,27 @@ import InputError from "@/Components/InputError";
 import Modal from "@/Components/Modal";
 import RoundedIconButton from "@/Components/RoundedIconButton";
 import { Typography } from "@/Components/Typography";
+import { User } from "@/types";
 import { Historial } from "@/types/Historial";
 import { Vehiculo } from "@/types/Vehiculo";
 import { formatDate } from "@/utils";
 import { useForm } from "@inertiajs/react";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { PiPlus } from "react-icons/pi";
 
 interface HistorialProps {
     historial: Historial[];
     vehiculo: Vehiculo;
     loadFuel: boolean;
+    user: User;
 }
 
-const HistorialTable = ({ historial, vehiculo, loadFuel }: HistorialProps) => {
+const HistorialTable = ({
+    historial,
+    vehiculo,
+    loadFuel,
+    user,
+}: HistorialProps) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     const form = useForm({
@@ -24,13 +31,20 @@ const HistorialTable = ({ historial, vehiculo, loadFuel }: HistorialProps) => {
         vehiculo_id: vehiculo.id,
     });
 
+    const canAdd = useMemo(() => {
+        if (user.role === "PLANTILLA") {
+            return false;
+        }
+        return !loadFuel;
+    }, [user]);
+
     return (
         <div className="p-4 mt-6 bg-[#141E30] shadow-sm sm:rounded-lg ">
             <div className="flex justify-between">
                 <Typography.Title className="block mb-3 text-xl font-medium text-gray-700">
                     <b>Historial</b>
                 </Typography.Title>
-                {!loadFuel && (
+                {canAdd && (
                     <div className="flex justify-end">
                         <Button onClick={() => setIsModalOpen(true)}>
                             Agregar suceso
