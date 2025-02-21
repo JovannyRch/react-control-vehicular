@@ -349,6 +349,14 @@ export default function Vehiculos({
                                                         <div className="flex items-center space-x-2">
                                                             {!tools && (
                                                                 <RoundedIconButton
+                                                                    tooltip={
+                                                                        loadFuel
+                                                                            ? "Accesorios"
+                                                                            : maintenance
+                                                                            ? "Mantenimientos"
+                                                                            : "Ver detalle"
+                                                                    }
+                                                                    name="view"
                                                                     onClick={() =>
                                                                         router.visit(
                                                                             route(
@@ -386,6 +394,8 @@ export default function Vehiculos({
                                                             {tools && (
                                                                 <RoundedIconButton
                                                                     type="green"
+                                                                    tooltip="Herramientas"
+                                                                    name="tools"
                                                                     onClick={() =>
                                                                         router.visit(
                                                                             route(
@@ -405,6 +415,8 @@ export default function Vehiculos({
                                                             {canEdit && (
                                                                 <>
                                                                     <RoundedIconButton
+                                                                        tooltip="Editar"
+                                                                        name="edit"
                                                                         onClick={() =>
                                                                             router.visit(
                                                                                 route(

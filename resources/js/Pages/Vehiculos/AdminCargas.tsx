@@ -296,11 +296,9 @@ export default function VehiculosCargas({ auth, pagination }: VehiculosProps) {
                                                             <div className="flex justify-center gap-2">
                                                                 <RoundedIconButton
                                                                     className="bg-blue-600"
+                                                                    tooltip="Editar"
+                                                                    name="edit"
                                                                     onClick={() => {
-                                                                        console.log(
-                                                                            "carga",
-                                                                            carga
-                                                                        );
                                                                         form.setData(
                                                                             {
                                                                                 id: String(
@@ -349,6 +347,8 @@ export default function VehiculosCargas({ auth, pagination }: VehiculosProps) {
 
                                                                 <RoundedIconButton
                                                                     className="bg-red-600"
+                                                                    name="delete"
+                                                                    tooltip="Eliminar"
                                                                     onClick={() => {
                                                                         if (
                                                                             confirm(

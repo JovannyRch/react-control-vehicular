@@ -110,6 +110,8 @@ const Accesorios = ({ accesorios: lista, vehiculoId }: AccesoriosProps) => {
                                                     <div className="flex gap-2">
                                                         <RoundedIconButton
                                                             type="red"
+                                                            tooltip="Eliminar"
+                                                            name="delete"
                                                             onClick={() =>
                                                                 handleDelete(
                                                                     accesorio
@@ -120,6 +122,8 @@ const Accesorios = ({ accesorios: lista, vehiculoId }: AccesoriosProps) => {
                                                         </RoundedIconButton>
                                                         <RoundedIconButton
                                                             type="yellow"
+                                                            tooltip="Editar"
+                                                            name="edit"
                                                             onClick={() => {
                                                                 setSelectedAccesorio(
                                                                     accesorio

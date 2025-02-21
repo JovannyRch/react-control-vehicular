@@ -313,6 +313,8 @@ export default function Vehiculos({ auth, pagination }: VehiculosProps) {
                                                             <div className="flex justify-center gap-2">
                                                                 <RoundedIconButton
                                                                     className="bg-yellow-600"
+                                                                    tooltip="Editar"
+                                                                    name="edit"
                                                                     onClick={() =>
                                                                         router.visit(
                                                                             route(
@@ -329,6 +331,8 @@ export default function Vehiculos({ auth, pagination }: VehiculosProps) {
                                                                 </RoundedIconButton>
                                                                 <RoundedIconButton
                                                                     className="bg-green-600"
+                                                                    tooltip="Detalles"
+                                                                    name="details"
                                                                     onClick={() =>
                                                                         router.visit(
                                                                             route(
@@ -345,6 +349,8 @@ export default function Vehiculos({ auth, pagination }: VehiculosProps) {
                                                                 </RoundedIconButton>
                                                                 <RoundedIconButton
                                                                     className="bg-red-600"
+                                                                    name="delete"
+                                                                    tooltip="Eliminar"
                                                                     onClick={() => {
                                                                         if (
                                                                             confirm(

@@ -16,7 +16,7 @@ class DatabaseSeeder extends Seeder
     {
 
 
-        User::factory()->create([
+        User::create([
             'name' => 'Admin1',
             'email' => 'Admin1@mail.com',
             'username' => 'Admin1',
@@ -26,7 +26,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
 
-        User::factory()->create([
+        User::create([
             'name' => 'Admin2',
             'email' => 'Admin2@mail.com',
             'username' => 'Admin2',
@@ -35,7 +35,7 @@ class DatabaseSeeder extends Seeder
             'passsword_copy' => 'Admin@5678$?',
         ]);
 
-        User::factory()->create([
+        User::create([
             'name' => 'Admin3',
             'email' => 'Admin3@mail.com',
             'username' => 'Admin3',
@@ -44,7 +44,7 @@ class DatabaseSeeder extends Seeder
             'passsword_copy' => 'Admin@91011$/',
         ]);
 
-        User::factory()->create([
+        User::create([
             'name' => 'fuel_user1',
             'email' => 'fuel_user1@mail.com',
             'username' => 'fuel_user1',
@@ -53,7 +53,7 @@ class DatabaseSeeder extends Seeder
             'passsword_copy' => 'Fuel@123$',
         ]);
 
-        User::factory()->create([
+        User::create([
             'name' => 'fuel_user2',
             'email' => 'fuel_user2@mail.com',
             'username' => 'fuel_user2',
@@ -62,7 +62,7 @@ class DatabaseSeeder extends Seeder
             'passsword_copy' => 'Fuel@456$?',
         ]);
 
-        User::factory()->create([
+        User::create([
             'name' => 'fuel_user3',
             'email' => 'fuel_user3@mail.com',
             'username' => 'fuel_user3',
@@ -71,7 +71,7 @@ class DatabaseSeeder extends Seeder
             'passsword_copy' => 'Fuel@789$/',
         ]);
 
-        User::factory()->create([
+        User::create([
             'name' => 'fuel_user4',
             'email' => 'fuel_user4@mail.com',
             'username' => 'fuel_user4',
@@ -80,7 +80,7 @@ class DatabaseSeeder extends Seeder
             'passsword_copy' => 'Fuel@101112$&',
         ]);
 
-        User::factory()->create([
+        User::create([
             'name' => 'maint_access1',
             'email' => 'maint_access1@mail.com',
             'username' => 'maint_access1',
@@ -89,7 +89,7 @@ class DatabaseSeeder extends Seeder
             'passsword_copy' => 'Maint@123$',
         ]);
 
-        User::factory()->create([
+        User::create([
             'name' => 'maint_access2',
             'email' => 'maint_access2@mail.com',
             'username' => 'maint_access2',
@@ -98,7 +98,7 @@ class DatabaseSeeder extends Seeder
             'passsword_copy' => 'Maint@456$#',
         ]);
 
-        User::factory()->create([
+        User::create([
             'name' => 'maint_access3',
             'email' => 'maint_access3@mail.com',
             'username' => 'maint_access3',
@@ -107,7 +107,7 @@ class DatabaseSeeder extends Seeder
             'passsword_copy' => 'Maint@789$&',
         ]);
 
-        User::factory()->create([
+        User::create([
             'name' => 'maint_access4',
             'email' => 'maint_access4@mail.com',
             'username' => 'maint_access4',

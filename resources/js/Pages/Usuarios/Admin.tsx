@@ -221,6 +221,8 @@ export default function Usuarios({ auth, pagination }: VehiculosProps) {
                                                         <td>
                                                             <div className="flex gap-2">
                                                                 <RoundedIconButton
+                                                                    tooltip="Editar"
+                                                                    name="edit"
                                                                     onClick={() => {
                                                                         setSelectedUser(
                                                                             user
@@ -234,6 +236,8 @@ export default function Usuarios({ auth, pagination }: VehiculosProps) {
                                                                 </RoundedIconButton>
 
                                                                 <RoundedIconButton
+                                                                    tooltip="Eliminar"
+                                                                    name="delete"
                                                                     onClick={() =>
                                                                         handleDeleteUser(
                                                                             user

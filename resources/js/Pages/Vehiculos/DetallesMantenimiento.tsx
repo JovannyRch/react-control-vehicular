@@ -133,10 +133,18 @@ const DetallesMantenimiento = ({ vehiculo, mantenimiento }: DetallesProps) => {
             <div className="flex justify-end pt-4 mt-4">
                 <div className="flex gap-1">
                     <BackButton />
-                    <RoundedIconButton onClick={handleDelete}>
+                    <RoundedIconButton
+                        onClick={handleDelete}
+                        name="delete"
+                        tooltip="Eliminar"
+                    >
                         <FaTrashCan />
                     </RoundedIconButton>
-                    <RoundedIconButton onClick={() => setIsEditModalOpen(true)}>
+                    <RoundedIconButton
+                        onClick={() => setIsEditModalOpen(true)}
+                        name="edit"
+                        tooltip="Editar"
+                    >
                         <FaEdit />
                     </RoundedIconButton>
                 </div>
