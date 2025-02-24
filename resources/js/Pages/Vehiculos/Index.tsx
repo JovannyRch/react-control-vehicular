@@ -14,9 +14,10 @@ import RoundedIconButton from "@/Components/RoundedIconButton";
 import useDebounce from "@/hooks/useDebounce";
 import { useUpdateEffect } from "@/hooks/useUpdateEffect";
 import BreadcrumbItem from "@/Components/BreadcrumbItem";
+import Pagination from "@/Components/Pagination";
 
 interface VehiculosProps extends PageProps {
-    vehiculos: Vehiculo[];
+    pagination: any,
     plantilla: string;
     estado: string;
     search: string;
@@ -27,7 +28,7 @@ interface VehiculosProps extends PageProps {
 
 export default function Vehiculos({
     auth,
-    vehiculos: vehicles,
+    pagination,
     plantilla,
     estado,
     search,
@@ -44,11 +45,13 @@ export default function Vehiculos({
     const { props } = usePage();
     const { message } = props;
 
-    useEffect(() => {
+    const { data: vehicles } = pagination;
+
+   /*  useEffect(() => {
         if (search) {
             document.getElementById("default-search")?.focus();
         }
-    }, [search]);
+    }, [search]); */
 
     const debouncedSearch = useDebounce(form.data.search, 500);
 
@@ -309,7 +312,7 @@ export default function Vehiculos({
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {vehicles.map((vehiculo, index) => {
+                                        {(vehicles as Vehiculo[])?.map((vehiculo, index) => {
                                             if (
                                                 loadFuel &&
                                                 !canLoadFuel(vehiculo)
@@ -443,6 +446,7 @@ export default function Vehiculos({
                                     </tbody>
                                 </table>
                             </div>
+                            <Pagination pagination={pagination} />
                         </div>
                     </MainColorContainer>
                 </div>

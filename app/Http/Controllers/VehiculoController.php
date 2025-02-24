@@ -2,12 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreProductoRequest;
 use App\Http\Requests\StoreVehiculoRequest;
 use App\Http\Requests\UpdateVehiculoRequest;
 use App\Models\CargaCombustible;
 use App\Models\Factura;
-use App\Models\User;
 use App\Models\Vehiculo;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -44,6 +42,7 @@ class VehiculoController extends Controller
         $loadFuel = $request->input('loadFuel');
         $tools = $request->input('tools');
         $maintenance = $request->input('maintenance');
+        $perPage = $request->input('perPage', 20);
 
         $vehiculos = [];
 
@@ -57,23 +56,24 @@ class VehiculoController extends Controller
                 ->when($search, function ($query, $search) {
                     return $this->addSearchQuery($query, $search);
                 })
-                ->get();
+                ->paginate($perPage);
         } else if ($plantilla) {
             $vehiculos = Vehiculo::where('plantilla', $plantilla)
                 ->when($search, function ($query, $search) {
                     return $this->addSearchQuery($query, $search);
                 })
-                ->get();
+                ->paginate($perPage);
         } else {
             $vehiculos = Vehiculo::when($search, function ($query, $search) {
                 return $this->addSearchQuery($query, $search);
             })
-                ->get();
+                ->paginate($perPage);
         }
 
+        $vehiculos->appends(request()->query());
 
         return Inertia::render('Vehiculos/Index', [
-            'vehiculos' => $vehiculos,
+            'pagination' => $vehiculos,
             'tools' => $tools ?? false,
             'plantilla' => $plantilla,
             'estado' => $estado ?? null,
