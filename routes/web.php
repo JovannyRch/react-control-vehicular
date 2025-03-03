@@ -75,6 +75,11 @@ Route::get('/admin/users', [UsersController::class, 'admin'])->middleware('auth'
 Route::delete('/admin/users/{user}', [UsersController::class, 'destroy'])->middleware('auth', 'verified')->name('admin.users.destroy');
 
 
+
+//Mantenimientos
+Route::get('/mantenimientos/crear-solicitud', [MantenimientosController::class, 'create'])->middleware('auth', 'verified')->name('mantenimientos.crearSolicitud');
+
+
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

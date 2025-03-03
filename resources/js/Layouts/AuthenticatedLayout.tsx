@@ -132,6 +132,21 @@ export default function Authenticated({
         },
     ];
 
+    const plantilla2023Items = [
+        {
+            label: "Solicitud de mantenimiento",
+            onSelect: () =>
+                router.visit(route("mantenimientos.crearSolicitud")),
+        },
+        {
+            label: "Mantenimientos",
+            onSelect: () =>
+                router.visit("/vehiculos?plantilla=2024&maintenance=true"),
+        },
+    ];
+
+    console.log("user.role", user.role);
+
     const navItems = [
         {
             icon: <RxDashboard className="w-5 h-5" />,
@@ -144,7 +159,7 @@ export default function Authenticated({
             label: "Vehiculos",
             href: route("vehiculos.index"),
             items,
-            hide: false,
+            hide: user.role !== "ADMIN",
         },
         {
             icon: <BsFuelPump className="w-5 h-5" />,
@@ -158,6 +173,13 @@ export default function Authenticated({
             label: "Mantenimiento",
             href: route("vehiculos.index", { maintenance: "true" }),
             items: mantenimientoItems,
+            hide: user.role !== "ADMIN" && user.role !== "MAINT",
+        },
+        {
+            icon: <BiSolidCarMechanic className="w-5 h-5" />,
+            label: "Plantilla 2023",
+            href: route("vehiculos.index", { maintenance: "true" }),
+            items: plantilla2023Items,
             hide: user.role !== "ADMIN" && user.role !== "MAINT",
         },
         {

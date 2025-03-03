@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Mantenimiento;
+use App\Models\Vehiculo;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -47,5 +48,13 @@ class MantenimientosController extends Controller
     {
         $mantenimiento->delete();
         return redirect()->back();
+    }
+
+    public function create()
+    {
+        $vehiculos = Vehiculo::where('plantilla', '2023')->get();
+        return Inertia::render('Mantenimientos/MantenimientoCreate', [
+            'vehiculos' => $vehiculos
+        ]);
     }
 }
