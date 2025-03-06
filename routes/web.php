@@ -8,6 +8,7 @@ use App\Http\Controllers\HistorialController;
 use App\Http\Controllers\MantenimientosController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReportesController;
+use App\Http\Controllers\SolicitudMantenimientoController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\VehiculoController;
 use Illuminate\Support\Facades\Route;
@@ -78,6 +79,11 @@ Route::delete('/admin/users/{user}', [UsersController::class, 'destroy'])->middl
 
 //Mantenimientos
 Route::get('/mantenimientos/crear-solicitud', [MantenimientosController::class, 'create'])->middleware('auth', 'verified')->name('mantenimientos.crearSolicitud');
+Route::get('/mantenimientos2023', [SolicitudMantenimientoController::class, 'index'])->middleware('auth', 'verified')->name('mantenimientos.index');
+Route::get('/solicitudes-mantenimiento/{solicitudMantenimiento}', [SolicitudMantenimientoController::class, 'show'])->middleware('auth', 'verified')->name('solicitudes-mantenimiento.show');
+
+//solicitudes mantenimiento store
+Route::post('/solicitudes-mantenimiento', [SolicitudMantenimientoController::class, 'store'])->middleware('auth', 'verified')->name('solicitudes-mantenimiento.store');
 
 
 Route::middleware('auth')->group(function () {

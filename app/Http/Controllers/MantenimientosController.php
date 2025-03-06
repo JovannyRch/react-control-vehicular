@@ -10,6 +10,7 @@ use Inertia\Inertia;
 class MantenimientosController extends Controller
 {
 
+
     public function show(Mantenimiento $mantenimiento)
     {
         $vehiculo = $mantenimiento->vehiculo;

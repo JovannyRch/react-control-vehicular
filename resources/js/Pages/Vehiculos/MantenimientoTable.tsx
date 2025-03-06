@@ -1,8 +1,17 @@
 import Button from "@/Components/Button";
 import ReportSelector from "@/Components/ReportSelector";
-import { Mantenimiento, mantenimientoStatus } from "@/types/Mantenimiento";
+import {
+    Mantenimiento,
+    mantenimientoStatus,
+    mantenimientoStatusMap,
+} from "@/types/Mantenimiento";
 import { Vehiculo } from "@/types/Vehiculo";
-import { formatCurrency, formatDate, getMonthName } from "@/utils";
+import {
+    formatCurrency,
+    formatDate,
+    formatNumber,
+    getMonthName,
+} from "@/utils";
 import { Link, router } from "@inertiajs/react";
 import { useState } from "react";
 import { FiPlus } from "react-icons/fi";
@@ -25,12 +34,16 @@ const MantenimientoTable = ({
     const [openModal, setOpenModal] = useState(false);
 
     const tableHeaders = [
-        "Fecha elaboración",
+        "F. elaboración",
         "Folio",
-        "Fecha ingreso",
-        "Fecha salida",
+        "F. ingreso",
+        "F. salida",
         "Taller asignación",
         "Servicio solicitado",
+        "Servicio realizado",
+        "Odometro",
+        "Estado",
+        "Observaciones",
         "Acciones",
     ];
 
@@ -83,7 +96,7 @@ const MantenimientoTable = ({
                     </div>
                 ) : (
                     <div className="col-span-12">
-                        <div className="border border-gray-500 rounded-md ">
+                        <div className="overflow-x-auto border border-gray-500 rounded-md ">
                             <table className="w-full min-w-full divide-y divide-gray-200 table-auto">
                                 <thead className="bg-[#141E30]">
                                     <tr>
@@ -91,7 +104,7 @@ const MantenimientoTable = ({
                                             <th
                                                 key={header}
                                                 scope="col"
-                                                className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-400 uppercase"
+                                                className="p-1 text-xs font-medium tracking-wider text-left text-gray-400 uppercase"
                                             >
                                                 {header}
                                             </th>
@@ -101,28 +114,45 @@ const MantenimientoTable = ({
                                 <tbody className="bg-[#141E30] divide-y divide-gray-200">
                                     {registros.map((item) => (
                                         <tr key={item.id}>
-                                            <td className="px-6 py-4 text-sm text-gray-200 whitespace-nowrap">
+                                            <td className="p-1 text-sm text-gray-200 whitespace-nowrap">
                                                 {formatDate(
                                                     item.fecha_elaboracion
                                                 )}
                                             </td>
-                                            <td className="px-6 py-4 text-sm text-gray-200 whitespace-nowrap">
+                                            <td className="p-1 text-sm text-gray-200 whitespace-nowrap">
                                                 {item.folio}
                                             </td>
-                                            <td className="px-6 py-4 text-sm text-gray-200 whitespace-nowrap">
+                                            <td className="p-1 text-sm text-gray-200 whitespace-nowrap">
                                                 {formatDate(item.fecha_ingreso)}
                                             </td>
-                                            <td className="px-6 py-4 text-sm text-gray-200 whitespace-nowrap">
+                                            <td className="p-1 text-sm text-gray-200 whitespace-nowrap">
                                                 {formatDate(item.fecha_salida)}
                                             </td>
-                                            <td className="px-6 py-4 text-sm text-gray-200 whitespace-nowrap">
+                                            <td className="p-1 text-sm text-gray-200 whitespace-nowrap">
                                                 {item.taller_asignacion}
                                             </td>
-                                            <td className="px-6 py-4 text-sm text-gray-200 whitespace-nowrap">
+                                            <td className="p-1 text-sm text-gray-200 whitespace-nowrap">
                                                 {item.servicio_solicitado}
                                             </td>
+                                            <td className="p-1 text-sm text-gray-200 whitespace-nowrap">
+                                                {item.servicio_realizado}
+                                            </td>
+                                            <td className="p-1 text-sm text-gray-200 whitespace-nowrap">
+                                                {formatNumber(item?.odometro)}
+                                            </td>
 
-                                            <td className="px-6 py-4 text-sm text-gray-200 whitespace-nowrap">
+                                            <td className="p-1 text-sm text-gray-200 whitespace-nowrap">
+                                                {
+                                                    mantenimientoStatusMap[
+                                                        item.estado
+                                                    ]
+                                                }
+                                            </td>
+                                            <td className="p-1 text-sm text-gray-200 whitespace-nowrap">
+                                                {item.observaciones}
+                                            </td>
+
+                                            <td className="p-1 text-sm text-gray-200 whitespace-nowrap">
                                                 <Link
                                                     href={route(
                                                         "mantenimiento.show",

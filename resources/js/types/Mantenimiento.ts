@@ -12,6 +12,9 @@ export interface Mantenimiento {
     folio_fiscal: string;
     folio_afectacion: string;
     estado: string;
+    solicitud_mantenimiento_id?: number;
+    odometro?: number;
+    observaciones?: string;
 }
 
 export const mantenimientoStatus = [
@@ -19,6 +22,9 @@ export const mantenimientoStatus = [
     { value: "afectado", label: "Afectado" },
     { value: "cancelado", label: "Cancelado" },
     { value: "finalizado", label: "Finalizado" },
+    { value: "no_atendido", label: "No atendido" },
+    { value: "atendido", label: "Atendido" },
+    { value: "en_taller", label: "En taller" },
 ];
 
 export const mantenimientoStatusMap: Record<string, string> = {
@@ -26,4 +32,7 @@ export const mantenimientoStatusMap: Record<string, string> = {
     afectado: "Afectado",
     cancelado: "Cancelado",
     finalizado: "Finalizado",
+    no_atendido: "No atendido",
+    atendido: "Atendido",
+    en_taller: "En taller",
 };

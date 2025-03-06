@@ -21,7 +21,10 @@ class Mantenimiento extends Model
         "importe",
         "folio_fiscal",
         "folio_afectacion",
-        "estado"
+        "estado",
+        "solicitud_mantenimiento_id",
+        'odometro',
+        'observaciones'
     ];
 
     public function vehiculo()

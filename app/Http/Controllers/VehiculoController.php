@@ -402,4 +402,12 @@ class VehiculoController extends Controller
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
+
+    public function searchVehiclePlantilla2023(Request $request)
+    {
+
+        $vehiculos = Vehiculo::where('plantilla', '2023')->get();
+
+        return response()->json($vehiculos);
+    }
 }

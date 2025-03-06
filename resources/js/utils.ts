@@ -1,4 +1,8 @@
 export const formatDate = (date: string): string => {
+    if (!date) {
+        return "-";
+    }
+
     const dateObj = new Date(date);
     return `${dateObj.getDate() + 1}/${
         dateObj.getMonth() + 1
@@ -18,15 +22,19 @@ export const formatOnlyDateValue = (date: string): string => {
 };
 
 export const generateDate = (date: string): string => {
+    if (!date) {
+        return "-";
+    }
+
     const [year = "-", month = "-", day = "-"] = date.split("-");
     return `${year}-${month}-${day}`;
 };
 
 export const formatNumber = (
-    value: number | null,
+    value: number | null | undefined,
     prefix: string = ""
 ): string => {
-    if (value === null) {
+    if (!value) {
         return "-";
     }
 

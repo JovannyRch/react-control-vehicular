@@ -10,6 +10,7 @@ import {
     generateDate,
     getCurrentDateOfMexico,
 } from "@/utils";
+import { Textarea } from "@headlessui/react";
 import { useForm } from "@inertiajs/react";
 import { BiSave } from "react-icons/bi";
 
@@ -51,6 +52,8 @@ const MantenimientoFormModal = ({
                   folio_fiscal: mantenimiento.folio_fiscal,
                   folio_afectacion: mantenimiento.folio_afectacion,
                   estado: mantenimiento.estado,
+                  observaciones: mantenimiento.observaciones,
+                  odometro: mantenimiento.odometro,
               }
             : {
                   vehiculo_id: vehiculoId,
@@ -65,6 +68,8 @@ const MantenimientoFormModal = ({
                   folio_fiscal: "",
                   folio_afectacion: "",
                   estado: "proceso",
+                  observaciones: "",
+                  odometro: "",
               }
     );
 
@@ -318,6 +323,44 @@ const MantenimientoFormModal = ({
                             />
                             <InputError
                                 message={errors.folio_afectacion}
+                                className="mt-2"
+                            />
+                        </div>
+                        <div className="w-full">
+                            <InputLabel htmlFor="odometro" value="Odometro" />
+                            <TextInput
+                                id="odometro"
+                                type="number"
+                                name="odometro"
+                                value={data.odometro ?? ""}
+                                className="block w-full mt-1"
+                                autoComplete="odometro"
+                                onChange={(e) =>
+                                    setData("odometro", e.target.value)
+                                }
+                            />
+                            <InputError
+                                message={errors.odometro}
+                                className="mt-2"
+                            />
+                        </div>
+                        <div className="w-full">
+                            <InputLabel
+                                htmlFor="observaciones"
+                                value="Observaciones"
+                            />
+                            <Textarea
+                                id="observaciones"
+                                name="observaciones"
+                                value={data.observaciones ?? ""}
+                                className="block w-full mt-1 rounded-md shadow-sm focus:ring-indigo-500 focus:border-ind igo-500 sm:text-sm"
+                                autoComplete="observaciones"
+                                onChange={(e) =>
+                                    setData("observaciones", e.target.value)
+                                }
+                            />
+                            <InputError
+                                message={errors.observaciones}
                                 className="mt-2"
                             />
                         </div>

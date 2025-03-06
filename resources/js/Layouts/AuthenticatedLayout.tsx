@@ -140,12 +140,9 @@ export default function Authenticated({
         },
         {
             label: "Mantenimientos",
-            onSelect: () =>
-                router.visit("/vehiculos?plantilla=2024&maintenance=true"),
+            onSelect: () => router.visit(route("mantenimientos.index")),
         },
     ];
-
-    console.log("user.role", user.role);
 
     const navItems = [
         {

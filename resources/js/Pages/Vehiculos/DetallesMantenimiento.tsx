@@ -5,7 +5,7 @@ import { Vehiculo } from "@/types/Vehiculo";
 import { useForm } from "@inertiajs/react";
 import { useState } from "react";
 import MantenimientoFormModal from "./MantenimientoFormModal";
-import { formatCurrency, formatDate } from "@/utils";
+import { formatCurrency, formatDate, formatNumber } from "@/utils";
 import { Typography } from "@/Components/Typography";
 import RoundedIconButton from "@/Components/RoundedIconButton";
 import { BiEdit } from "react-icons/bi";
@@ -88,8 +88,18 @@ const DetallesMantenimiento = ({ vehiculo, mantenimiento }: DetallesProps) => {
             value: mantenimiento.folio_afectacion,
         },
         {
-            label: "Status",
+            label: "Estado",
             value: mantenimientoStatusMap[mantenimiento.estado],
+        },
+        {
+            label: "Odómetro",
+            value: mantenimiento?.odometro
+                ? formatNumber(mantenimiento?.odometro)
+                : "-",
+        },
+        {
+            label: "Observaciones",
+            value: mantenimiento?.observaciones ?? "-",
         },
     ];
 
