@@ -42,7 +42,25 @@ function getMonth($number)
 
 function formatCurrency($number)
 {
+    if (!isset($number)) {
+        return '-';
+    }
+
     return number_format($number, 2);
+}
+
+function getEstado($estado)
+{
+    $estados = [
+        'proceso' => 'En proceso',
+        'afectado' => 'Afectado',
+        'cancelado' => 'Cancelado',
+        'finalizado' => 'Finalizado',
+        'atendido' => 'Atendido',
+        'no_atendido' => 'No atendido',
+        'en_taller' => 'En taller',
+    ];
+    return $estados[$estado];
 }
 
 ?>
@@ -324,7 +342,9 @@ function formatCurrency($number)
                             <th>Importe</th>
                             <th>Folio fiscal</th>
                             <th>Folio afectación</th>
+                            <th>Odómetro</th>
                             <th>Estado</th>
+                            <th>Observaciones</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -352,7 +372,10 @@ function formatCurrency($number)
                                         Sin folio afectación
                                     @endif
                                 </td>
-                                <td>{{ $mantenimiento->estado }}</td>
+                                <td>{{ formatCurrency($mantenimiento->odometro) }}</td>
+                                <td>{{ getEstado($mantenimiento->estado) }}</td>
+                                <td>{{ $mantenimiento->observaciones }}</td>
+
                             </tr>
                         @endforeach
                     </tbody>
