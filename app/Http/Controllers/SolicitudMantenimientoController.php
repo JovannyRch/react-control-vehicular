@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Mantenimiento;
 use App\Models\SolicitudMantenimiento;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -111,5 +112,18 @@ class SolicitudMantenimientoController extends Controller
     public function destroy(SolicitudMantenimiento $solicitudMantenimiento)
     {
         //
+    }
+
+    public function pdf(SolicitudMantenimiento $solicitudMantenimiento)
+    {
+        $vehiculo = $solicitudMantenimiento->vehiculo;
+        $pdf = Pdf::loadView('pdf_solicitud_mantenimiento', [
+            'solicitud' => $solicitudMantenimiento,
+            'vehiculo' => $vehiculo,
+
+        ])->setPaper('a4', 'landscape');
+
+        $date = date('Y-m-d');
+        return $pdf->stream('solicitud_mantenimiento_' . $date . '.pdf');
     }
 }

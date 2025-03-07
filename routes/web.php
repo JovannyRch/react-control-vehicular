@@ -85,6 +85,9 @@ Route::get('/solicitudes-mantenimiento/{solicitudMantenimiento}', [SolicitudMant
 //solicitudes mantenimiento store
 Route::post('/solicitudes-mantenimiento', [SolicitudMantenimientoController::class, 'store'])->middleware('auth', 'verified')->name('solicitudes-mantenimiento.store');
 
+Route::get('/solicitudes-mantenimiento/pdf/{solicitudMantenimiento}', [SolicitudMantenimientoController::class, 'pdf'])->middleware('auth', 'verified')->name('solicitudes-mantenimiento.pdf');
+
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

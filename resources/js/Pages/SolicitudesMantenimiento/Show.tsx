@@ -7,6 +7,7 @@ import { Typography } from "@/Components/Typography";
 import { formatDate, formatNumber } from "@/utils";
 import { Vehiculo } from "@/types/Vehiculo";
 import { Mantenimiento, mantenimientoStatusMap } from "@/types/Mantenimiento";
+import Button from "@/Components/Button";
 
 interface Props extends PageProps {
     solicitud: any;
@@ -15,18 +16,36 @@ interface Props extends PageProps {
 }
 
 const Show = ({ auth, solicitud, vehiculo, mantenimiento }: Props) => {
-    console.log("solicitud", solicitud);
     return (
         <AuthenticatedLayout user={auth.user}>
             <Head title="Matenimientos" />
             <div className="py-6">
                 <div className="flex justify-center mx-auto sm:px-6 lg:px-8">
                     <MainColorContainer className="overflow-hidden shadow-sm sm:rounded-lg min-h-[500px]  p-4 px-8 w-full">
-                        <Typography.Title className="block mb-3 text-xl font-medium text-gray-700">
-                            <b>Solicitud de mantenimiento</b>
-                        </Typography.Title>
+                        <div className="flex justify-between gap-4">
+                            <Typography.Title className="block mb-3 text-xl font-medium text-gray-700">
+                                <b>Solicitud de mantenimiento</b>
+                            </Typography.Title>
+                            <div>
+                                <Button
+                                    onClick={() => {
+                                        const goTo = route(
+                                            "solicitudes-mantenimiento.pdf",
+                                            {
+                                                solicitudMantenimiento:
+                                                    solicitud.id,
+                                            }
+                                        );
 
-                        <div className="gap-4 p-4 mt-4 border border-gray-200 rounded-lg max-w-[50%] ">
+                                        window.open(goTo, "_blank");
+                                    }}
+                                >
+                                    Descargar PDF
+                                </Button>
+                            </div>
+                        </div>
+
+                        <div className="gap-4 p-4 mt-4 border border-gray-200 rounded-lg ">
                             <Typography.Subtitle>
                                 Información del vehículo
                             </Typography.Subtitle>
@@ -67,7 +86,7 @@ const Show = ({ auth, solicitud, vehiculo, mantenimiento }: Props) => {
                             </div>
                         </div>
 
-                        <div className="gap-4 p-4 mt-4 border border-gray-200 rounded-lg max-w-[50%] ">
+                        <div className="gap-4 p-4 mt-4 border border-gray-200 rounded-lg ">
                             <Typography.Subtitle>
                                 Información de la solicitud
                             </Typography.Subtitle>
@@ -115,7 +134,7 @@ const Show = ({ auth, solicitud, vehiculo, mantenimiento }: Props) => {
                         )}
 
                         {mantenimiento && (
-                            <div className="gap-4 p-4 mt-4 border border-gray-200 rounded-lg max-w-[50%] ">
+                            <div className="gap-4 p-4 mt-4 border border-gray-200 rounded-lg ">
                                 <Typography.Subtitle>
                                     Información del mantenimiento
                                 </Typography.Subtitle>

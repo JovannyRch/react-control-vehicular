@@ -1,0 +1,313 @@
+<?php
+
+//Create an array of months in spanish
+
+function formatDate($date)
+{
+    $months = [
+        '01' => 'Enero',
+        '02' => 'Febrero',
+        '03' => 'Marzo',
+        '04' => 'Abril',
+        '05' => 'Mayo',
+        '06' => 'Junio',
+        '07' => 'Julio',
+        '08' => 'Agosto',
+        '09' => 'Septiembre',
+        '10' => 'Octubre',
+        '11' => 'Noviembre',
+        '12' => 'Diciembre',
+    ];
+    return date('d', strtotime($date)) . ' de ' . $months[date('m', strtotime($date))] . ' de ' . date('Y', strtotime($date));
+}
+
+function getMonth($number)
+{
+    $months = [
+        '01' => 'Enero',
+        '02' => 'Febrero',
+        '03' => 'Marzo',
+        '04' => 'Abril',
+        '05' => 'Mayo',
+        '06' => 'Junio',
+        '07' => 'Julio',
+        '08' => 'Agosto',
+        '09' => 'Septiembre',
+        '10' => 'Octubre',
+        '11' => 'Noviembre',
+        '12' => 'Diciembre',
+    ];
+    return $months[$number];
+}
+
+function formatCurrency($number)
+{
+    if (!isset($number)) {
+        return '-';
+    }
+
+    return number_format($number, 2);
+}
+
+function getEstado($estado)
+{
+    $estados = [
+        'proceso' => 'En proceso',
+        'afectado' => 'Afectado',
+        'cancelado' => 'Cancelado',
+        'finalizado' => 'Finalizado',
+        'atendido' => 'Atendido',
+        'no_atendido' => 'No atendido',
+        'en_taller' => 'En taller',
+    ];
+    return $estados[$estado];
+}
+
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Reporte - Vehículo
+        #{{ $vehiculo->id }}
+    </title>
+
+    <style>
+        /* detail field */
+        html {
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 10px;
+        }
+
+        .details {
+            border-collapse: collapse;
+            width: 100%;
+            font-size: 10px;
+        }
+
+        .value {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+
+        #cargas {
+            font-family: Arial, Helvetica, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        #cargas td,
+        #cargas th {
+            border: 1px solid #ddd;
+            padding: 8px;
+            font-size: 8px;
+        }
+
+        #cargas tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        #cargas tr:hover {
+            background-color: #ddd;
+        }
+
+        #cargas th {
+            padding-top: 12px;
+            padding-bottom: 12px;
+            text-align: left;
+            background-color: #BBBBBB;
+            color: black;
+            font-size: 8px;
+        }
+
+        #title {
+            font-family: Arial, Helvetica, sans-serif;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        .mark {
+            position: absolute;
+            top: -20px;
+            right: -40px;
+            width: 100%;
+            opacity: 0.1;
+        }
+
+        @page {
+            margin: 0cm 0cm;
+        }
+
+        body {
+            margin-top: 1cm;
+            margin-bottom: 1cm;
+            margin-left: 1cm;
+            margin-right: 1cm;
+        }
+
+        #watermark {
+            position: fixed;
+            top: 0px;
+            right: 10px;
+            opacity: 0.05;
+            height: 21.8cm;
+            width: 29.7cm;
+
+            z-index: -1000;
+        }
+
+        .footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            text-align: center;
+            font-size: 10px;
+            color: #000000;
+        }
+    </style>
+
+</head>
+
+
+<body>
+    <div class="footer"></div>
+    <div id="watermark">
+        <img src="img/marca_horizontal.png" height="100%" width="100%" />
+    </div>
+    <main>
+        <img src="img/logo.png" style="width: 200px;">
+        <br><br>
+        <h2 style="text-align: center;">Solicitud de mantenimiento</h2>
+        <table class="details">
+            <tr>
+                <td class="value"><strong>ID</strong></td>
+                <td class="value">{{ $solicitud->id }}</td>
+                <td class="value"><strong>Fecha</strong></td>
+                <td class="value">{{ formatDate($solicitud->fecha) }}</td>
+
+
+            </tr>
+
+            <tr>
+
+                <td class="value"><strong>Kilometraje</strong></td>
+                <td class="value">{{ formatCurrency($solicitud->kilometraje) }}</td>
+                <td class="value"><strong>Ubicación</strong></td>
+                <td class="value">{{ $solicitud->ubicacion }}</td>
+            </tr>
+
+
+            <tr>
+                <td class="value"><strong>Requerimientos y/o servicios</strong></td>
+                <td class="value" colspan="3">{{ $solicitud->requerimientos }}</td>
+            </tr>
+        </table>
+        <br><br>
+
+        @if ($solicitud->imagenes)
+            <div class="detail">
+                <strong>Imágenes</strong>
+                <br>
+                <br>
+                <br>
+                @foreach ($solicitud->imagenes as $imagen)
+                    <img src="{{ ltrim($imagen, $imagen[0]) }}" style="height: 100px;">
+                @endforeach
+            </div>
+        @endif
+
+
+
+
+        <br><br>
+        <table class="details">
+            <tr>
+                <td class="value"><strong># Económico</strong></td>
+                <td class="value">{{ $vehiculo->numero_economico }}</td>
+                <td class="value"><strong>Marca</strong></td>
+                <td class="value">{{ $vehiculo->marca }}</td>
+            </tr>
+
+            <tr>
+                <td class="value"><strong>Modelo</strong></td>
+                <td class="value">{{ $vehiculo->modelo }}</td>
+                <td class="value"><strong>Placa</strong></td>
+                <td class="value">{{ $vehiculo->placa }}</td>
+            </tr>
+
+
+            <tr>
+                <td class="value"><strong>Tipo</strong></td>
+                <td class="value">{{ $vehiculo->tipo }}</td>
+                <td class="value"><strong># Serie</strong></td>
+                <td class="value">{{ $vehiculo->no_serie }}</td>
+            </tr>
+
+
+            <tr>
+                <td class="value"><strong># Motor</strong></td>
+                <td class="value">{{ $vehiculo->no_motor }}</td>
+
+                <td class="value"><strong>Área asignación</strong></td>
+                <td class="value">{{ $vehiculo->area_asignacion }}</td>
+            </tr>
+            <tr>
+                <td class="value"><strong>Resguardante</strong></td>
+                <td class="value">{{ $vehiculo->resguardante }}</td>
+
+                <td class="value"><strong>Plantilla</strong></td>
+                <td class="value">{{ $vehiculo->plantilla }}</td>
+            </tr>
+            <tr>
+                <td class="value"><strong>CIV</strong></td>
+                <td class="value">{{ $vehiculo->civ }}</td>
+                @if ($vehiculo->plantilla === 'propia')
+                    <td class="value"><strong>Estado</strong></td>
+                    <td class="value">{{ $vehiculo->estado }}</td>
+                @else
+                    <td class="value"></td>
+                    <td class="value"></td>
+                @endif
+            </tr>
+        </table>
+
+        <br>
+
+        @if ($vehiculo->detalle)
+            <div class="detail">
+                <strong>Detalles</strong>
+                <br>
+                <p>
+                    {{ $vehiculo->detalle }}
+                </p>
+            </div>
+        @endif
+
+
+        <span class="pagenum"></span>
+    </main>
+    <script type="text/php">
+        if (isset($pdf)) {
+
+            $font = $fontMetrics->get_font('Arial, sans-serif', 'normal');
+            $size = 10;                       // Tamaño de la letra
+            $color = array(0, 0, 0);          // Negro (RGB)
+
+
+            $x = 350;
+            $y = 575;
+
+
+            $text = "SIC-".date('d/m/Y-H:i') . " - Página {PAGE_NUM} de {PAGE_COUNT}";
+
+            $pdf->page_text($x, $y, $text, $font, $size, $color);
+        }
+    </script>
+</body>
+
+</html>
