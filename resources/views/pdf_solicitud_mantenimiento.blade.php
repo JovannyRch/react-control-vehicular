@@ -169,6 +169,10 @@ function getEstado($estado)
             font-size: 10px;
             color: #000000;
         }
+
+        .image-container {
+            display: inline-block;
+        }
     </style>
 
 </head>
@@ -207,23 +211,6 @@ function getEstado($estado)
                 <td class="value" colspan="3">{{ $solicitud->requerimientos }}</td>
             </tr>
         </table>
-        <br><br>
-
-        @if ($solicitud->imagenes)
-            <div class="detail">
-                <strong>Imágenes</strong>
-                <br>
-                <br>
-                <br>
-                @foreach ($solicitud->imagenes as $imagen)
-                    <img src="{{ ltrim($imagen, $imagen[0]) }}" style="height: 100px;">
-                @endforeach
-            </div>
-        @endif
-
-
-
-
         <br><br>
         <table class="details">
             <tr>
@@ -276,6 +263,7 @@ function getEstado($estado)
             </tr>
         </table>
 
+
         <br>
 
         @if ($vehiculo->detalle)
@@ -285,6 +273,21 @@ function getEstado($estado)
                 <p>
                     {{ $vehiculo->detalle }}
                 </p>
+            </div>
+        @endif
+
+        <br><br>
+
+        @if ($solicitud->imagenes)
+            <div class="detail">
+                <strong>Imágenes</strong>
+                <br>
+                <br>
+                <div class="image-container">
+                    @foreach ($solicitud->imagenes as $imagen)
+                        <img src="{{ ltrim($imagen, $imagen[0]) }}" style="width: 37%">
+                    @endforeach
+                </div>
             </div>
         @endif
 
