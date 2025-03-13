@@ -6,6 +6,7 @@ use App\Http\Controllers\FacturaController;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\HistorialController;
 use App\Http\Controllers\MantenimientosController;
+use App\Http\Controllers\PegaTicketController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReportesController;
 use App\Http\Controllers\SolicitudMantenimientoController;
@@ -94,5 +95,8 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+
+Route::post('/generate-pega-tickets', [PegaTicketController::class, 'generateFromExcel'])->middleware('auth', 'verified')->name('generate.pega.tickets');
 
 require __DIR__ . '/auth.php';

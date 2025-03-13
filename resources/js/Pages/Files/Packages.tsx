@@ -1,4 +1,4 @@
-import { Head, useForm } from "@inertiajs/react";
+import { Head, router, useForm } from "@inertiajs/react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { PageProps } from "@/types";
 import axios from "axios";
@@ -6,41 +6,22 @@ import { useState } from "react";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
 const Files = ({ auth }: PageProps) => {
-    const [csvFile, setCsvFile] = useState<File | null>(null);
-    const [packageSize, setPackageSize] = useState<string>("20");
-    const [packages, setPackages] = useState([]);
-    const [cacheKey, setCacheKey] = useState("");
-    const [currentPackageLoadingId, setCurrentPackageLoadingId] = useState<
-        null | string
-    >(null);
+    const [excelFile, setExcelFile] = useState<File | null>(null);
+    const [isLoading, setIsLoading] = useState(false);
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        if (!csvFile) return;
+        if (!excelFile) return;
 
         const formData = new FormData();
-        formData.append("csv_file", csvFile);
-        formData.append("package_size", packageSize.toString());
+        formData.append("excel_file", excelFile);
+        setIsLoading(true);
 
         axios
-            .post("/files/upload/package", formData, {
+            .post(route("generate.pega.tickets"), formData, {
                 headers: {
                     "Content-Type": "multipart/form-data",
                 },
-            })
-            .then((response) => {
-                setPackages(response.data.packages);
-                setCacheKey(response.data.cacheKey);
-            })
-            .catch((error) => {
-                console.error("Error al procesar el archivo:", error);
-            });
-    };
-
-    const handleDownloadPackage = (packageId: string) => {
-        setCurrentPackageLoadingId(packageId);
-        axios
-            .get(`/download-package/${cacheKey}/${packageId}`, {
                 responseType: "blob",
             })
             .then((response) => {
@@ -53,19 +34,13 @@ const Files = ({ auth }: PageProps) => {
                 );
                 const link = document.createElement("a");
                 link.href = url;
-                link.setAttribute(
-                    "download",
-                    fileName || `paquete_${packageId}.zip`
-                );
+                link.setAttribute("download", fileName);
                 document.body.appendChild(link);
                 link.click();
                 document.body.removeChild(link);
             })
-            .catch((error) => {
-                console.error("Error al descargar el paquete:", error);
-            })
             .finally(() => {
-                setCurrentPackageLoadingId(null);
+                setIsLoading(false);
             });
     };
 
@@ -81,7 +56,7 @@ const Files = ({ auth }: PageProps) => {
             <Head title="Packages" />
             <div className="max-w-2xl p-6 mx-auto my-8 bg-white rounded-md shadow-md">
                 <h1 className="mb-4 text-2xl font-semibold text-center text-gray-700">
-                    Subir Archivo CSV
+                    Subir Archivo EXCEL
                 </h1>
                 <form onSubmit={handleSubmit} className="mb-6">
                     <div className="flex items-center justify-center">
@@ -99,88 +74,60 @@ const Files = ({ auth }: PageProps) => {
                             </span>
                             <input
                                 type="file"
-                                accept=".csv"
+                                accept=".xlsx,.xls"
                                 className="hidden"
                                 onChange={(e) => {
-                                    setCsvFile(e.target.files?.[0] || null);
-                                    setPackages([]);
+                                    setExcelFile(e.target.files?.[0] || null);
+                                    /*  setPackages([]); */
                                 }}
                                 required
                             />
                         </label>
                     </div>
-                    {csvFile && (
+                    {excelFile && (
                         <>
                             <h1 className="mt-4 mb-2 text-2xl font-bold text-gray-700">
-                                {csvFile?.name}
+                                {excelFile?.name}
                             </h1>
-                            <div className="mt-4">
-                                <label className="block mb-2 text-gray-700">
-                                    Tamaño del paquete:
-                                </label>
-                                <input
-                                    type="number"
-                                    min="1"
-                                    value={packageSize}
-                                    onChange={(e) =>
-                                        setPackageSize(e.target.value)
-                                    }
-                                    className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                    required
-                                />
-                            </div>
+
                             <button
                                 type="submit"
-                                disabled={!csvFile}
+                                disabled={!excelFile || isLoading}
                                 className="w-full px-4 py-2 mt-4 font-semibold text-white transition duration-300 ease-in-out bg-blue-500 rounded-lg shadow-md hover:bg-blue-600"
                             >
-                                Procesar Archivo
+                                {isLoading ? "Generando..." : "Generar Tickets"}
+                                {isLoading && (
+                                    <AiOutlineLoading3Quarters className="inline-block w-6 h-6 ml-2 animate-spin" />
+                                )}
                             </button>
                         </>
                     )}
                 </form>
                 <div>
-                    {packages.length > 0 && (
+                    {/*   {pdfs.length > 0 && (
                         <div>
                             <h2 className="mb-2 text-xl font-semibold text-gray-700">
-                                Paquetes Disponibles:
+                                Archivos generados:
                             </h2>
                             <ul className="space-y-2">
-                                {packages.map((packageId, index) => (
+                                {pdfs.map((pdf, index) => (
                                     <li
-                                        key={packageId}
+                                        key={index}
                                         className="flex items-center justify-between p-3 bg-gray-100 rounded-md shadow-sm"
                                     >
-                                        <span className="text-gray-800">
-                                            Paquete {index + 1}
-                                        </span>
-                                        <button
-                                            onClick={() =>
-                                                handleDownloadPackage(packageId)
-                                            }
-                                            disabled={
-                                                currentPackageLoadingId ===
-                                                packageId
-                                            }
+                                        <a
+                                            href={pdf}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
                                             className="px-3 py-1 text-sm font-medium text-white transition duration-300 ease-in-out bg-green-500 rounded-md hover:bg-green-600"
                                         >
-                                            {currentPackageLoadingId ===
-                                            packageId ? (
-                                                <div className="flex gap-1 ">
-                                                    <span>Descargando...</span>
-                                                    <div className="flex items-center justify-center animate-spin">
-                                                        <AiOutlineLoading3Quarters />
-                                                    </div>
-                                                </div>
-                                            ) : (
-                                                "Descargar ZIP"
-                                            )}
-                                        </button>
+                                            Ver PDF {index + 1}
+                                        </a>
                                     </li>
                                 ))}
                             </ul>
                         </div>
-                    )}
+                    )} */}
                 </div>
             </div>
         </AuthenticatedLayout>
