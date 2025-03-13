@@ -23,6 +23,7 @@ const Files = ({ auth }: PageProps) => {
                     "Content-Type": "multipart/form-data",
                 },
                 responseType: "blob",
+                timeout: 300000,
             })
             .then((response) => {
                 const fileName = response.headers["content-disposition"]
