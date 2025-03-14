@@ -52,7 +52,7 @@ Route::resource('mantenimiento', MantenimientosController::class)->middleware('a
 Route::resource('accesorio', AccesoriosController::class)->middleware('auth', 'verified');
 Route::resource('carga_combustible', CargaCombustibleController::class)->middleware('auth', 'verified');
 Route::post('/factura/{vehiculo}', [FacturaController::class, 'store'])->middleware('auth', 'verified')->name('factura.store');
-Route::get('/files/single', [FileController::class, 'single'])->middleware('auth', 'verified')->name('files.ui.single');
+Route::get('/generar-pegatickets', [FileController::class, 'single'])->middleware('auth', 'verified')->name('files.ui.single');
 Route::get('/files/packages', [FileController::class, 'packages'])->middleware('auth', 'verified')->name('files.ui.packages');
 Route::get('/files', [FileController::class, 'index'])->middleware('auth', 'verified')->name('files.ui');
 Route::post('/files/upload/package', [FileController::class, 'uploadPackagedCSV'])->middleware('auth', 'verified')->name('files.upload.package');
@@ -97,6 +97,8 @@ Route::middleware('auth')->group(function () {
 });
 
 
-Route::post('/generate-pega-tickets', [PegaTicketController::class, 'generateFromExcel'])->middleware('auth', 'verified')->name('generate.pega.tickets');
+Route::post('/generate-pega-tickets', [PegaTicketController::class, 'generatePdfFromExcel'])->middleware('auth', 'verified')->name('generate.pega.tickets');
+Route::post('/generate-links-pega-tickets', [PegaTicketController::class, 'generateLinksFromExcel'])->middleware('auth', 'verified')->name('generate.links.pega.tickets');
+Route::get('/generate-pdf/{groupKey}', [PegaTicketController::class, 'downloadPDF'])->middleware('auth', 'verified')->name('generate.pdf.pega.tickets');
 
 require __DIR__ . '/auth.php';

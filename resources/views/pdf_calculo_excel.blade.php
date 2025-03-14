@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Pega tickets
+    <title>Pega ticket
     </title>
 
     <style>
@@ -167,9 +167,9 @@
                         </tr>
                     </tbody>
                 </table>
-                @if (isset($groupKey))
+                @if (isset($group[0]['n']))
                     <div class="index">
-                        {{ $groupKey }}
+                        {{ $group[0]['n'] }}
                     </div>
                 @endif
             @endfor
