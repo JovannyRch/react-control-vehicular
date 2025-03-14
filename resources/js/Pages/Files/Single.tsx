@@ -10,6 +10,7 @@ const Files = ({ auth }: PageProps) => {
     const [excelFile, setExcelFile] = useState<File | null>(null);
     const [groups, setGroups] = useState([]);
     const [processing, setProcessing] = useState<boolean>(false);
+    const [firstProcessing, setFirstProcessing] = useState(false);
     const [currentProcessingFile, setCurrentProcessingFile] = useState("");
 
     async function mergePdfs(pdfFiles: any[]) {
@@ -59,7 +60,7 @@ const Files = ({ auth }: PageProps) => {
         if (!excelFile) return;
         const formData = new FormData();
         formData.append("excel_file", excelFile);
-
+        setFirstProcessing(true);
         axios
             .post(route("generate.links.pega.tickets"), formData, {
                 headers: {
@@ -67,39 +68,13 @@ const Files = ({ auth }: PageProps) => {
                 },
             })
             .then((response) => {
-                // Actualizar la lista de grupos
                 setGroups(response.data.groups);
             })
             .catch((error) => {
                 console.error("Error al procesar el archivo:", error);
-            });
-    };
-
-    const handleDownload = (groupKey: string) => {
-        axios
-            .get(`/generate-pdf/${encodeURIComponent(groupKey)}`, {
-                responseType: "blob",
             })
-            .then((response) => {
-                const fileName = response.headers["content-disposition"]
-                    .split("filename=")[1]
-                    .replace(/"/g, "");
-
-                const url = window.URL.createObjectURL(
-                    new Blob([response.data], { type: "application/pdf" })
-                );
-                const link = document.createElement("a");
-                link.href = url;
-                link.setAttribute(
-                    "download",
-                    fileName || `reporte_${groupKey}.pdf`
-                );
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-            })
-            .catch((error) => {
-                console.error("Error al descargar el PDF:", error);
+            .finally(() => {
+                setFirstProcessing(false);
             });
     };
 
@@ -146,10 +121,12 @@ const Files = ({ auth }: PageProps) => {
                                 </h1>
                                 <button
                                     type="submit"
-                                    disabled={!excelFile}
+                                    disabled={!excelFile || firstProcessing}
                                     className="w-full px-4 py-2 mt-4 font-semibold text-white transition duration-300 ease-in-out bg-blue-500 rounded-lg shadow-md hover:bg-blue-600"
                                 >
-                                    Procesar Archivo
+                                    {firstProcessing
+                                        ? "Procesando..."
+                                        : "Procesar archivo"}
                                 </button>
                             </>
                         )}
